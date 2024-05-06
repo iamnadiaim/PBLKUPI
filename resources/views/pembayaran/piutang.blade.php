@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Hutang')
+@section('title', 'Pembayaran Piutang')
 
 @section('contents')
 
@@ -21,44 +21,37 @@
   @endif
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <form action="{{ route('hutang.store') }}" method="post">
+      <form action="{{ route('BayarHutang.store') }}" method="post">
         @csrf
         <div>
-          <label for="tanggal_pinjaman">Tanggal Peminjaman :</label><br>
-          <input type="date" placeholder="Tanggal Pinjaman" required name="tanggal_pinjaman" value="{{ old('tanggal_pinjaman') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-          @error('tanggal_pinjaman')
+          <label for="tanggal_pinjaman">Tanggal Pembayaran:</label><br>
+          <input type="date" placeholder="Tanggal Pembayaran" required name="tanggal_pembayaran" value="{{ old('tanggal_pembayaran') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+          @error('tanggal_pembayaran')
             <p class="text-red">Tanggal pinjaman tidak boleh lebih dari hari ini.</p>
           @enderror
         </div>
 
-        <div>
-          <label for="tanggal_jatuh_tempo">Tanggal Jatuh Tempo :</label><br>
-          <input type="date" placeholder="Tanggal Jatuh Tempo" required name="tanggal_jatuh_tempo" value="{{ old('tanggal_jatuh_tempo') }}" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-          @error('tanggal_jatuh_tempo')
-            <p class="text-red">Tanggal jatuh tempo harus setelah atau sama dengan hari ini.</p>
-          @enderror
-        </div>
-
-        <label for="nama">Nama Pemberi Pinjaman  :</label><br>
+        <label for="nama">Nama Peminjam:</label><br>
         <input type="text" id="nama" name="nama" required class="form-control" value="{{ old('nama') }}">
         @error('nama')
           <span class="error">{{ $message }}</span>
         @enderror
 
-        <label for="jumlah_hutang">Nominal :</label><br>
-        <input type="number" id="jumlah_hutang" name="jumlah_hutang" required class="form-control" min="0" value="{{ old('jumlah_hutang') }}">
-        @error('jumlah_hutang')
+        <label for="pembayaran">Cara Pembayaran:</label><br>
+        <input type="text" id="pembayaran" name="pembayaran" required class="form-control" value="{{ old('pembayaran') }}">
+        @error('pembayaran')
           <span class="error">{{ $message }}</span>
         @enderror
 
-        <label for="jumlah_cicilan">Jumlah Cicilan :</label><br>
-        <input type="number" id="jumlah_cicilan" name="jumlah_cicilan" required class="form-control" min="0" value="{{ old('jumlah_cicilan') }}">
-        @error('jumlah_cicilan')
+        <label for="jumlah">Nominal :</label><br>
+        <input type="number" id="jumlah" name="jumlah" required class="form-control" min="0" value="{{ old('jumlah') }}">
+        @error('jumlah')
           <span class="error">{{ $message }}</span>
         @enderror
+
 
         <div class="mt-3" style="text-align: left;">
-          <input type="submit" class="btn btn-primary" value="Tambah Hutang">
+          <input type="submit" class="btn btn-primary" value="Simpan">
           <a href="{{ route('hutang.index') }}" class="btn btn-danger">Batal</a>
         </div>
       </form>

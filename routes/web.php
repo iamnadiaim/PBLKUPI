@@ -19,6 +19,7 @@ use App\Http\Controllers\SaldoController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\HutangController;
 use App\Http\Controllers\PiutangController;
+use App\Http\Controllers\BayarHutangController;
 
 
 /*
@@ -78,18 +79,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/hutang', [HutangController::class, 'index'])->name('hutang.index');
     Route::get('/hutang/create', [HutangController::class, 'create'])->name('hutang.create');
     Route::post('/hutang', [HutangController::class, 'store'])->name('hutang.store');
-    Route::get('/hutang/{id}', [HutangController::class, 'show'])->name('hutang.show')->where('id', '[0-9]+');
-    Route::get('/hutang/{id}/edit', [HutangController::class, 'edit'])->name('hutang.edit')->where('id', '[0-9]+');
-    Route::put('/hutang/{id}', [HutangController::class, 'update'])->name('hutang.update')->where('id', '[0-9]+');
-    Route::patch('/hutang/{id}', [HutangController::class, 'update']);
+
+
+    Route::get('/bayarhutang', [BayarHutangController::class, 'index'])->name('pembayaran.hutang'); 
+    Route::post('/bayarhutang/store', [BayarHutangController::class, 'store'])->name('bayarhutang.store');
 
     Route::get('/piutang', [PiutangController::class, 'index'])->name('piutang.index');
     Route::get('/piutang/create', [PiutangController::class, 'create'])->name('piutang.create');
     Route::post('/piutang', [PiutangController::class, 'store'])->name('piutang.store');
-    Route::get('/piutang/{id}', [PiutangController::class, 'show'])->name('piutang.show')->where('id', '[0-9]+');
-    Route::get('/piutang/{id}/edit', [PiutangController::class, 'edit'])->name('piutang.edit')->where('id', '[0-9]+');
-    Route::put('/piutang/{id}', [PiutangController::class, 'update'])->name('piutang.update')->where('id', '[0-9]+');
-    Route::patch('/piutang/{id}', [PiutangController::class, 'update']);
+ 
 });
 Route::get('/riwayat',[RiwayatController::class, 'index'])->name('riwayat.index');
     Route::put('/edit-profile', [ProfileController::class,'update'])->name('editProfile');

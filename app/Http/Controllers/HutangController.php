@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 use Illuminate\Contracts\View\View;
 use App\Models\hutang;
+use App\Models\BayarHutang;
 use Illuminate\Http\Request;
 
 class HutangController extends Controller
 {
     public function index():View
     {
+        $bayarhutang = BayarHutang::all();
         $hutangs = hutang::where('id_usaha', auth()->user()->id_usaha)->get(); // Ambil semua data hutang dari database
-        return view('hutang.index', compact('hutangs')); // Tampilkan view dengan data hutangs
+        return view('hutang.index', compact('bayarhutang','hutangs')); // Tampilkan view dengan data hutangs
     }
 
     public function create()
