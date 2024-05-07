@@ -20,6 +20,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\HutangController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\BayarHutangController;
+use App\Http\Controllers\BayarPiutangController;
 
 
 /*
@@ -87,6 +88,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/piutang', [PiutangController::class, 'index'])->name('piutang.index');
     Route::get('/piutang/create', [PiutangController::class, 'create'])->name('piutang.create');
     Route::post('/piutang', [PiutangController::class, 'store'])->name('piutang.store');
+    
+    Route::get('/bayarpiutang', [BayarPiutangController::class, 'index'])->name('pembayaran.piutang'); 
+    Route::post('/bayarpiutang/store', [BayarPiutangController::class, 'store'])->name('bayarpiutang.store');
  
 });
 Route::get('/riwayat',[RiwayatController::class, 'index'])->name('riwayat.index');

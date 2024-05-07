@@ -62,7 +62,7 @@
                                     </div>
                                     <div>
                                         <!-- <a href="{{ route('piutang.create') }}" class="btn btn-success">Tambah</a> -->
-                                        <a href="" class="btn btn-primary">Bayar Piutang</a>
+                                        <a href="{{ route('pembayaran.piutang') }}" class="btn btn-primary">Bayar Piutang</a>
                                         
                                     </div>
                                 </div>
@@ -89,6 +89,7 @@
                                     <td>{{ $piutang->nama }}</td>
                                     <td>{{ $piutang->jumlah_piutang }}</td>
                                     <td>{{ $piutang->jumlah_cicilan }}</td>
+                                    <td>{{ $piutang->sisa_piutang }}</td>
                                     <td class="action-buttons d-flex justify-content-center">
                                     </td>
                                 </tr>

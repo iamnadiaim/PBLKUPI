@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('tanggal_jatuh_tempo');
             $table->string('jumlah_hutang');
             $table->string('jumlah_cicilan');
+            $table->string('sisa_hutang');
             // $table->string('pembayaran')->nullable();
             // $table->string('status')->nullable();
             $table->timestamps();
