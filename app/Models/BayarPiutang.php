@@ -17,6 +17,6 @@ class BayarPiutang extends Model
 
     public function piutang()
     {
-        return $this->belongsTo(hutang::class, 'id_piutang');
+        return $this->belongsTo(Piutang::class, 'id_piutang');
     }
 }

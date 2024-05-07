@@ -46,6 +46,6 @@ class BayarPiutangController extends Controller{
             'id_usaha' => $piutang->id_usaha,
         ]);
 
-        return redirect()->route('piutang.index')->with('success', 'Pembayaran hutang berhasil disimpan.');
+        return redirect()->route('piutang.index')->with('success', 'Pembayaran piutang berhasil disimpan.');
     }
 }
