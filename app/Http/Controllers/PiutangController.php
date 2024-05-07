@@ -30,6 +30,7 @@ class PiutangController extends Controller
         $validatedData = $request->all();
         $validatedData['id_usaha'] = auth()->user()->id_usaha;
     
+        $validatedData['sisa_piutang'] = $validatedData['jumlah_piutang'];
         piutang::create($validatedData);
 
         return redirect()->route('piutang.index')
@@ -54,22 +55,22 @@ class PiutangController extends Controller
         return view('piutang.edit', compact('piutang'));
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'jumlah_bayar' => 'required|numeric|min:1',
-    //         'sisa_piutang' => 'required|numeric|min:1',
-    //     ]); // Remove validation for nama, jumlah_piutang, and tanggal
+     public function update(Request $request, $id)
+     {
+         $request->validate([
+             'jumlah_piutang' => 'required|numeric|min:1',
+             'sisa_piutang' => 'required|numeric|min:1',
+         ]); // Remove validation for nama, jumlah_piutang, and tanggal
 
-    //     $piutang = piutang::find($id); // Use find instead of findOrFail
+         $piutang = piutang::find($id); // Use find instead of findOrFail
 
-    //     if (!$piutang) {
-    //         return abort(404); // Handle record not found
-    //     }
+         if (!$piutang) {
+             return abort(404); // Handle record not found
+         }
 
-    //     $piutang->update($request->all());
+         $piutang->update($request->all());
 
-    //     return redirect()->route('piutang.index')
-    //         ->with('success', 'piutang berhasil diperbarui');
-    // }
+         return redirect()->route('piutang.index')
+             ->with('success', 'piutang berhasil diperbarui');
+     }
 }

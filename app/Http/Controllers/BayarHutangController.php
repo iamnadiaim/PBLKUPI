@@ -2,45 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\BayarHutang;
-use App\Models\Hutang; // Tambahkan impor untuk model Hutang
+use Illuminate\Http\Request;
+use App\Models\Hutang;
 
-class BayarHutangController extends Controller
-{
-    // Menampilkan daftar pembayaran hutang
+class BayarHutangController extends Controller{
     public function index()
     {
-        $bayarhutang = BayarHutang::where('id_usaha', auth()->user()->id_usaha)->get();
-        return view('pembayaran.hutang', compact('bayarhutang'));
+        $bayarhutang = BayarHutang::all();
+        $hutangs = hutang::where('id_usaha', auth()->user()->id_usaha)->get(); 
+        return view('pembayaran.hutang', compact('bayarhutang','hutangs')); 
+   
+        // Logika untuk menampilkan halaman pembayaran hutang
     }
 
-    // Menyimpan pembayaran hutang baru
-    public function store(Request $request)
-    {
-        // Validasi data input
+    public function store(Request $request) {
+        // Validasi input
         $request->validate([
-            'id_hutang' => 'required',
-            'tanggal_pembayaran' => 'required',
-            'nama' => 'required',
-            'pembayaran' => 'required',
-            'jumlah' =>  'required|numeric|min:1',
-            // Sesuaikan dengan aturan validasi yang Anda butuhkan
+            'tanggal_pembayaran' => 'required|date',
+            'nama' => 'required|string',
+            'pembayaran' => 'required|string',
+            'jumlah' => 'required|numeric|min:0',
         ]);
 
-        // Perbarui sisa hutang pada entri hutang yang terkait
-        $hutang = Hutang::findOrFail($request->id_hutang); // Perbaiki penamaan model Hutang
-        $hutang->sisa_hutang -= $request->jumlah;
+        $hutang = Hutang::where('nama', $request->nama)->firstOrFail();
+
+        $sisa_hutang = $hutang->jumlah_hutang - $request->jumlah;
+        $hutang->sisa_hutang = $sisa_hutang;
+
+        $hutang->jumlah_cicilan -= 1;
+        if ($sisa_hutang <= 0) {
+            $hutang->status = 'Lunas';
+        }
         $hutang->save();
-
-        // Tentukan status pembayaran
-        $status = ($hutang->sisa_hutang === 0) ? 'Lunas' : 'Belum Lunas';
-
         // Simpan data pembayaran hutang
-        BayarHutang::create($request->all());
+        BayarHutang::create([
+            'id_hutang' => $hutang->id,
+            'tanggal_pembayaran' => $request->tanggal_pembayaran,
+            'nama' => $request->nama,
+            'pembayaran' => $request->pembayaran,
+            'jumlah' => $request->jumlah,
+            'id_usaha' => $hutang->id_usaha,
+        ]);
 
-        return redirect()->route('hutang.index')
-            ->with('simpan', 'Pembayaran Hutang berhasil disimpan')
-            ->with('status', $status);
+        return redirect()->route('hutang.index')->with('success', 'Pembayaran hutang berhasil disimpan.');
     }
 }

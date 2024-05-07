@@ -11,8 +11,8 @@ class HutangController extends Controller
     public function index():View
     {
         $bayarhutang = BayarHutang::all();
-        $hutangs = hutang::where('id_usaha', auth()->user()->id_usaha)->get(); // Ambil semua data hutang dari database
-        return view('hutang.index', compact('bayarhutang','hutangs')); // Tampilkan view dengan data hutangs
+        $hutangs = hutang::where('id_usaha', auth()->user()->id_usaha)->get(); 
+        return view('hutang.index', compact('bayarhutang','hutangs')); 
     }
 
     public function create()
@@ -29,9 +29,13 @@ class HutangController extends Controller
             'tanggal_pinjaman' => 'required',
             'tanggal_jatuh_tempo' => 'required',
         ]);
+
         $validatedData = $request->all();
         $validatedData['id_usaha'] = auth()->user()->id_usaha;
-    
+
+        // Tambahkan nilai awal untuk sisa_hutang
+        $validatedData['sisa_hutang'] = $validatedData['jumlah_hutang'];
+
         hutang::create($validatedData);
         return redirect()->route('hutang.index')
                          ->with('success', 'Hutang berhasil ditambahkan');
@@ -55,22 +59,22 @@ class HutangController extends Controller
         return view('hutang.edit', compact('hutang'));
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'jumlah_bayar' => 'required|numeric|min:1',
-    //         'sisa_hutang' => 'required|numeric|min:1',
-    //     ]); // Remove validation for nama, jumlah_hutang, and tanggal
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'jumlah_hutang' => 'required|numeric|min:1',
+            'sisa_hutang' => 'required|numeric|min:1',
+        ]); 
 
-    //     $hutang = hutang::find($id); // Use find instead of findOrFail
+        $hutang = hutang::find($id); // Use find instead of findOrFail
 
-    //     if (!$hutang) {
-    //         return abort(404); // Handle record not found
-    //     }
+        if (!$hutang) {
+            return abort(404); // Handle record not found
+        }
 
-    //     $hutang->update($request->all());
+        $hutang->update($request->all());
 
-    //     return redirect()->route('hutang.index')
-    //         ->with('success', 'Hutang berhasil diperbarui');
-    // }
+        return redirect()->route('hutang.index')
+            ->with('success', 'Hutang berhasil diperbarui');
+    }
 }

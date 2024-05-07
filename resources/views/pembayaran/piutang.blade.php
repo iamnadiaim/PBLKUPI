@@ -21,7 +21,7 @@
   @endif
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <form action="{{ route('BayarHutang.store') }}" method="post">
+      <form action="{{ route('bayarpiutang.store') }}" method="post">
         @csrf
         <div>
           <label for="tanggal_pinjaman">Tanggal Pembayaran:</label><br>
@@ -52,7 +52,7 @@
 
         <div class="mt-3" style="text-align: left;">
           <input type="submit" class="btn btn-primary" value="Simpan">
-          <a href="{{ route('hutang.index') }}" class="btn btn-danger">Batal</a>
+          <a href="{{ route('piutang.index') }}" class="btn btn-danger">Batal</a>
         </div>
       </form>
     </div>
