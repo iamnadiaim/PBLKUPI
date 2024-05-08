@@ -21,6 +21,7 @@ use App\Http\Controllers\HutangController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\BayarHutangController;
 use App\Http\Controllers\BayarPiutangController;
+use App\Http\Controllers\RiwayatPembayaranController;
 
 
 /*
@@ -84,6 +85,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/bayarhutang', [BayarHutangController::class, 'index'])->name('pembayaran.hutang'); 
     Route::post('/bayarhutang/store', [BayarHutangController::class, 'store'])->name('bayarhutang.store');
+
+    Route::get('/riwayat-pembayaran',[RiwayatPembayaranController::class, 'index'])->name('pembayaran.riwayathutang');
+    Route::get('/riwayat-pembayaran/piutang', [RiwayatPembayaranController::class, 'indexBayarPiutang'])->name('pembayaran.riwayatpiutang');
 
     Route::get('/piutang', [PiutangController::class, 'index'])->name('piutang.index');
     Route::get('/piutang/create', [PiutangController::class, 'create'])->name('piutang.create');
