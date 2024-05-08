@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BayarHutang;
 use Illuminate\Http\Request;
-use App\Models\Hutang;
+use App\Models\hutang;
 
 class BayarHutangController extends Controller{
     public function index()
@@ -25,13 +25,16 @@ class BayarHutangController extends Controller{
             'jumlah' => 'required|numeric|min:0',
         ]);
 
-        $hutang = Hutang::where('nama', $request->nama)->firstOrFail();
+        $hutang = hutang::where('nama', $request->nama)->firstOrFail();
 
-        $sisa_hutang = $hutang->jumlah_hutang - $request->jumlah;
-        $hutang->sisa_hutang = $sisa_hutang;
-
-        $hutang->jumlah_cicilan -= 1;
-        if ($sisa_hutang <= 0) {
+        $sisa_hutang = $hutang->sisa_hutang - $request->jumlah;
+        $hutang->sisa_hutang = max($sisa_hutang, 0);
+        
+        if ($hutang->jumlah_cicilan > 0) {
+            $hutang->jumlah_cicilan -= 1;
+        }
+        
+        if ($hutang->jumlah_cicilan <= 0 || $hutang->sisa_hutang <= 0) {
             $hutang->status = 'Lunas';
         }
         $hutang->save();
@@ -44,6 +47,13 @@ class BayarHutangController extends Controller{
             'jumlah' => $request->jumlah,
             'id_usaha' => $hutang->id_usaha,
         ]);
+        $belum_lunas = hutang::where('id_usaha', auth()->user()->id_usaha)
+                                ->where('status', '<>', 'Lunas')
+                                ->exists();
+
+        if (!$belum_lunas) {
+        // Do something if all debts are paid (optional)
+        }
 
         return redirect()->route('hutang.index')->with('success', 'Pembayaran hutang berhasil disimpan.');
     }

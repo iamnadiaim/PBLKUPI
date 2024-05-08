@@ -21,8 +21,7 @@ return new class extends Migration
             $table->string('jumlah_hutang');
             $table->string('jumlah_cicilan');
             $table->string('sisa_hutang');
-            // $table->string('pembayaran')->nullable();
-            // $table->string('status')->nullable();
+            $table->string('status')->default('Belum Lunas');
             $table->timestamps();
             
             // Add foreign key constraints if needed (example)

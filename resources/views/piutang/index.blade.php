@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 
-
+@section('title', 'Hutang Piutang')
 @section('contents')
 
     <div class="main-container">
@@ -19,9 +19,9 @@
                     <a href="#" id="toggleIcon" onclick="togglePopup()" style="text-decoration: none;">
                         <span style="margin-right: 10px;"><i class="fa fa-angle-down"></i></span>
                     </a>
-                    <span style="font-size:24px;"> Hutang Piutang </span>
-                    <div id="popup" style="display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999; margin-top: 130px">
-                    <p><a href="{{ route('hutang.index') }}">Hutang Piutang</a></p>
+                    <span style="font-size:18px;">Tambah Hutang Piutang </span>
+                    <div id="popup" style="display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999; margin-top: 165px">
+                    <p><a href="{{ route('hutang.index') }}">Tambah Hutang Piutang</a></p>
                     <p><a href="#">Riwayat Pembayaran</a></p>
                     <p><a href="#">Laporan</a></p>
                 </div>
@@ -38,7 +38,20 @@
             <div class="box-container">
                 <div class="container">
                     <div class="mb-3">
-                           
+                    @if (session()->has('destroy'))
+                            <div class="d-flex justify-content-end">
+                            <div class="toast my-4 bg-danger" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
+                                <div class="toast-header bg-danger text-light justify-content-between">
+                                <div class="toast-body text-ligth">
+                                    {{ session('destroy') }}
+                                </div>
+                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                            </div>
+                            </div>
+                            @endif
                             @if (session()->has('success'))
                             <div class="d-flex justify-content-end">
                             <div class="toast my-4 bg-primary" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
@@ -77,7 +90,7 @@
                                 <th scope="col">Nominal</th>
                                 <th scope="col">Jumlah Cicilan</th>
                                 <th scope="col">Sisa Piutang</th>
-                                <th class="text-center" scope="col">Aksi</th>
+                                <th class="text-center" scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,18 +103,21 @@
                                     <td>{{ $piutang->jumlah_piutang }}</td>
                                     <td>{{ $piutang->jumlah_cicilan }}</td>
                                     <td>{{ $piutang->sisa_piutang }}</td>
-                                    <td class="action-buttons d-flex justify-content-center">
+                                    <td class="status-cell"></td>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    
                 </div>
             </div>
         </div>
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        var myToast = new bootstrap.Toast(document.getElementById('myToast'));
+        myToast.show();
+      });
         document.addEventListener("DOMContentLoaded", function() {
             var rows = document.querySelectorAll("tbody tr");
 
