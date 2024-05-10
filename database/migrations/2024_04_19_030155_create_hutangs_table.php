@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('jumlah_hutang');
             $table->string('jumlah_cicilan');
             $table->string('sisa_hutang');
+            $table->boolean('status')->default(false);
             // $table->string('pembayaran')->nullable();
             // $table->string('status')->nullable();
             $table->timestamps();

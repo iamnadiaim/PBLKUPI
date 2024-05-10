@@ -4,20 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\BayarPiutang;
 use Illuminate\Http\Request;
-
 use App\Models\Piutang;
 
-class BayarPiutangController extends Controller{
+class BayarPiutangController extends Controller
+{
     public function index()
     {
         $bayarpiutang = BayarPiutang::all();
-        $piutangs = piutang::where('id_usaha', auth()->user()->id_usaha)->get(); 
-        return view('pembayaran.piutang', compact('bayarpiutang','piutangs')); 
-   
-        // Logika untuk menampilkan halaman pembayaran hutang
+        $piutangs = Piutang::where('id_usaha', auth()->user()->id_usaha)->get(); 
+        return view('pembayaran.piutang', compact('bayarpiutang', 'piutangs')); 
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         // Validasi input
         $request->validate([
             'tanggal_pembayaran' => 'required|date',
@@ -26,17 +25,30 @@ class BayarPiutangController extends Controller{
             'jumlah' => 'required|numeric|min:0',
         ]);
 
-        $piutang = Piutang::where('nama', $request->nama)->firstOrFail();
+        $piutang = Piutang::where('nama', $request->nama)->first();
 
-        $sisa_piutang = $piutang->jumlah_piutang - $request->jumlah;
+        if (!$piutang) {
+            return redirect()->back()->with('error', 'Nama piutang tidak ditemukan');
+        }
+
+        if ($piutang->jumlah_cicilan <= 0) {
+            return redirect()->back()->with('error', 'Jumlah cicilan sudah habis');
+        }
+
+        if ($request->jumlah > $piutang->sisa_piutang) {
+            return redirect()->back()->with('error', 'Jumlah melebihi sisa piutang');
+        }
+
+        $sisa_piutang = $piutang->sisa_piutang - $request->jumlah;
         $piutang->sisa_piutang = $sisa_piutang;
 
         $piutang->jumlah_cicilan -= 1;
         if ($sisa_piutang <= 0) {
-            $piutang->status = 'Lunas';
+            $piutang->status = true; // Mengubah status menjadi true jika lunas
         }
         $piutang->save();
-        // Simpan data pembayaran hutang
+
+        // Simpan data pembayaran piutang
         BayarPiutang::create([
             'id_piutang' => $piutang->id,
             'tanggal_pembayaran' => $request->tanggal_pembayaran,

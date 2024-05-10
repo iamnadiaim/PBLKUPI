@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('jumlah_piutang');
             $table->string('jumlah_cicilan');
             $table->string('sisa_piutang');
+            $table->boolean('status')->default(false);
             // $table->string('pembayaran')->nullable();
             // $table->string('status')->nullable();
             $table->timestamps();

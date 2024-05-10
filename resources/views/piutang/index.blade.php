@@ -77,7 +77,7 @@
                                 <th scope="col">Nominal</th>
                                 <th scope="col">Jumlah Cicilan</th>
                                 <th scope="col">Sisa Piutang</th>
-                                <th class="text-center" scope="col">Aksi</th>
+                                <th class="text-center" scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,7 +90,12 @@
                                     <td>{{ $piutang->jumlah_piutang }}</td>
                                     <td>{{ $piutang->jumlah_cicilan }}</td>
                                     <td>{{ $piutang->sisa_piutang }}</td>
-                                    <td class="action-buttons d-flex justify-content-center">
+                                    <td class="status-cell">
+                                        @if($piutang->status)
+                                            Lunas
+                                        @else
+                                            Belum Lunas
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
