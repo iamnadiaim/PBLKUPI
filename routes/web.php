@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/hutang', [HutangController::class, 'index'])->name('hutang.index');
     Route::get('/hutang/create', [HutangController::class, 'create'])->name('hutang.create');
     Route::post('/hutang', [HutangController::class, 'store'])->name('hutang.store');
-
+    Route::put('/hutang/{id}/update', [HutangController::class, 'update'])->name('hutang.update');
 
     Route::get('/bayarhutang', [BayarHutangController::class, 'index'])->name('pembayaran.hutang'); 
     Route::post('/bayarhutang/store', [BayarHutangController::class, 'store'])->name('bayarhutang.store');

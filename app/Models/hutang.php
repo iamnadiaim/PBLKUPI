@@ -11,6 +11,7 @@ class hutang extends Model
     protected $table = 'hutangs';
 
     protected $fillable = [
+
         'tanggal_pinjaman','tanggal_jatuh_tempo', 'nama', 'jumlah_hutang','jumlah_cicilan', 'sisa_hutang', 'status', 'id_usaha'
         // Kolom lain yang ingin diisi secara massal
     ];
