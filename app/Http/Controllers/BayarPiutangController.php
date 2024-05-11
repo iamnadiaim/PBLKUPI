@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\BayarPiutang;
 use Illuminate\Http\Request;
-
 use App\Models\Piutang;
 
 class BayarPiutangController extends Controller
@@ -57,13 +57,6 @@ class BayarPiutangController extends Controller
             'jumlah' => $request->jumlah,
             'id_usaha' => $piutang->id_usaha,
         ]);
-        $belum_lunas = piutang::where('id_usaha', auth()->user()->id_usaha)
-                                ->where('status', '<>', 'Lunas')
-                                ->exists();
-
-        if (!$belum_lunas) {
-        // Do something if all debts are paid (optional)
-        }
 
         return redirect()->route('piutang.index')->with('success', 'Pembayaran piutang berhasil disimpan.');
     }
