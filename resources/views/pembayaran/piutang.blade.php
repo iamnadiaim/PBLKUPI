@@ -5,12 +5,19 @@
 @section('contents')
 
 <div class="container">
-  @if (session()->has('tambah'))
+<div class="container">
+  @if (session()->has('error'))
+    <div class="alert alert-danger" style="font-family: Arial, sans-serif;">
+        {{ session('error') }}
+    </div>
+  @endif
+  
+  @if (session()->has('success'))
     <div class="d-flex justify-content-end">
       <div class="toast my-4 bg-primary" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
         <div class="toast-header bg-primary text-light justify-content-between">
           <div class="toast-body text-ligth">
-            {{ session('tambah') }}
+            {{ session('success') }}
           </div>
           <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -19,6 +26,7 @@
       </div>
     </div>
   @endif
+
   <div class="row justify-content-center">
     <div class="col-md-6">
       <form action="{{ route('bayarpiutang.store') }}" method="post">
