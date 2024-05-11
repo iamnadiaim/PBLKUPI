@@ -7,6 +7,8 @@
   <main>
     <section id="data"> 
       {{-- <h4 class="">Tampilkan data</h4> --}}
+  
+
       @if (session()->has('hapus'))
                             <div class="d-flex justify-content-end">
                             <div class="toast my-4 bg-danger" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
@@ -35,11 +37,19 @@
                             </div>
                             </div>
                             @endif
-      <div class="mb-3 d-flex justify-content-end">
-        <a href="{{ route('tambah-pegawai') }}" class="btn btn-success mr-3" style="margin-top: 10px">Tambah Pegawai +</a>
-        {{-- <a href="{{ route('produks.laporan') }}" class="btn btn-warning" style="margin-top: 10px">Lihat Laporan </a> --}}
-        <a href="{{ route('print-pegawai') }}" target="_blank" class="btn btn-info" style="margin-top: 10px">Cetak</a>
+                            <div class="mb-3 d-flex justify-content-between align-items-start">
+    <div class="margin-left mr-auto">
+        <a class="nav-link" href="">
+            <i class="fas fa-users-gear"></i>
+            <span>Activity</span>
+        </a>
     </div>
+
+    <a href="{{ route('tambah-pegawai') }}" class="btn btn-success mr-3" style="margin-top: 10px">Tambah Pegawai +</a>
+    {{-- <a href="{{ route('produks.laporan') }}" class="btn btn-warning" style="margin-top: 10px">Lihat Laporan </a> --}}
+    <a href="{{ route('print-pegawai') }}" target="_blank" class="btn btn-info" style="margin-top: 10px">Cetak</a>
+</div>
+
       <table class="table table-striped">
         <thead class="bg-primary text-light">
           <tr>

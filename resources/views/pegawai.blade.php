@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Tambah Pegawai')
-
+<i class="fa-duotone fa-users-gear"></i>
 @section('contents')
 
 <body class="bg-light">
