@@ -103,7 +103,13 @@
                                     <td>{{ $piutang->jumlah_piutang }}</td>
                                     <td>{{ $piutang->jumlah_cicilan }}</td>
                                     <td>{{ $piutang->sisa_piutang }}</td>
-                                    <td class="status-cell"></td>
+                                    <td class="status-cell">
+                                        @if($piutang->status)
+                                            Lunas
+                                        @else
+                                            Belum Lunas
+                                        @endif
+
                                     </td>
                                 </tr>
                             @endforeach
