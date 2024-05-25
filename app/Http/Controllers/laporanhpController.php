@@ -18,6 +18,8 @@ class laporanhpController extends Controller
         $namaUsaha = strtoupper(Auth::user()->usaha->nama_usaha); // Get logged-in user's business name
         $selectedMonth = $request->get('month'); // Get selected month from request
         $hutangs = hutang::where('id_usaha', auth()->user()->id_usaha)->get();
+        $piutangs = piutang::where('id_usaha', auth()->user()->id_usaha)->get();
+        
         // Validate the selected month to avoid potential issues
         try {
             $selectedDate = Carbon::parse($selectedMonth);
@@ -102,6 +104,7 @@ class laporanhpController extends Controller
             'selectedDate',
             'namaUsaha',
             'hutangs',
+            'piutangs',
             'totalHutang',
             'totalPiutang',
             'totalTransaksi',
