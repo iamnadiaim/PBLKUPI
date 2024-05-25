@@ -16,12 +16,17 @@ return new class extends Migration
             // $table->bigInteger('id_kategori_hutang')->unsigned()->nullable();
             $table->unsignedBigInteger('id_usaha');
             $table->string('nama');
+            $table->string('catatan');
             $table->string('tanggal_pinjaman');
             $table->string('tanggal_jatuh_tempo');
             $table->string('jumlah_piutang');
             $table->string('jumlah_cicilan');
             $table->string('sisa_piutang');
-            $table->string('status')->default('Belum Lunas');
+
+            $table->boolean('status')->default(false);
+            // $table->string('pembayaran')->nullable();
+            // $table->string('status')->nullable();
+
             $table->timestamps();
             
             // Add foreign key constraints if needed (example)

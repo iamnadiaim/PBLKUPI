@@ -24,18 +24,21 @@ class HutangController extends Controller
     {
         $request->validate([
             'nama' => 'required',
+            'catatan' => 'required',
             'jumlah_hutang' => 'required|numeric|min:1',
             'jumlah_cicilan' => 'required|numeric|min:1',
-            'tanggal_pinjaman' => 'required',
-            'tanggal_jatuh_tempo' => 'required',
+            'tanggal_pinjaman' => 'required|date',
+            'tanggal_jatuh_tempo' => 'required|date',
         ]);
-
+    
         $validatedData = $request->all();
         $validatedData['id_usaha'] = auth()->user()->id_usaha;
-
+    
         // Tambahkan nilai awal untuk sisa_hutang
         $validatedData['sisa_hutang'] = $validatedData['jumlah_hutang'];
-
+    
+        $validatedData['status'] = false;
+    
         hutang::create($validatedData);
         return redirect()->route('hutang.index')
                          ->with('success', 'Hutang berhasil ditambahkan');
@@ -63,7 +66,7 @@ class HutangController extends Controller
     {
         $request->validate([
             'jumlah_hutang' => 'required|numeric|min:1',
-            'sisa_hutang' => 'required|numeric|min:1',
+            'sisa_hutang' => 'required|numeric|min:0',
         ]); 
 
         $hutang = hutang::find($id); // Use find instead of findOrFail

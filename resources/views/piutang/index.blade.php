@@ -22,7 +22,7 @@
                     <span style="font-size:18px;">Tambah Hutang Piutang </span>
                     <div id="popup" style="display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999; margin-top: 165px">
                     <p><a href="{{ route('hutang.index') }}">Tambah Hutang Piutang</a></p>
-                    <p><a href="#">Riwayat Pembayaran</a></p>
+                    <p><a href="{{ route('pembayaran.riwayatpiutang') }}">Riwayat Pembayaran</a></p>
                     <p><a href="{{ route('laporanhutang.index') }}">Laporan</a></p>
                 </div>
                 </div>
@@ -73,11 +73,6 @@
                                         <a href="{{ route('hutang.index') }}" class="btn btn-secondary">Hutang</a>  
                                         <a href="{{ route('piutang.index') }}" class="btn btn-primary">Piutang</a>
                                     </div>
-                                    <div>
-                                        <!-- <a href="{{ route('piutang.create') }}" class="btn btn-success">Tambah</a> -->
-                                        <a href="{{ route('pembayaran.piutang') }}" class="btn btn-primary">Bayar Piutang</a>
-                                        
-                                    </div>
                                 </div>
                             @endif
                     </div>
@@ -86,11 +81,13 @@
                             <tr>
                                 <th scope="col">Tanggal Peminjaman</th>
                                 <th scope="col">Tanggal Jatuh Tempo</th>
-                                <th scope="col">Nama Peminjam</th>
+                                <th scope="col">Nama Costumer</th>
+                                <th scope="col">Catatan</th>
                                 <th scope="col">Nominal</th>
-                                <th scope="col">Jumlah Cicilan</th>
+                                <th scope="col">Jumlah Angsuran</th>
                                 <th scope="col">Sisa Piutang</th>
                                 <th class="text-center" scope="col">Status</th>
+                                <th class="text-center" scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,10 +97,21 @@
                                     <td>{{ $piutang->tanggal_pinjaman}}</td>
                                     <td>{{ $piutang->tanggal_jatuh_tempo }}</td>
                                     <td>{{ $piutang->nama }}</td>
+                                    <td>{{ $piutang->catatan }}</td>
                                     <td>{{ $piutang->jumlah_piutang }}</td>
                                     <td>{{ $piutang->jumlah_cicilan }}</td>
                                     <td>{{ $piutang->sisa_piutang }}</td>
-                                    <td class="status-cell"></td>
+                                    <td class="status-cell">
+                                        @if($piutang->status)
+                                            Lunas
+                                        @else
+                                            Belum Lunas
+                                        @endif
+
+                                    </td>
+                                    <td class="text-center">
+                                       <!--  <a href="{{ route('pembayaran.piutang', $piutang->id) }}" class="btn btn-primary">Bayar</a> -->
+                                        <a href="{{ route('bayarpiutang.create', ['id' => $piutang->id]) }}" class="btn btn-primary">Bayar</a>
                                     </td>
                                 </tr>
                             @endforeach

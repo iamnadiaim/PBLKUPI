@@ -11,7 +11,7 @@ class piutang extends Model
     protected $table = 'piutangs';
 
     protected $fillable = [
-        'tanggal_pinjaman','tanggal_jatuh_tempo', 'nama', 'jumlah_piutang','jumlah_cicilan', 'sisa_piutang','id_usaha'
+        'tanggal_pinjaman','tanggal_jatuh_tempo', 'nama', 'catatan', 'jumlah_piutang','jumlah_cicilan', 'sisa_piutang', 'status', 'id_usaha'
         // Kolom lain yang ingin diisi secara massal
     ];
 

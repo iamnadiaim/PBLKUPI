@@ -22,6 +22,11 @@ class loginController extends Controller
         ]);
 
         if (Auth::attempt($validate)) { 
+
+            activity()
+            ->causedBy(auth()->user())
+            ->log('user has been login');
+         
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
         }

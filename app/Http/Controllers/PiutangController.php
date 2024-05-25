@@ -22,6 +22,7 @@ class PiutangController extends Controller
     {
         $request->validate([
             'nama' => 'required',
+            'catatan' => 'required',
             'jumlah_piutang' => 'required|numeric|min:1',
             'jumlah_cicilan' => 'required|numeric|min:1',
             'tanggal_pinjaman' => 'required',
@@ -32,6 +33,8 @@ class PiutangController extends Controller
     
         $validatedData['sisa_piutang'] = $validatedData['jumlah_piutang'];
         piutang::create($validatedData);
+        
+        $validatedData['status'] = false;
 
         return redirect()->route('piutang.index')
                          ->with('success', 'piutang berhasil ditambahkan');
@@ -59,7 +62,7 @@ class PiutangController extends Controller
      {
          $request->validate([
              'jumlah_piutang' => 'required|numeric|min:1',
-             'sisa_piutang' => 'required|numeric|min:1',
+             'sisa_piutang' => 'required|numeric|min:0',
          ]); // Remove validation for nama, jumlah_piutang, and tanggal
 
          $piutang = piutang::find($id); // Use find instead of findOrFail

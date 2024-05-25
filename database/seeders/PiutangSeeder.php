@@ -16,7 +16,8 @@ class PiutangSeeder extends Seeder
         $piutangs = [
             [
                 // 'id_kategori_hutang' => 1, // Replace with actual category ID
-                'nama' => 'Hutang Sewa Kantor',
+                'nama' => 'Piutang Sewa Kantor',
+                'catatan' => 'Piutang untuk Sewa Kantor',
                 'tanggal_pinjaman' => '2024-04-01',
                 'tanggal_jatuh_tempo' => '2024-04-01',
                 'jumlah_piutang' => 10000000,
@@ -27,7 +28,8 @@ class PiutangSeeder extends Seeder
             ],
             [
                 // 'id_kategori_hutang' => 2, // Replace with actual category ID
-                'nama' => 'Hutang Perlengkapan Kantor',
+                'nama' => 'Piutang Perlengkapan Kantor',
+                'catatan' => 'Piutang untuk Sewa Kantor',
                 'tanggal_pinjaman' => '2024-04-01',
                 'tanggal_jatuh_tempo' => '2024-04-01',
                 'jumlah_piutang' => 10000000,
