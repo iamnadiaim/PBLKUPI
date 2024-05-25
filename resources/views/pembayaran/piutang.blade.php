@@ -40,9 +40,15 @@
         </div>
 
         <label for="nama">Nama Peminjam:</label><br>
-        <input type="text" id="nama" name="nama" required class="form-control" value="{{ old('nama') }}">
+        <input type="text" id="nama" name="nama" required class="form-control" value="{{ $piutang->nama }}" required>
         @error('nama')
           <span class="error">{{ $message }}</span>
+        @enderror
+
+        <label for="sisa_piutang">Sisa Piutang:</label><br>
+        <input type="text" id="sisa_piutang" name="sisa_hutang" required class="form-control" value="{{ $piutang->sisa_piutang }}" required>
+        @error('sisa_piutang')
+          <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
         @enderror
 
         <label for="pembayaran">Cara Pembayaran:</label><br>

@@ -24,12 +24,8 @@ class BayarHutangController extends Controller
             'pembayaran' => 'required|string',
             'jumlah' => 'required|numeric|min:0',
         ]);
-
-        $hutang = Hutang::where('nama', $request->nama)->first();
-
-        if (!$hutang) {
-            return redirect()->back()->with('error', 'Nama hutang tidak ditemukan');
-        }
+      
+      $hutang = Hutang::where('id', $request->id)->first();
 
         if ($hutang->jumlah_cicilan <= 0) {
             return redirect()->back()->with('error', 'Jumlah cicilan sudah habis');
