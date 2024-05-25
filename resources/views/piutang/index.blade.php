@@ -84,7 +84,7 @@
                                 <th scope="col">Nama Costumer</th>
                                 <th scope="col">Catatan</th>
                                 <th scope="col">Nominal</th>
-                                <th scope="col">Jumlah Cicilan</th>
+                                <th scope="col">Jumlah Angsuran</th>
                                 <th scope="col">Sisa Piutang</th>
                                 <th class="text-center" scope="col">Status</th>
                                 <th class="text-center" scope="col">Aksi</th>
@@ -110,7 +110,8 @@
 
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('pembayaran.piutang', $piutang->id) }}" class="btn btn-primary">Bayar</a>
+                                       <!--  <a href="{{ route('pembayaran.piutang', $piutang->id) }}" class="btn btn-primary">Bayar</a> -->
+                                        <a href="{{ route('bayarpiutang.create', ['id' => $piutang->id]) }}" class="btn btn-primary">Bayar</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -10,7 +10,7 @@
         {{ session('error') }}
     </div>
   @endif
-  
+
   @if (session()->has('success'))
     <div class="d-flex justify-content-end">
       <div class="toast my-4 bg-primary" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
@@ -29,8 +29,9 @@
     <div class="col-md-6">
       <form action="{{ route('bayarhutang.store') }}" method="post">
         @csrf
+        <input type="hidden" name="id" value="{{ $hutang->id }}">
         <div>
-          <label for="tanggal_pinjaman">Tanggal Pembayaran:</label><br>
+          <label for="tanggal_pembayaran">Tanggal Pembayaran:</label><br>
           <input type="date" placeholder="Tanggal Pembayaran" required name="tanggal_pembayaran" value="{{ old('tanggal_pembayaran') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
           @error('tanggal_pembayaran')
             <p class="text-red" style="font-family: Arial, sans-serif;">Tanggal pinjaman tidak boleh lebih dari hari ini.</p>
@@ -38,13 +39,13 @@
         </div>
 
         <label for="nama">Nama Pemberi Pinjaman:</label><br>
-        <input type="text" id="nama" name="nama" required class="form-control" value="{{ $hutang->nama }}" required>
+        <input type="text" id="nama" name="nama" required class="form-control" value="{{ $hutang->nama }}" readonly>
         @error('nama')
           <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
         @enderror
 
         <label for="sisa_hutang">Sisa Hutang:</label><br>
-        <input type="text" id="sisa_hutang" name="sisa_hutang" required class="form-control" value="{{ $hutang->sisa_hutang }}" required>
+        <input type="text" id="sisa_hutang" name="sisa_hutang" required class="form-control" value="{{ $hutang->sisa_hutang }}" readonly>
         @error('sisa_hutang')
           <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
         @enderror
@@ -60,7 +61,6 @@
         @error('jumlah')
           <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
         @enderror
-
 
         <div class="mt-3" style="text-align: left;">
           <input type="submit" class="btn btn-primary" value="Simpan">

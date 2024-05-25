@@ -5,13 +5,12 @@
 @section('contents')
 
 <div class="container">
-<div class="container">
   @if (session()->has('error'))
     <div class="alert alert-danger" style="font-family: Arial, sans-serif;">
         {{ session('error') }}
     </div>
   @endif
-  
+
   @if (session()->has('success'))
     <div class="d-flex justify-content-end">
       <div class="toast my-4 bg-primary" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
@@ -26,27 +25,27 @@
       </div>
     </div>
   @endif
-
   <div class="row justify-content-center">
     <div class="col-md-6">
       <form action="{{ route('bayarpiutang.store') }}" method="post">
         @csrf
+        <input type="hidden" name="id" value="{{ $piutang->id }}">
         <div>
-          <label for="tanggal_pinjaman">Tanggal Pembayaran:</label><br>
+          <label for="tanggal_pembayaran">Tanggal Pembayaran:</label><br>
           <input type="date" placeholder="Tanggal Pembayaran" required name="tanggal_pembayaran" value="{{ old('tanggal_pembayaran') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
           @error('tanggal_pembayaran')
-            <p class="text-red">Tanggal pinjaman tidak boleh lebih dari hari ini.</p>
+            <p class="text-red" style="font-family: Arial, sans-serif;">Tanggal pinjaman tidak boleh lebih dari hari ini.</p>
           @enderror
         </div>
 
-        <label for="nama">Nama Peminjam:</label><br>
-        <input type="text" id="nama" name="nama" required class="form-control" value="{{ $piutang->nama }}" required>
+        <label for="nama">Nama Pemberi Pinjaman:</label><br>
+        <input type="text" id="nama" name="nama" required class="form-control" value="{{ $piutang->nama }}" readonly>
         @error('nama')
-          <span class="error">{{ $message }}</span>
+          <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
         @enderror
 
         <label for="sisa_piutang">Sisa Piutang:</label><br>
-        <input type="text" id="sisa_piutang" name="sisa_hutang" required class="form-control" value="{{ $piutang->sisa_piutang }}" required>
+        <input type="text" id="sisa_piutang" name="sisa_piutang" required class="form-control" value="{{ $piutang->sisa_piutang }}" readonly>
         @error('sisa_piutang')
           <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
         @enderror
@@ -54,15 +53,14 @@
         <label for="pembayaran">Cara Pembayaran:</label><br>
         <input type="text" id="pembayaran" name="pembayaran" required class="form-control" value="{{ old('pembayaran') }}">
         @error('pembayaran')
-          <span class="error">{{ $message }}</span>
+          <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
         @enderror
 
         <label for="jumlah">Nominal :</label><br>
         <input type="number" id="jumlah" name="jumlah" required class="form-control" min="0" value="{{ old('jumlah') }}">
         @error('jumlah')
-          <span class="error">{{ $message }}</span>
+          <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
         @enderror
-
 
         <div class="mt-3" style="text-align: left;">
           <input type="submit" class="btn btn-primary" value="Simpan">

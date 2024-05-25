@@ -40,6 +40,7 @@
       </div>
     </li>
 
+    @if (auth()->user()->role->nama_role == 'admin')
 <!-- Nav Item - User Information -->
 <li class="nav-item dropdown no-arrow">
       <a href="{{ route('profile') }}" class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,22 +50,16 @@
       </a>
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="{{ route('profile') }}">
-          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-          Profile
+        <a class="dropdown-item" style="text-align: center;">
+          <b>Notifikasi</b>
         </a>
-        {{-- <a class="dropdown-item" href="#">
-          <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-          Reset
-        </a> --}}
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{{ route('logout') }}">
-          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+        <a class="dropdown-item" href="">
           Logout
         </a>
       </div>
     </li>
-
+    @endif
 
     <div class="topbar-divider d-none d-sm-block"></div>
 

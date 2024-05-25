@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\BayarHutang;
@@ -8,11 +7,18 @@ use App\Models\Hutang;
 
 class BayarHutangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $hutang = Hutang::findOrFail($request->id);
         $bayarhutang = BayarHutang::all();
         $hutangs = Hutang::where('id_usaha', auth()->user()->id_usaha)->get(); 
         return view('pembayaran.hutang', compact('bayarhutang','hutangs')); 
+    }
+
+    public function create($id)
+    {
+        $hutang = Hutang::findOrFail($id);
+        return view('pembayaran.hutang', compact('hutang'));
     }
 
     public function store(Request $request)
@@ -24,8 +30,8 @@ class BayarHutangController extends Controller
             'pembayaran' => 'required|string',
             'jumlah' => 'required|numeric|min:0',
         ]);
-      
-      $hutang = Hutang::where('id', $request->id)->first();
+
+        $hutang = Hutang::where('id', $request->id)->first();
 
         if ($hutang->jumlah_cicilan <= 0) {
             return redirect()->back()->with('error', 'Jumlah cicilan sudah habis');

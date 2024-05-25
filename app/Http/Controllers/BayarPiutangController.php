@@ -8,12 +8,20 @@ use App\Models\Piutang;
 
 class BayarPiutangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $piutang = Piutang::findOrFail($request->id);
         $bayarpiutang = BayarPiutang::all();
         $piutangs = Piutang::where('id_usaha', auth()->user()->id_usaha)->get(); 
-        return view('pembayaran.piutang', compact('bayarpiutang', 'piutangs')); 
+        return view('pembayaran.piutang', compact('bayarpiutang','piutangs')); 
     }
+
+    public function create($id)
+    {
+        $piutang = Piutang::findOrFail($id);
+        return view('pembayaran.piutang', compact('piutang'));
+    }
+
 
     public function store(Request $request)
     {
@@ -25,7 +33,7 @@ class BayarPiutangController extends Controller
             'jumlah' => 'required|numeric|min:0',
         ]);
 
-        $piutang = Piutang::where('nama', $request->nama)->first();
+        $piutang = Piutang::where('id', $request->id)->first();
 
         if (!$piutang) {
             return redirect()->back()->with('error', 'Nama piutang tidak ditemukan');

@@ -20,7 +20,7 @@
                     <span style="font-size:18px;">Tambah Hutang Piutang </span>
                     <div id="popup" style="display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999; margin-top: 165px">
                         <p><a href="{{ route('hutang.index') }}">Tambah Hutang Piutang</a></p>
-                        <p><a href="#">Riwayat Pembayaran</a></p>
+                        <p><a href="{{ route('pembayaran.riwayathutang') }}">Riwayat Pembayaran</a></p>
                         <p><a href="#">Laporan</a></p>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                                 <th scope="col">Nama Pemberi Pinjaman</th>
                                 <th scope="col">Catatan</th>
                                 <th scope="col">Nominal</th>
-                                <th scope="col">Jumlah Cicilan</th>
+                                <th scope="col">Jumlah Angsuran</th>
                                 <th scope="col">Sisa Hutang</th>
                                 <th class="text-center" scope="col">Status</th>
                                 <th class="text-center" scope="col">Aksi</th>
@@ -106,8 +106,11 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('pembayaran.hutang', $hutang->id) }}" class="btn btn-primary">Bayar</a>
-                                    </td>
+                                    <a href="{{ route('bayarhutang.create', ['id' => $hutang->id]) }}" class="btn btn-primary">Bayar</a>
+                   
+                                    <!--  <a href="{{ route('pembayaran.hutang', $hutang->id) }}" class="btn btn-primary">Bayar</a>
+                                -->     
+                                </td>
                                 </tr>
                             @endforeach
                         </tbody>
