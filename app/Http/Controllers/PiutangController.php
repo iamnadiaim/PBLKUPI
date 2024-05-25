@@ -22,6 +22,7 @@ class PiutangController extends Controller
     {
         $request->validate([
             'nama' => 'required',
+            'catatan' => 'required',
             'jumlah_piutang' => 'required|numeric|min:1',
             'jumlah_cicilan' => 'required|numeric|min:1',
             'tanggal_pinjaman' => 'required',

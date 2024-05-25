@@ -38,8 +38,14 @@
         </div>
 
         <label for="nama">Nama Pemberi Pinjaman:</label><br>
-        <input type="text" id="nama" name="nama" required class="form-control" value="{{ old('nama') }}">
+        <input type="text" id="nama" name="nama" required class="form-control" value="{{ $hutang->nama }}" required>
         @error('nama')
+          <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
+        @enderror
+
+        <label for="sisa_hutang">Sisa Hutang:</label><br>
+        <input type="text" id="sisa_hutang" name="sisa_hutang" required class="form-control" value="{{ $hutang->sisa_hutang }}" required>
+        @error('sisa_hutang')
           <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
         @enderror
 

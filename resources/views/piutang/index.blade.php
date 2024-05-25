@@ -73,11 +73,6 @@
                                         <a href="{{ route('hutang.index') }}" class="btn btn-secondary">Hutang</a>  
                                         <a href="{{ route('piutang.index') }}" class="btn btn-primary">Piutang</a>
                                     </div>
-                                    <div>
-                                        <!-- <a href="{{ route('piutang.create') }}" class="btn btn-success">Tambah</a> -->
-                                        <a href="{{ route('pembayaran.piutang') }}" class="btn btn-primary">Bayar Piutang</a>
-                                        
-                                    </div>
                                 </div>
                             @endif
                     </div>
@@ -86,11 +81,13 @@
                             <tr>
                                 <th scope="col">Tanggal Peminjaman</th>
                                 <th scope="col">Tanggal Jatuh Tempo</th>
-                                <th scope="col">Nama Peminjam</th>
+                                <th scope="col">Nama Costumer</th>
+                                <th scope="col">Catatan</th>
                                 <th scope="col">Nominal</th>
                                 <th scope="col">Jumlah Cicilan</th>
                                 <th scope="col">Sisa Piutang</th>
                                 <th class="text-center" scope="col">Status</th>
+                                <th class="text-center" scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,6 +97,7 @@
                                     <td>{{ $piutang->tanggal_pinjaman}}</td>
                                     <td>{{ $piutang->tanggal_jatuh_tempo }}</td>
                                     <td>{{ $piutang->nama }}</td>
+                                    <td>{{ $piutang->catatan }}</td>
                                     <td>{{ $piutang->jumlah_piutang }}</td>
                                     <td>{{ $piutang->jumlah_cicilan }}</td>
                                     <td>{{ $piutang->sisa_piutang }}</td>
@@ -110,6 +108,9 @@
                                             Belum Lunas
                                         @endif
 
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{ route('pembayaran.piutang', $piutang->id) }}" class="btn btn-primary">Bayar</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -39,7 +39,7 @@
           @enderror
         </div>
 
-        <label for="nama">Nama Peminjam :</label><br>
+        <label for="nama">Nama Costumer :</label><br>
         <input type="text" id="nama" name="nama" required class="form-control" value="{{ old('nama') }}">
         @error('nama')
           <span class="error">{{ $message }}</span>
@@ -51,9 +51,15 @@
           <span class="error">{{ $message }}</span>
         @enderror
 
-        <label for="jumlah_cicilan">Jumlah Cicilan :</label><br>
+        <label for="jumlah_cicilan">Jumlah Angsuran :</label><br>
         <input type="number" id="jumlah_cicilan" name="jumlah_cicilan" required class="form-control" min="0" value="{{ old('jumlah_cicilan') }}">
         @error('jumlah_cicilan')
+          <span class="error">{{ $message }}</span>
+        @enderror
+
+        <label for="nama">Catatan  :</label><br>
+        <textarea type="text" rows="5" id="catatan" name="catatan" required class="form-control" value="{{ old('catatan') }}" ></textarea>
+        @error('catatan')
           <span class="error">{{ $message }}</span>
         @enderror
 
