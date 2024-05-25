@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BayarHutang;
 use Illuminate\Http\Request;
-use App\Models\hutang;
+use App\Models\Hutang;
 
 class BayarHutangController extends Controller
 {
@@ -24,9 +24,8 @@ class BayarHutangController extends Controller
             'pembayaran' => 'required|string',
             'jumlah' => 'required|numeric|min:0',
         ]);
-
-
-        $hutang = Hutang::where('id', $request->id)->first();
+      
+      $hutang = Hutang::where('id', $request->id)->first();
 
         if ($hutang->jumlah_cicilan <= 0) {
             return redirect()->back()->with('error', 'Jumlah cicilan sudah habis');
@@ -54,13 +53,6 @@ class BayarHutangController extends Controller
             'jumlah' => $request->jumlah,
             'id_usaha' => $hutang->id_usaha,
         ]);
-        $belum_lunas = hutang::where('id_usaha', auth()->user()->id_usaha)
-                                ->where('status', '<>', 'Lunas')
-                                ->exists();
-
-        if (!$belum_lunas) {
-        // Do something if all debts are paid (optional)
-        }
 
         return redirect()->route('hutang.index')->with('success', 'Pembayaran hutang berhasil disimpan.');
     }

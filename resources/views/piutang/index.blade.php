@@ -22,7 +22,7 @@
                     <span style="font-size:18px;">Tambah Hutang Piutang </span>
                     <div id="popup" style="display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999; margin-top: 165px">
                     <p><a href="{{ route('hutang.index') }}">Tambah Hutang Piutang</a></p>
-                    <p><a href="#">Riwayat Pembayaran</a></p>
+                    <p><a href="{{ route('pembayaran.riwayatpiutang') }}">Riwayat Pembayaran</a></p>
                     <p><a href="#">Laporan</a></p>
                 </div>
                 </div>
