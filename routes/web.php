@@ -21,6 +21,7 @@ use App\Http\Controllers\HutangController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\BayarHutangController;
 use App\Http\Controllers\BayarPiutangController;
+use App\Http\Controllers\laporanhpController;
 
 
 /*
@@ -91,6 +92,8 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/bayarpiutang', [BayarPiutangController::class, 'index'])->name('pembayaran.piutang'); 
     Route::post('/bayarpiutang/store', [BayarPiutangController::class, 'store'])->name('bayarpiutang.store');
+    Route::get('/laporanhutang', [laporanhpController::class, 'lihatHutangPiutang'])->name('laporanhutang.index'); 
+    
  
 });
 Route::get('/riwayat',[RiwayatController::class, 'index'])->name('riwayat.index');

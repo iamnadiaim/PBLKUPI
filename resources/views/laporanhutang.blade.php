@@ -17,7 +17,7 @@
                     <a href="#" id="toggleIcon" onclick="togglePopup()" style="text-decoration: none;">
                         <span style="margin-right: 10px;"><i class="fa fa-angle-down"></i></span>
                     </a>
-                    <span style="font-size:18px;">Tambah Hutang Piutang </span>
+                    <span style="font-size:18px;">Laporan</span>
                     <div id="popup" style="display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999; margin-top: 165px">
                     <p><a href="{{ route('hutang.index') }}">Tambah Hutang Piutang</a></p>
                     <p><a href="#">Riwayat Pembayaran</a></p>
@@ -64,80 +64,82 @@
                             </div>
                             @endif
 
-                            @if (auth()->user()->role->nama_role == 'admin')
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <a href="{{ route('hutang.index') }}" class="btn btn-primary">Hutang</a>  
-                                        <a href="{{ route('piutang.index') }}" class="btn btn-secondary">Piutang</a>
-                                    </div>
-                                    <div>
-                                        <!-- <a href="{{ route('hutang.create') }}" class="btn btn-success">Tambah</a> -->
-                                        <a href="{{ route('pembayaran.hutang') }}" class="btn btn-primary">Bayar Hutang</a>
-                                    </div>
-                                </div>
-                            @endif
+                            <div class="income-report">
+                                <label for="periode">Periode:</label>
+                                <input type="date" id="periode" value="{{ $selectedDate->format('Y-m-d') }}" min="{{ $selectedDate->subMonth()->format('Y-m-d') }}" max="{{ $selectedDate->endOfMonth()->format('Y-m-d') }}">
+                                <button onclick="ubahPeriode()">Ubah</button>
+                            </div>
+                            <div class="income-summary">
+                                <div class="income-label">Tanggal Laporan:</div>
+                                <div class="income-value">{{ $selectedDate->format('d F Y') }}</div>
+                            </div>
+                            
+    <table class="table table-bordered" >
+        <thead class="bg-primary text-light">
+            <tr>
+                <th>Tanggal</th>
+                <th>Nama Pelanggan</th>
+                <th><span class="text-danger">Memberi</span></th>
+                <th><span class="text-success">Menerima</span></th>
+
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($hutangs as $hutang)
+            <tr>
+                <td>{{ $hutang->tanggal_pinjaman }}</td>
+                <td>{{ $hutang->nama }}</td>
+                <td>
+                    @if($hutang->jumlah_hutang > 0)
+                    <span class="text-danger">{{ $hutang->jumlah_hutang }}</span>
+                    @else
+                    {{ $hutang->jumlah_hutang }}
+                    @endif
+                </td>
+                <td>
+                    @if($piutang->jumlah_piutang< 0)
+                    <span class="text-success">{{ abs($hutang->jumlah_hutang) }}</span>
+                    @else
+                    0
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
                     </div>
-                   
-                    <table class="table table-striped">
-                        <thead class="">
-                            <tr>
-                                <th scope="col">Tanggal Peminjaman</th>
-                                <th scope="col">Tanggal Jatuh Tempo</th>
-                                <th scope="col">Nama Pemberi Pinjaman</th>
-                                <th scope="col">Nominal</th>
-                                <th scope="col">Jumlah Cicilan</th>
-                                <th scope="col">Sisa Hutang</th>
-                                <th class="text-center" scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($hutangs as $hutang)
-                                <tr>
-                                    <td>{{ $hutang->tanggal_pinjaman }}</td>
-                                    <td>{{ $hutang->tanggal_jatuh_tempo }}</td>
-                                    <td>{{ $hutang->nama }}</td>
-                                    <td>{{ $hutang->jumlah_hutang }}</td>
-                                    <td>{{ $hutang->jumlah_cicilan }}</td>
-                                    <td>{{ $hutang->sisa_hutang }}</td>
-                                    <td class="status-cell"></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        var myToast = new bootstrap.Toast(document.getElementById('myToast'));
-        myToast.show();
-      });
-        document.addEventListener("DOMContentLoaded", function() {
-            var rows = document.querySelectorAll("tbody tr");
-
-            rows.forEach(function(row) {
-                var sisaHutang = parseInt(row.querySelector("td:nth-child(6)").textContent);
-                var statusCell = row.querySelector(".status-cell");
-
-                if (sisaHutang === 0) {
-                    statusCell.textContent = "Lunas";
-                    statusCell.style.color = "green";
-                } else {
-                    statusCell.textContent = "Belum Lunas";
-                    statusCell.style.color = "red";
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                    var myToast = new bootstrap.Toast(document.getElementById('myToast'));
+                    myToast.show();
+                  });
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var rows = document.querySelectorAll("tbody tr");
+            
+                        rows.forEach(function(row) {
+                            var sisaHutang = parseInt(row.querySelector("td:nth-child(6)").textContent);
+                            var statusCell = row.querySelector(".status-cell");
+            
+                            if (sisaHutang === 0) {
+                                statusCell.textContent = "Lunas";
+                                statusCell.style.color = "green";
+                            } else {
+                                statusCell.textContent = "Belum Lunas";
+                                statusCell.style.color = "red";
+                            }
+                        });
+                    });
+                    
+                    function togglePopup() {
+                    var popup = document.getElementById("popup");
+                    if (popup.style.display === "none") {
+                        popup.style.display = "block";
+                    } else {
+                        popup.style.display = "none";
+                    }
                 }
-            });
-        });
-        
-        function togglePopup() {
-        var popup = document.getElementById("popup");
-        if (popup.style.display === "none") {
-            popup.style.display = "block";
-        } else {
-            popup.style.display = "none";
-        }
-    }
-    </script>
-@endsection
+                </script>
+            @endsection
