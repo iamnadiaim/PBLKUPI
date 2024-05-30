@@ -13,24 +13,18 @@ return new class extends Migration
     {
         Schema::create('hutangs', function (Blueprint $table) {
             $table->id();
-            // $table->bigInteger('id_kategori_hutang')->unsigned()->nullable();
             $table->unsignedBigInteger('id_usaha');
             $table->string('nama');
-            $table->string('catatan');
+            $table->string('catatan')->nullable(); // Tambahkan kolom catatan
             $table->string('tanggal_pinjaman');
             $table->string('tanggal_jatuh_tempo');
             $table->string('jumlah_hutang');
             $table->string('jumlah_cicilan');
             $table->string('sisa_hutang');
-
             $table->boolean('status')->default(false);
-            // $table->string('pembayaran')->nullable();
-            // $table->string('status')->nullable();
-
             $table->timestamps();
             
             // Add foreign key constraints if needed (example)
-            // $table->foreign('id_kategori_hutang')->references('id')->on('kategori_hutangs');
             $table->foreign('id_usaha')->references('id')->on('usaha')->onDelete('cascade');
         });
     }

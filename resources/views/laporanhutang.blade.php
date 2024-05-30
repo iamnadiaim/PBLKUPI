@@ -21,7 +21,7 @@
                     <div id="popup"
                         style="display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999; margin-top: 165px">
                         <p><a href="{{ route('hutang.index') }}">Tambah Hutang Piutang</a></p>
-                        <p><a href="#">Riwayat Pembayaran</a></p>
+                        <p><a href="{{ route('pembayaran.riwayathutang') }}">Riwayat Pembayaran</a></p>
                         <p><a href="{{ route('laporanhutang.index') }}">Laporan</a></p>
                     </div>
                 </div>
@@ -90,19 +90,18 @@
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <p class="bg-danger text-center text-light p-2 col-2 ml-auto mr-4">Total Hutang</p>
-                                    <div class="col-2"
-                                        style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
-                                        {{-- <p class="text-center mt-2 text-dark">Rp. {{ $cekSaldo->saldo }} </p> --}}
+                                    <div class="col-2" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
+                                        <p class="text-center mt-2 text-dark">Rp. {{ $totalHutang }}</p>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <p class="bg-success text-center text-light p-2 col-2 ml-auto mr-4">Total Piutang</p>
-                                    <div class="col-2"
-                                        style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
-                                        {{-- <p class="text-center mt-2 text-dark">Rp. {{ $saldoAkhir }} </p> --}}
+                                    <div class="col-2" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
+                                        <p class="text-center mt-2 text-dark">Rp. {{ $totalPiutang }}</p>
                                     </div>
                                 </div>
                             </section>
+                            
 
                         </div>
 
@@ -149,10 +148,15 @@
                                 </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr class="bg-primary text-light">
+                                <td colspan="2" class="text-center font-weight-bold">Total</td>
+                                <td class="text-danger font-weight-bold">Rp. {{ $totalHutang }}</td>
+                                <td class="text-success font-weight-bold">Rp. {{ $totalPiutang }}</td>
+                            </tr>
+                        </tfoot>
                     </table>
-
                 </div>
-
             </div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {

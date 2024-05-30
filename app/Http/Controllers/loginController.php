@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\activity;
+
 
 class loginController extends Controller
 {
@@ -23,10 +25,8 @@ class loginController extends Controller
 
         if (Auth::attempt($validate)) { 
 
-            activity()
-            ->causedBy(auth()->user())
+            activity::causedBy(auth()->user()) // Gunakan metode static causedBy dari kelas Activity
             ->log('user has been login');
-         
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
         }
