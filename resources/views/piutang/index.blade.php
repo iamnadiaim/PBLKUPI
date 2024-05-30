@@ -76,8 +76,8 @@
                                 </div>
                             @endif
                     </div>
-                    <table class="table table-striped">
-                        <thead class="">
+                    <table class="table table-striped ">
+                        <thead class="text-center bg-primary text-light">
                             <tr>
                                 <th scope="col">Tanggal Peminjaman</th>
                                 <th scope="col">Tanggal Jatuh Tempo</th>
@@ -90,9 +90,10 @@
                                 <th class="text-center" scope="col">Aksi</th>
                             </tr>
                         </thead>
+                        @if (count($piutangs) > 0)
                         <tbody>
                             @foreach($piutangs as $piutang)
-                                <tr>
+                                <tr class="text-center">
                                     
                                     <td>{{ $piutang->tanggal_pinjaman}}</td>
                                     <td>{{ $piutang->tanggal_jatuh_tempo }}</td>
@@ -115,7 +116,12 @@
                                 </tr>
                             @endforeach
                         </tbody>
+                        @endif
                     </table>
+                           
+@if (count($piutangs) == 0)
+    <p class="text-muted text-center" style="font-size: 20px;">Tidak Ada Piutang Yang Ditambahkan</p>
+@endif
                 </div>
             </div>
         </div>

@@ -85,25 +85,34 @@
                     </div>
                    
                     <table class="table table-striped">
-                        <thead class="">
-                            <tr>
-                                <th scope="col">Tanggal Pembayaran</th>
-                                <th scope="col">Nama Peminjam</th>
-                                <th scope="col">Cara Pembayaran</th>
-                                <th scope="col">Nominal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($bayarpiutang as $BayarPiutang)
-                                <tr>
-                                    <td>{{ $BayarPiutang->tanggal_pembayaran }}</td>
-                                    <td>{{ $BayarPiutang->nama }}</td>
-                                    <td>{{ $BayarPiutang->pembayaran }}</td>
-                                    <td>{{ $BayarPiutang->jumlah }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+    <thead class="col bg-primary text-light">
+        <tr>
+            <th scope="col">Tanggal Pembayaran</th>
+            <th scope="col">Nama Customer</th>
+            <th scope="col">Cara Pembayaran</th>
+            <th scope="col">Nominal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (count($bayarpiutang) > 0)
+            @foreach($bayarpiutang as $BayarPiutang)
+                <tr>
+                    <td>{{ $BayarPiutang->tanggal_pembayaran }}</td>
+                    <td>{{ $BayarPiutang->nama }}</td>
+                    <td>{{ $BayarPiutang->pembayaran }}</td>
+                    <td>{{ $BayarPiutang->jumlah }}</td>
+                </tr>
+            @endforeach
+        @else
+            <!-- Pesan "Riwayat Piutang Kosong" dipindahkan di luar tabel -->
+        @endif
+    </tbody>
+</table>
+
+@if (count($bayarpiutang) == 0)
+    <p class="text-muted text-center" style="font-size: 20px;">Riwayat Piutang Kosong</p>
+@endif
+
                 </div>
             </div>
         </div>

@@ -47,6 +47,7 @@
                 <th>Harga</th>
             </tr>
         </thead>
+        @if (count($beban) > 0)
         <tbody>
             @foreach($beban as $b)
             <tr>
@@ -58,7 +59,11 @@
             </tr>
             @endforeach
         </tbody>
+        @endif
     </table>
+    @if (count($beban) == 0)
+    <p class="text-muted text-center" style="font-size: 20px;">Tidak Ada Transaksi Yang Ditambahkan</p>
+@endif
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

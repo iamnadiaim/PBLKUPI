@@ -5,24 +5,29 @@
     @section('contents')
 
     <body>
-        <div class="container mt-4">
-            <div class="mt-3 col-4 my-3">
-                <form action=""method="GET">
-                    <label for="month">Pilih Bulan:</label>
-                    <div class="d-flex">
-                        <select class="form-control" id="month" name="month">
-                            @foreach($bulan as $bul)
-                                @if(request('month') == strtolower($bul['inggris']))
-                                    <option value="{{ strtolower($bul['inggris']) }}" selected>{{ $bul['indo'] }}</option>
-                                @else
-                                    <option value="{{ strtolower($bul['inggris']) }}">{{ $bul['indo'] }}</option>
-                                @endif
-                            @endforeach
-                        </select>  
-                        <button type="submit" class="btn btn-primary ml-3">Lihat </button>
-                    </div>
-                </form>
-            </div>
+        <div class="container mt-">
+        <div class="mt-3 col-4 my-3">
+        <form action="" method="GET">
+    <div class="d-flex justify-content-end align-items-center">
+        <select class="form-control" id="month" name="month">
+            @foreach($bulan as $bul)
+                @if(request('month') == strtolower($bul['inggris']))
+                    <option value="{{ strtolower($bul['inggris']) }}" selected>{{ $bul['indo'] }}</option>
+                @else
+                    <option value="{{ strtolower($bul['inggris']) }}">{{ $bul['indo'] }}</option>
+                @endif
+            @endforeach
+        </select>  
+        <button type="submit" class="btn btn-primary ml-3">Lihat</button>
+        
+    </div>
+</form>
+
+</div>
+<div class="col d-flex justify-content-end align-items-center">
+            <a href="{{ route('cetaklabarugi') }}" target="_blank" class="btn bg-warning text-dark">Cetak</a>
+        </div>
+
             <div class="row d-flex justify-content-center mb-5">
                 <div class="col-md-9">
                     <div class="card bg-light mb-6">

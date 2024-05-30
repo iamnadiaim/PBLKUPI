@@ -30,6 +30,9 @@
                             @else
                             <p>{{  strtoupper(\Carbon\Carbon::now()->format('F Y')) }}</p>
                             @endif
+                            <div class="col d-flex justify-content-end align-items-center margin-left">
+            <a href="{{ route('cetaklabarugi') }}" target="_blank" class="btn bg-warning text-dark">Cetak</a>
+        </div>
             </div>
         </div>
     <div class="container mt-3">
