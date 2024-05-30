@@ -16,4 +16,16 @@ class hutang extends Model
         // Kolom lain yang ingin diisi secara massal
     ];
 
+    // Method to count the number of installments paid
+    public function getCicilanTerbayarAttribute()
+    {
+        return $this->bayarHutangs()->count();
+    }
+
+    // Relation to BayarHutang
+    public function bayarHutangs()
+    {
+        return $this->hasMany(BayarHutang::class, 'id_hutang');
+    }
+
 }

@@ -99,7 +99,7 @@
                                     <td>{{ $piutang->nama }}</td>
                                     <td>{{ $piutang->catatan }}</td>
                                     <td>{{ $piutang->jumlah_piutang }}</td>
-                                    <td>{{ $piutang->jumlah_cicilan }}</td>
+                                    <td>{{ $piutang->cicilan_terbayar }}/{{ $piutang->jumlah_cicilan }}</td>
                                     <td>{{ $piutang->sisa_piutang }}</td>
                                     <td class="status-cell">
                                         @if($piutang->status)
@@ -107,7 +107,6 @@
                                         @else
                                             Belum Lunas
                                         @endif
-
                                     </td>
                                     <td class="text-center">
                                        <!--  <a href="{{ route('pembayaran.piutang', $piutang->id) }}" class="btn btn-primary">Bayar</a> -->
@@ -123,17 +122,18 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-        var myToast = new bootstrap.Toast(document.getElementById('myToast'));
-        myToast.show();
-      });
+            var myToast = new bootstrap.Toast(document.getElementById('myToast'));
+            myToast.show();
+        });
+
         document.addEventListener("DOMContentLoaded", function() {
             var rows = document.querySelectorAll("tbody tr");
 
             rows.forEach(function(row) {
-                var sisaHutang = parseInt(row.querySelector("td:nth-child(6)").textContent);
+                var sisaPiutang = parseInt(row.querySelector("td:nth-child(7)").textContent);
                 var statusCell = row.querySelector(".status-cell");
 
-                if (sisaHutang === 0) {
+                if (sisaPiutang === 0) {
                     statusCell.textContent = "Lunas";
                     statusCell.style.color = "green";
                 } else {
@@ -142,14 +142,14 @@
                 }
             });
         });
-        
+
         function togglePopup() {
-        var popup = document.getElementById("popup");
-        if (popup.style.display === "none") {
-            popup.style.display = "block";
-        } else {
-            popup.style.display = "none";
+            var popup = document.getElementById("popup");
+            if (popup.style.display === "none") {
+                popup.style.display = "block";
+            } else {
+                popup.style.display = "none";
+            }
         }
-    }
     </script>
 @endsection

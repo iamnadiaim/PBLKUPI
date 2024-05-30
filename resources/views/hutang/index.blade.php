@@ -96,7 +96,7 @@
                                     <td>{{ $hutang->nama }}</td>
                                     <td>{{ $hutang->catatan }}</td>
                                     <td>{{ $hutang->jumlah_hutang }}</td>
-                                    <td>{{ $hutang->jumlah_cicilan }}</td>
+                                    <td>{{ $hutang->cicilan_terbayar }}/{{ $hutang->jumlah_cicilan }}</td>
                                     <td>{{ $hutang->sisa_hutang }}</td>
                                     <td class="status-cell">
                                         @if($hutang->status)

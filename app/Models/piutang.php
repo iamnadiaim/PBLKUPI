@@ -15,4 +15,16 @@ class piutang extends Model
         // Kolom lain yang ingin diisi secara massal
     ];
 
+      // Method to count the number of installments paid
+      public function getCicilanTerbayarAttribute()
+      {
+          return $this->bayarPiutangs()->count();
+      }
+  
+      // Relation to BayarPiutang
+      public function bayarPiutangs()
+      {
+          return $this->hasMany(BayarPiutang::class, 'id_piutang');
+      }
+
 }

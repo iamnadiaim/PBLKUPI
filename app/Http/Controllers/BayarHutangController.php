@@ -44,7 +44,6 @@ class BayarHutangController extends Controller
         $sisa_hutang = $hutang->sisa_hutang - $request->jumlah;
         $hutang->sisa_hutang = $sisa_hutang;
 
-        $hutang->jumlah_cicilan -= 1;
         if ($sisa_hutang <= 0) {
             $hutang->status = true; // Mengubah status menjadi true jika lunas
         }

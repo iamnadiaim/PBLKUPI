@@ -76,4 +76,5 @@
     myToast.show();
   });
 </script>
+
 @endsection

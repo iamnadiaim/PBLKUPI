@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\BayarPiutang;
@@ -22,7 +21,6 @@ class BayarPiutangController extends Controller
         return view('pembayaran.piutang', compact('piutang'));
     }
 
-
     public function store(Request $request)
     {
         // Validasi input
@@ -35,10 +33,6 @@ class BayarPiutangController extends Controller
 
         $piutang = Piutang::where('id', $request->id)->first();
 
-        if (!$piutang) {
-            return redirect()->back()->with('error', 'Nama piutang tidak ditemukan');
-        }
-
         if ($piutang->jumlah_cicilan <= 0) {
             return redirect()->back()->with('error', 'Jumlah cicilan sudah habis');
         }
@@ -50,7 +44,6 @@ class BayarPiutangController extends Controller
         $sisa_piutang = $piutang->sisa_piutang - $request->jumlah;
         $piutang->sisa_piutang = $sisa_piutang;
 
-        $piutang->jumlah_cicilan -= 1;
         if ($sisa_piutang <= 0) {
             $piutang->status = true; // Mengubah status menjadi true jika lunas
         }
