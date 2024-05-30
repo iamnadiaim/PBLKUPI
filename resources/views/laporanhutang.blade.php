@@ -90,13 +90,13 @@
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <p class="bg-danger text-center text-light p-2 col-2 ml-auto mr-4">Total Hutang</p>
-                                    <div class="col-2" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
+                                    <div class="col-4" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
                                         <p class="text-center mt-2 text-dark">Rp. {{ $totalHutang }}</p>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <p class="bg-success text-center text-light p-2 col-2 ml-auto mr-4">Total Piutang</p>
-                                    <div class="col-2" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
+                                    <div class="col-4" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
                                         <p class="text-center mt-2 text-dark">Rp. {{ $totalPiutang }}</p>
                                     </div>
                                 </div>
