@@ -65,42 +65,48 @@
                         <div class="d-flex justify-content-between">
                             <div>
 
-                                <div class="income-report">
-                                    <div class="d-flex">
-                                        <div class="d-flex mr-2">
-                                            <label for="periode" class="mr-1">Periode:</label>
-                                            <input type="date" id="periode" value="{{ $selectedDate->format('Y-m-d') }}"
-                                                min="{{ $selectedDate->subMonth()->format('Y-m-d') }}"
-                                                max="{{ $selectedDate->endOfMonth()->format('Y-m-d') }}">
-                                        </div>
-                                        <div class="">
-                                            <button onclick="ubahPeriode()">Ubah</button>
-                                        </div>
-                                    </div>
-                                </div>
-    
-                                <div class="income-summary d-flex">
-                                    <div class="income-label mr-1">Tanggal Laporan:</div>
-                                    <div class="income-value">{{ $selectedDate->format('d F Y') }}</div>
-                                </div>
+                            <div class="income-report">
+            <form action="" method="GET">
+                <label for="month">Pilih Bulan:</label>
+                <div class="d-flex">
+                    <select class="form-control" id="month" name="month">
+                        @foreach($bulan as $bul)
+                            @if(request('month') == strtolower($bul['inggris']))
+                                <option value="{{ strtolower($bul['inggris']) }}" selected>{{ $bul['indo'] }}</option>
+                            @else
+                                <option value="{{ strtolower($bul['inggris']) }}">{{ $bul['indo'] }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                    <button type="submit" class="btn btn-primary ml-3">Lihat</button>
+                </div>
+            </form>
+            <div class="income-label mr-1 d-flex mt-3">
+                <div class="income-label mr-5 ">Periode Laporan:</div>
+                @if (request('month'))
+                <p>{{ strtoupper(request('month')) }} {{ \Carbon\Carbon::now()->format('Y') }}</p>
+                @else
+                <p>{{  strtoupper(\Carbon\Carbon::now()->format('F Y')) }}</p>
+                @endif
+            </div>
                             </div>
                             <section class="container">
-                                <div class="d-flex justify-content-end" style="margin-bottom: 10px;">
-                                    <a href="{{ route('print-pegawai') }}" target="_blank" class="btn btn-warning">Cetak</a>
-                                </div>
-                                <div class="d-flex justify-content-end">
-                                    <p class="bg-danger text-center text-light p-2 col-2 ml-auto mr-4">Total Hutang</p>
-                                    <div class="col-4" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
-                                        <p class="text-center mt-2 text-dark">Rp. {{ $totalHutang }}</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-end">
-                                    <p class="bg-success text-center text-light p-2 col-2 ml-auto mr-4">Total Piutang</p>
-                                    <div class="col-4" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
-                                        <p class="text-center mt-2 text-dark">Rp. {{ $totalPiutang }}</p>
-                                    </div>
-                                </div>
-                            </section>
+            <div class="d-flex justify-content-end mb-2">
+                <a href="{{ route('print-pegawai') }}" target="_blank" class="btn btn-warning">Cetak</a>
+            </div>
+            <div class="d-flex justify-content-end">
+                <p class="bg-danger text-center text-light p-2 col-2 ml-auto mr-4">Total Hutang</p>
+                <div class="col-3" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
+                    <p class="text-left mt-2 text-dark">Rp. {{ $totalHutang }}</p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <p class="bg-success text-center text-light p-2 col-2 ml-auto mr-4">Total Piutang</p>
+                <div class="col-3" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
+                    <p class="text-left mt-2 text-dark">Rp. {{ $totalPiutang }}</p>
+                </div>
+            </div>
+        </section>
                             
 
                         </div>
