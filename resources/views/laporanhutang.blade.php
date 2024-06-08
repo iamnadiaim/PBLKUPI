@@ -81,8 +81,8 @@
                     <button type="submit" class="btn btn-primary ml-3">Lihat</button>
                 </div>
             </form>
-            <div class="income-label mr-1 d-flex mt-4">
-                <div class="income-label mr-5 ">Laporan:</div>
+            <div class="income-label mr-1 d-flex mt-3">
+                <div class="income-label mr-5 ">Periode Laporan:</div>
                 @if (request('month'))
                 <p>{{ strtoupper(request('month')) }} {{ \Carbon\Carbon::now()->format('Y') }}</p>
                 @else
@@ -128,7 +128,7 @@
                                     <td>{{ $hutang->nama }}</td>
                                     <td>
                                         @if ($hutang->jumlah_hutang > 0)
-                                            <span class="text-danger">{{ $hutang->jumlah_hutang }}</span>
+                                            <span class="text-danger">Rp.{{ number_format( $hutang->jumlah_hutang, '0','.','.') }}</span>
                                         @else
                                             {{ $hutang->jumlah_hutang }}
                                         @endif
@@ -146,7 +146,7 @@
                                     <!-- Kolom "Memberi" selalu menampilkan 0 karena data jumlah hutang hanya ditampilkan di loop sebelumnya -->
                                     <td>
                                         @if ($piutang->jumlah_piutang > 0)
-                                            <span class="text-success">{{ $piutang->jumlah_piutang }}</span>
+                                <span class="text-success">Rp.{{ number_format( $piutang->jumlah_piutang, '0','.','.') }}</span>
                                         @else
                                             {{ $piutang->jumlah_piutang }}
                                         @endif
@@ -154,14 +154,21 @@
                                 </tr>
                             @endforeach
                         </tbody>
+            @endif
+            @if (count($hutangs) > 0 || count($piutangs) > 0)
                         <tfoot>
                             <tr class="bg-primary text-light">
                                 <td colspan="2" class="text-center font-weight-bold">Total</td>
-                                <td class="text-danger font-weight-bold">Rp. {{ $totalHutang }}</td>
-                                <td class="text-success font-weight-bold">Rp. {{ $totalPiutang }}</td>
+                    <td class="text-danger font-weight-bold">Rp. {{ number_format($totalHutang, '0','.','.') }}</td>
+                    <td class="text-success font-weight-bold">Rp. {{ number_format( $totalPiutang, '0','.','.') }}</td>
                             </tr>
                         </tfoot>
+            @endif
                     </table>
+                </div>
+    @if (count($hutangs) == 0 || count($piutangs) == 0)
+    <p class="text-muted text-center" style="font-size: 20px;">Laporan Kosong</p>
+@endif
                 </div>
             </div>
             <script>
