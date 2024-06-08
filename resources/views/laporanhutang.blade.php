@@ -121,51 +121,51 @@
                                 <th><span class="text-success">Menerima</span></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($hutangs as $hutang)
-                                <tr>
-                                    <td>{{ $hutang->tanggal_pinjaman }}</td>
-                                    <td>{{ $hutang->nama }}</td>
-                                    <td>
-                                        @if ($hutang->jumlah_hutang > 0)
-                                            <span class="text-danger">Rp.{{ number_format( $hutang->jumlah_hutang, '0','.','.') }}</span>
-                                        @else
-                                            {{ $hutang->jumlah_hutang }}
-                                        @endif
-                                    </td>
-                                    <td>0</td>
-                                    <!-- Kolom "Menerima" selalu menampilkan 0 karena data jumlah piutang hanya ditampilkan di loop berikutnya -->
-                                </tr>
-                            @endforeach
+            <tbody>
+                @foreach ($hutangs as $hutang)
+                    <tr>
+                        <td>{{ $hutang->tanggal_pinjaman }}</td>
+                        <td>{{ $hutang->nama }}</td>
+                        <td>
+                            @if ($hutang->jumlah_hutang > 0)
+                                <span class="text-danger">Rp.{{ number_format( $hutang->jumlah_hutang, '0','.','.') }}</span>
+                            @else
+                                {{ $hutang->jumlah_hutang }}
+                            @endif
+                        </td>
+                        <td>0</td>
+                        <!-- Kolom "Menerima" selalu menampilkan 0 karena data jumlah piutang hanya ditampilkan di loop berikutnya -->
+                    </tr>
+                @endforeach
 
-                            @foreach ($piutangs as $piutang)
-                                <tr>
-                                    <td>{{ $piutang->tanggal_pinjaman }}</td>
-                                    <td>{{ $piutang->nama }}</td>
-                                    <td>0</td>
-                                    <!-- Kolom "Memberi" selalu menampilkan 0 karena data jumlah hutang hanya ditampilkan di loop sebelumnya -->
-                                    <td>
-                                        @if ($piutang->jumlah_piutang > 0)
+                @foreach ($piutangs as $piutang)
+                    <tr>
+                        <td>{{ $piutang->tanggal_pinjaman }}</td>
+                        <td>{{ $piutang->nama }}</td>
+                        <td>0</td>
+                        <!-- Kolom "Memberi" selalu menampilkan 0 karena data jumlah hutang hanya ditampilkan di loop sebelumnya -->
+                        <td>
+                            @if ($piutang->jumlah_piutang > 0)
                                 <span class="text-success">Rp.{{ number_format( $piutang->jumlah_piutang, '0','.','.') }}</span>
-                                        @else
-                                            {{ $piutang->jumlah_piutang }}
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                            @else
+                                {{ $piutang->jumlah_piutang }}
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
             @endif
             @if (count($hutangs) > 0 || count($piutangs) > 0)
-                        <tfoot>
-                            <tr class="bg-primary text-light">
-                                <td colspan="2" class="text-center font-weight-bold">Total</td>
+            <tfoot>
+                <tr class="bg-primary text-light">
+                    <td colspan="2" class="text-center font-weight-bold">Total</td>
                     <td class="text-danger font-weight-bold">Rp. {{ number_format($totalHutang, '0','.','.') }}</td>
                     <td class="text-success font-weight-bold">Rp. {{ number_format( $totalPiutang, '0','.','.') }}</td>
-                            </tr>
-                        </tfoot>
+                </tr>
+            </tfoot>
             @endif
-                    </table>
-                </div>
+        </table>
+    </div>
     @if (count($hutangs) == 0 || count($piutangs) == 0)
     <p class="text-muted text-center" style="font-size: 20px;">Laporan Kosong</p>
 @endif
