@@ -81,16 +81,17 @@
                     <button type="submit" class="btn btn-primary ml-3">Lihat</button>
                 </div>
             </form>
-            <div class="income-label mr-1 d-flex mt-3">
-                <div class="income-label mr-5 ">Periode Laporan:</div>
+            <div class="income-label mr-1 d-flex mt-4">
+                <div class="income-label mr-5 ">Laporan:</div>
                 @if (request('month'))
                 <p>{{ strtoupper(request('month')) }} {{ \Carbon\Carbon::now()->format('Y') }}</p>
                 @else
                 <p>{{  strtoupper(\Carbon\Carbon::now()->format('F Y')) }}</p>
                 @endif
             </div>
-                            </div>
-                            <section class="container">
+            </div>
+</div>
+            <section class="container">
             <div class="d-flex justify-content-end mb-2">
                 <a href="{{ route('print-pegawai') }}" target="_blank" class="btn btn-warning">Cetak</a>
             </div>
@@ -107,8 +108,7 @@
                 </div>
             </div>
         </section>
-                            
-
+</div>
                         </div>
 
                     </div>
