@@ -121,7 +121,7 @@
                                 <th><span class="text-success">Menerima</span></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <<tbody>
                             @foreach ($hutangs as $hutang)
                                 <tr>
                                     <td>{{ $hutang->tanggal_pinjaman }}</td>
