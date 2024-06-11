@@ -121,22 +121,22 @@
                                 <th><span class="text-success">Menerima</span></th>
                             </tr>
                         </thead>
-            <tbody>
-                @foreach ($hutangs as $hutang)
-                    <tr>
-                        <td>{{ $hutang->tanggal_pinjaman }}</td>
-                        <td>{{ $hutang->nama }}</td>
-                        <td>
-                            @if ($hutang->jumlah_hutang > 0)
-                                <span class="text-danger">Rp.{{ number_format( $hutang->jumlah_hutang, '0','.','.') }}</span>
-                            @else
-                                {{ $hutang->jumlah_hutang }}
-                            @endif
-                        </td>
-                        <td>0</td>
-                        <!-- Kolom "Menerima" selalu menampilkan 0 karena data jumlah piutang hanya ditampilkan di loop berikutnya -->
-                    </tr>
-                @endforeach
+                        <tbody>
+                            @foreach ($hutangs as $hutang)
+                                <tr>
+                                    <td>{{ $hutang->tanggal_pinjaman }}</td>
+                                    <td>{{ $hutang->nama }}</td>
+                                    <td>
+                                        @if ($hutang->jumlah_hutang > 0)
+                                            <span class="text-danger">Rp.{{ number_format( $hutang->jumlah_hutang, '0','.','.') }}</span>
+                                        @else
+                                            {{ $hutang->jumlah_hutang }}
+                                        @endif
+                                    </td>
+                                    <td>0</td>
+                                    <!-- Kolom "Menerima" selalu menampilkan 0 karena data jumlah piutang hanya ditampilkan di loop berikutnya -->
+                                </tr>
+                            @endforeach
 
                 @foreach ($piutangs as $piutang)
                     <tr>
