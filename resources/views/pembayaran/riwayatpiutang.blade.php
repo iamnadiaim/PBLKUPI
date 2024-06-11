@@ -111,6 +111,10 @@
 @if (count($bayarpiutang) == 0)
     <p class="text-muted text-center" style="font-size: 20px;">Riwayat Piutang Kosong</p>
 @endif
+<<<<<<< HEAD
+=======
+
+>>>>>>> 42d3700fb6cf23c14b4480d5e9895811202107e9
                 </div>
             </div>
         </div>

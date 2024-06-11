@@ -47,6 +47,7 @@
                 <th>Total</th>
             </tr>
         </thead>
+        @if (count($pendapatan) > 0)
         <tbody>
             @foreach($pendapatan as $p)
             <tr>
@@ -60,7 +61,12 @@
             </tr>
             @endforeach
         </tbody>
+        @endif
     </table>
+               
+@if (count($pendapatan) == 0)
+    <p class="text-muted text-center" style="font-size: 20px;">Tidak Ada Transaksi Yang Ditambahkan</p>
+@endif
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

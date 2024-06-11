@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayatbeban',[RiwayatController::class, 'indexBeban'])->name('riwayatbeban');
     
     Route::get('/labarugi', [LabaRugiController::class, 'hitungLabaRugi'])->name('labarugi.index');
+    Route::get('/print-labarugi',  [LabaRugiController::class, 'print'])->name('cetaklabarugi');
     Route::get('/aruskas', [ArusKasController::class, 'index'])->name('aruskas.index');
     Route::get('/pegawais/laporan', [SignupController::class, 'laporan'])->name('pegawais.laporan');
     

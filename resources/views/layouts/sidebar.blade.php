@@ -41,7 +41,7 @@
 <li class="nav-item">
   <a class="nav-link" href="{{ route('riwayat.index') }}">
     <i class="fas fa-book"></i>
-    <span>Riwayat</span></a>
+    <span>Riwayat Transaksi</span></a>
   </li>
   @if (auth()->user()->role->nama_role == 'admin')
 <li class="nav-item">
