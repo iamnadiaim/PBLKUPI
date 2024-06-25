@@ -53,10 +53,15 @@
         <a class="dropdown-item" style="text-align: center;">
           <b>Notifikasi</b>
         </a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="">
-          Logout
-        </a>
+        <!-- testing -->
+        <div>
+          @foreach(auth()->user()->usaha->unreadNotifications as $notif)
+            <p>{{ $notif->data['message'] ?? 'No message available' }}</p>
+          @endforeach
+        </div>
+
+        <div class="dropdown-divider">
+        </div>
       </div>
     </li>
     @endif

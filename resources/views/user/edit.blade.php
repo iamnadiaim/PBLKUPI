@@ -12,7 +12,8 @@
         <div class="col-8eb">
             <form action="{{route('editProfile')}}" method="POST" enctype="multipart/form-data">
                 @method('put')
-                @csrf
+                @
+                csrf
 
                 <div class="mb-3">
                     <label for="nama" class="form-label">Nama:</label>

@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Models\hutang;
+use App\Models\piutang;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,9 +16,10 @@ class PeringatanBayar extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public $hutang;
+    public function __construct(hutang $hutang)
     {
-        //
+        $this->hutang = $hutang;
     }
 
     /**
@@ -26,7 +29,7 @@ class PeringatanBayar extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -48,7 +51,7 @@ class PeringatanBayar extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'message' =>"Assalamualikum " . $this->hutang->name . " Jatuh Tempo Kurang Dari 1 Hari",
         ];
     }
 }

@@ -26,7 +26,7 @@ class loginController extends Controller
         if (Auth::attempt($validate)) { 
 
             activity::causedBy(auth()->user()) // Gunakan metode static causedBy dari kelas Activity
-            ->log('user has been login');
+            ->log('login');
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
         }
