@@ -86,27 +86,32 @@
                             @endif
 
                     </div>
-                   
                     <table class="table table-striped">
-                        <thead class="">
-                            <tr>
-                                <th scope="col">Tanggal Pembayaran</th>
-                                <th scope="col">Nama Pemberi Pinjaman</th>
-                                <th scope="col">Cara Pembayaran</th>
-                                <th scope="col">Nominal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($bayarhutang as $BayarHutang)
-                                <tr>
-                                    <td>{{ $BayarHutang->tanggal_pembayaran }}</td>
-                                    <td>{{ $BayarHutang->nama }}</td>
-                                    <td>{{ $BayarHutang->pembayaran }}</td>
-                                    <td>{{ $BayarHutang->jumlah }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+    <thead class=" col bg-primary text-light">
+        <tr>
+            <th scope="col">Tanggal Pembayaran</th>
+            <th scope="col">Nama Pemberi Pinjaman</th>
+            <th scope="col">Cara Pembayaran</th>
+            <th scope="col">Nominal</th>
+        </tr>
+    </thead>
+    @if (count($bayarhutang) > 0)
+        <tbody>
+            @foreach($bayarhutang as $BayarHutang)
+                <tr>
+                    <td>{{ $BayarHutang->tanggal_pembayaran }}</td>
+                    <td>{{ $BayarHutang->nama }}</td>
+                    <td>{{ $BayarHutang->pembayaran }}</td>
+                    <td>{{ $BayarHutang->jumlah }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    @endif
+</table>
+
+@if (count($bayarhutang) == 0)
+    <p class="text-muted text-center" style="font-size: 20px;">Riwayat Hutang Kosong</p>
+@endif
                 </div>
             </div>
         </div>
