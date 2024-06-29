@@ -21,6 +21,6 @@ class Produk extends Model
     }
     public function jenisBarang()
     {
-        return $this->belongsTo(jenisBarang::class, 'id_jenis_barang','id');
+        return $this->belongsTo(jenisBarang::class, 'id_jenis_barang');
     }
 }

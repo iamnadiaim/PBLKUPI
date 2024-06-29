@@ -11,39 +11,47 @@ use Illuminate\Support\Facades\Auth;
 
 class ProdukController extends Controller
 {
-    public function index():View
+    public function index(Request $request): View
     {
-        $produks = Produk::where('id_usaha', auth()->user()->id_usaha)->get(); // Mengambil semua produk dari database
+        // Mengambil id_jenis_barang dari request
+        $selectedJenisBarangId = $request->input('id_jenis_barang');
+
+        $produks = Produk::where('id_usaha', auth()->user()->id_usaha)
+            ->when($selectedJenisBarangId, function ($query, $selectedJenisBarangId) {
+                return $query->where('id_jenis_barang', $selectedJenisBarangId);
+            })
+            ->get(); // Mengambil semua produk dari database yang sesuai dengan id_jenis_barang
+
         $jenis = jenisBarang::where('id_usaha', Auth::user()->usaha->id)
             ->orWhere('id_usaha', null)
             ->get();
-        return view('produk/index', compact('produks','jenis')); // Mengirimkan produk ke dalam view
+
+        return view('produk.index', compact('produks', 'jenis', 'selectedJenisBarangId')); // Mengirimkan produk ke dalam view
     }
 
     public function show($id): View
     {
         $produk = Produk::findOrFail($id); // Mengambil produk berdasarkan ID
-        return view('produks.show', compact('produk')); // Menampilkan detail produk ke dalam view
-        // return view('produk.tampilan', compact('produk'));
+        return view('produk.show', compact('produk')); // Menampilkan detail produk ke dalam view
     }
 
-    public function laporan(){
-        // dd("tes");
-         $produks = Produk::all(); 
-        return view('produk.tampilan',compact('produks'));
+    public function laporan(): View
+    {
+        $produks = Produk::all(); 
+        return view('produk.tampilan', compact('produks'));
     }
 
-    public function cetak(){
-        // dd("tes");
-         $produks = Produk::all(); 
-        return view('produk.cetak',compact('produks'));
+    public function cetak(): View
+    {
+        $produks = Produk::all(); 
+        return view('produk.cetak', compact('produks'));
     }
 
-    public function createproduk()
+    public function createproduk(): View
     {
         $jenis_barangs = jenisBarang::where('id_usaha', Auth::user()->usaha->id)
-        ->orWhere('id_usaha', null)
-        ->get();
+            ->orWhere('id_usaha', null)
+            ->get();
 
         // Logika untuk menampilkan formulir pembuatan produk
         return view('produk.create', compact('jenis_barangs')); // Gantilah 'produk.create' dengan nama view yang sesuai
@@ -64,37 +72,37 @@ class ProdukController extends Controller
 
         $validatedData['id_usaha'] = auth()->user()->id_usaha;
         
-        
-        $existingProduk = Produk::where('nama_produk', $request->input('nama_produk'))->where('id_usaha', auth()->user()->id_usaha)->first();
         // Periksa apakah produk dengan nama dan ukuran yang sama sudah ada
         $existingProduk = Produk::where('nama_produk', $request->input('nama_produk'))
-        ->where('ukuran', $request->input('ukuran'))
-        ->where('id_usaha', auth()->user()->id_usaha)
-        ->first();
+            ->where('ukuran', $request->input('ukuran'))
+            ->where('id_usaha', auth()->user()->id_usaha)
+            ->first();
 
         if ($existingProduk) {
             // Update the existing product's information if needed
             $existingProduk->update([
-                // 'harga' => $existingProduk->harga + $request->input('harga'), // Add prices if needed
                 'stok' => $existingProduk->stok + $request->input('stok'),    // Add stock if needed
             ]);
-    
+
             return redirect()->route('produks.index')
                 ->with('success', 'Produk berhasil diperbarui'); // Redirect ke halaman detail produk dengan pesan sukses
         } else {
             // Create a new product if no existing product is found
             Produk::create($validatedData);
-    
+
             return redirect()->route('produks.index')
                 ->with('success', 'Produk berhasil ditambahkan'); // Redirect ke halaman detail produk dengan pesan sukses
         }
-
     }
 
-    public function edit($id):View
+    public function edit($id): View
     {
         $produk = Produk::findOrFail($id); // Mengambil produk berdasarkan ID
-        return view('produk.edit', compact ('produk')); // Menampilkan formulir untuk mengedit produk
+        $jenis_barangs = jenisBarang::where('id_usaha', Auth::user()->usaha->id)
+            ->orWhere('id_usaha', null)
+            ->get();
+
+        return view('produk.edit', compact('produk', 'jenis_barangs')); // Menampilkan formulir untuk mengedit produk
     }
 
     public function update(Request $request, $id): RedirectResponse
@@ -104,11 +112,12 @@ class ProdukController extends Controller
             'nama_produk' => 'required',
             'ukuran' => 'required',
             'harga' => 'required|numeric',
-           ]);
+            'id_jenis_barang' => 'required'
+        ]);
 
         // Perbarui data produk yang ada di dalam database
         $produk = Produk::findOrFail($id);
-        $produk->update($request->all());
+        $produk->update($validatedData);
 
         return redirect()->route('produks.index')
             ->with('success', 'Produk berhasil diperbarui'); // Redirect ke halaman detail produk dengan pesan sukses
@@ -122,5 +131,4 @@ class ProdukController extends Controller
 
         return redirect()->back()->with('destroy', 'Produk berhasil dihapus'); // Redirect ke halaman daftar produk dengan pesan sukses
     }
-    
 }
