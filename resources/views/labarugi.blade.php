@@ -25,7 +25,7 @@
 
 </div>
 <div class="col d-flex justify-content-end align-items-center">
-            <a href="{{ route('cetaklabarugi') }}" target="_blank" class="btn bg-warning text-dark">Cetak</a>
+            <a href="{{ route('cetaklabarugi', ["month" => request('month')]) }}" target="_blank" class="btn bg-warning text-dark">Cetak</a>
         </div>
 
             <div class="row d-flex justify-content-center mb-5">

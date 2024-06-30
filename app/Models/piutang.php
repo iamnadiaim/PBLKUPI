@@ -27,4 +27,8 @@ class piutang extends Model
           return $this->hasMany(BayarPiutang::class, 'id_piutang');
       }
 
+      public function usaha()
+      {
+          return $this->belongsTo(Usaha::class,'id_usaha');
+      }
 }

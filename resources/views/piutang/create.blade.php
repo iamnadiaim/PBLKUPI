@@ -24,12 +24,12 @@
       <form action="{{ route('piutang.store') }}" method="post">
         @csrf
         <div>
-          <label for="tanggal_pinjaman">Tanggal Pinjaman :</label><br>
-          <input type="date" placeholder="Tanggal Pinjaman" required name="tanggal_pinjaman" value="{{ old('tanggal_pinjaman') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+          <label for="tanggal_pinjaman">Tanggal Peminjaman :</label><br>
+          <input type="date" placeholder="Tanggal Pinjaman" required name="tanggal_pinjaman" value="{{ old('tanggal_pinjaman') ?? \Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
           @error('tanggal_pinjaman')
-            <p class="text-red">Tanggal pinjaman tidak boleh lebih dari hari ini.</p>
+              <p class="text-red">Tanggal pinjaman tidak boleh lebih dari hari ini.</p>
           @enderror
-        </div>
+      </div>
 
         <div>
           <label for="tanggal_jatuh_tempo">Tanggal Jatuh Tempo :</label><br>

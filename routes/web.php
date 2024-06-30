@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/labarugi', [LabaRugiController::class, 'hitungLabaRugi'])->name('labarugi.index');
     Route::get('/print-labarugi',  [LabaRugiController::class, 'print'])->name('cetaklabarugi');
     Route::get('/aruskas', [ArusKasController::class, 'index'])->name('aruskas.index');
+    Route::get('/cetak-arus-kas', [ArusKasController::class, 'print'])->name('cetakaruskas');
     Route::get('/pegawais/laporan', [SignupController::class, 'laporan'])->name('pegawais.laporan');
     
     Route::resource('/saldo', SaldoController::class);
@@ -100,7 +101,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/bayarpiutang/create/{id}', [BayarPiutangController::class, 'create'])->name('bayarpiutang.create');
     Route::post('/bayarpiutang/store', [BayarPiutangController::class, 'store'])->name('bayarpiutang.store');
     Route::get('/laporanhutang', [laporanhpController::class, 'lihatHutangPiutang'])->name('laporanhutang.index'); 
-    
+    Route::get('/laporan-hutang-piutang/print', [laporanhpController::class, 'print'])->name('print-laporan');
+
  
 });
 Route::get('/riwayat',[RiwayatController::class, 'index'])->name('riwayat.index');

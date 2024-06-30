@@ -106,23 +106,32 @@ class ProdukController extends Controller
     }
 
     public function update(Request $request, $id): RedirectResponse
-    {
-        // Validasi data yang diterima dari formulir
-        $validatedData = $request->validate([
-            'nama_produk' => 'required',
-            'ukuran' => 'required',
-            'harga' => 'required|numeric',
-            'id_jenis_barang' => 'required'
-        ]);
+{
+    // Validasi data yang diterima dari formulir
+    $validatedData = $request->validate([
+        'nama_produk' => 'required',
+        'ukuran' => 'required',
+        'harga' => 'required|numeric',
+        'stok' => 'required|numeric|min:0' // Validasi stok baru
+    ]);
+    
+    // Perbarui data produk yang ada di dalam database
+    $produk = Produk::findOrFail($id);    
+    
+    // Hitung stok baru dengan menambahkan stok lama
+    $stokBaru = $produk->stok + $request->input('stok');
+    
+    // Update data produk
+    $produk->update([
+        'nama_produk' => $validatedData['nama_produk'],
+        'ukuran' => $validatedData['ukuran'],
+        'harga' => $validatedData['harga'],
+        'stok' => $stokBaru // Update stok dengan nilai baru yang ditambahkan
+    ]);
 
-        // Perbarui data produk yang ada di dalam database
-        $produk = Produk::findOrFail($id);
-        $produk->update($validatedData);
-
-        return redirect()->route('produks.index')
-            ->with('success', 'Produk berhasil diperbarui'); // Redirect ke halaman detail produk dengan pesan sukses
-    }
-
+    return redirect()->route('produks.index')
+        ->with('success', 'Produk berhasil diperbarui'); // Redirect ke halaman detail produk dengan pesan sukses
+}
     public function destroy($id): RedirectResponse
     {
         // Hapus data produk dari database

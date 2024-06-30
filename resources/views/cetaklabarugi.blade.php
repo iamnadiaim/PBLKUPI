@@ -1,83 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Laba Rugi</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-
-        th {
+            margin: 0;
+            padding: 20px;
             background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            margin: 10px 0;
+        }
+        h1 {
+            font-size: 18px;
+            font-weight: normal;
+        }
+        h2 {
+            font-size: 16px;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .header {
+            background-color: #4472C4;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+        }
+        td {
+            padding: 5px 10px;
+        }
+        .total {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-
-<div class="row d-flex justify-content-center mb-5">
-    <div class="col-md-9">
-        <div class="card-header text-center border">
-    <div class="mx-auto" style="width: fit-content;">
-        <h2>TOKO {{ $namaUsaha }}</h2>
+    <div class="container">
+        <h1>TOKO {{ $namaUsaha }}</h1>
         <h2>Laporan Laba Rugi</h2>
-    </div>
-
-
-    <div class="card-body mx-auto px-5">
-    <table class="mx-auto">
-        <tr>
-            <th>Pendapatan</th>
-        </tr>
-        <tr>
-            <td>Total Pendapatan</td>
-            <td>{{ $totalPendapatan }}</td>
-        </tr>
-    </table>
-
-    <table class="mx-auto">
-        <tr>
-            <th>Pengeluaran</th>
-        </tr>
-        @foreach ($kategoris as $kategori)
+        <h2>{{ strtoupper(request('month', \Carbon\Carbon::now()->format('F'))) }} {{ \Carbon\Carbon::now()->format('Y') }}</h2>
+        
+        <table>
+            <tr>
+                <td class="header" colspan="2">Pendapatan</td>
+            </tr>
+            <tr>
+                <td>Total Pendapatan</td>
+                <td>{{ number_format($totalPendapatan, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td class="header" colspan="2">Pengeluaran</td>
+            </tr>
+            @foreach ($kategoris as $kategori)
             <tr>
                 <td>{{ $kategori->nama }}</td>
-                <td>{{ $kategori->bebans->sum('harga') }}</td>
+                <td>{{ number_format($kategori->bebans->sum('harga'), 0, ',', '.') }}</td>
             </tr>
-        @endforeach
-        <tr>
-            <td>Total Beban</td>
-            <td>{{ $totalBeban }}</td>
-        </tr>
-    </table>
-
-    <table class="mx-auto">
-        <tr>
-            <td>
-                @if ($labaRugi >= 0)
-                    Laba
-                @else
-                    Rugi
-                @endif
-            </td>
-            <td>{{ $labaRugi }}</td>
-        </tr>
-    </table>
-</div>
-
-        </div>
+            @endforeach
+            <tr>
+                <td class="header" colspan="2">Total Beban</td>
+            </tr>
+            <tr>
+                <td class="total">Total Beban</td>
+                <td>{{ number_format($totalBeban, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td class="total">
+                    @if ($labaRugi >= 0)
+                        Laba Bersih
+                    @else
+                        Rugi Bersih
+                    @endif
+                </td>
+                <td>{{ number_format(abs($labaRugi), 0, ',', '.') }}</td>
+            </tr>
+        </table>
     </div>
-</div>
-
+    <script>
+        window.onload = function() {
+            window.print();
+        }
+    </script>
 </body>
 </html>

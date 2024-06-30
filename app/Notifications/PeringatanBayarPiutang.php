@@ -2,28 +2,22 @@
 
 namespace App\Notifications;
 
-use App\Models\Hutang;
-use App\Models\Piutang;
+use App\Models\piutang;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PeringatanBayar extends Notification
+class PeringatanBayarPiutang extends Notification
 {
     use Queueable;
-
-    public $hutang;
-
+    public $piutang;
     /**
      * Create a new notification instance.
-     *
-     * @param Hutang|null $hutang
-     * @param Piutang|null $piutang
      */
-    public function __construct(Hutang $hutang)
+    public function __construct($piutang)
     {
-        $this->hutang = $hutang;
+        $this->piutang = $piutang;
     }
 
     /**
@@ -42,9 +36,9 @@ class PeringatanBayar extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -54,8 +48,8 @@ class PeringatanBayar extends Notification
      */
     public function toArray(object $notifiable): array
     {
-            return [
-                'message' => "Assalamualikum, hutang" . $this->hutang->name . " Jatuh Tempo Kurang Dari 1 Hari",
-            ];
+        return [
+            'message' => "Assalamualikum, piutang" . $this->piutang->name . " Jatuh Tempo Kurang Dari 1 Hari",
+        ];
     }
 }
