@@ -10,12 +10,12 @@ class jenisBarangController extends Controller
 {
     public function index()
     {
-        // return view('beban.kategori');
         $produk = Produk::all();
         $jenis_barangs = jenisBarang::all();
 
         return view('produk.jenisBarang', compact('produk', 'jenis_barangs'));
     }
+
     public function store(Request $request)
     {
         $validate = $request->validate([
@@ -26,8 +26,6 @@ class jenisBarangController extends Controller
 
         jenisBarang::create($validate);
         return redirect()->route('produks.create')
-        ->with('tambah', 'Kategori berhasil ditambahkan');;
-    
+            ->with('tambah', 'Jenis Barang berhasil ditambahkan');
     }
-
 }

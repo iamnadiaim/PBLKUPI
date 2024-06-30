@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+ 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +21,6 @@ class Produk extends Model
     }
     public function jenisBarang()
     {
-        return $this->belongsTo(jenisBarang::class, 'id_jenis_barang','id');
+        return $this->belongsTo(jenisBarang::class, 'id_jenis_barang');
     }
 }
