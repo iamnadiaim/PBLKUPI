@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('notif:bayarHutang')->everyFiveSeconds();
+        $schedule->command('notif:bayarPiutang')->everyFiveSeconds();
     }
 
     /**

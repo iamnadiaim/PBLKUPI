@@ -1,3 +1,4 @@
+<!-- Navbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
   <!-- Sidebar Toggle (Topbar) -->
@@ -40,42 +41,44 @@
       </div>
     </li>
 
-    @if (auth()->user()->role->nama_role == 'admin')
-<!-- Nav Item - User Information -->
-<li class="nav-item dropdown no-arrow">
-      <a href="{{ route('profile') }}" class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
-</svg>
+    <!-- Nav Item - Notifications -->
+    <li class="nav-item dropdown no-arrow mx-1">
+      <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-bell fa-fw"></i>
+        <!-- Counter - Alerts -->
+        <span class="badge badge-danger badge-counter">1</span>
       </a>
-      <!-- Dropdown - User Information -->
-      <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" style="text-align: center;">
-          <b>Notifikasi</b>
+      <!-- Dropdown - Alerts -->
+      <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+        <h6 class="dropdown-header">
+          Notifikasi
+        </h6>
+        @foreach(auth()->user()->usaha->unreadNotifications as $notif)
+        <a class="dropdown-item d-flex align-items-center" href="#">
+          <div class="mr-3">
+            <div class="icon-circle bg-primary">
+              <i class="fas fa-file-alt text-white"></i>
+            </div>
+          </div>
+          <div>
+            <div class="small text-gray-500">{{ $notif->created_at->format('d M Y H:i') }}</div>
+            <span class="font-weight-bold">{{ $notif->data['message'] ?? 'No message available' }}</span>
+          </div>
         </a>
-        <!-- testing -->
-        <div>
-          @foreach(auth()->user()->usaha->unreadNotifications as $notif)
-            <p>{{ $notif->data['message'] ?? 'No message available' }}</p>
-          @endforeach
-        </div>
-
-        <div class="dropdown-divider">
-        </div>
+        @endforeach
       </div>
     </li>
-    @endif
 
     <div class="topbar-divider d-none d-sm-block"></div>
 
     <!-- Nav Item - User Information -->
     <li class="nav-item dropdown no-arrow">
-      <a href="{{ route('profile') }}" class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-					{{ auth()->user()->nama }}
-					<br>
-					<small>{{ auth()->user()->level }}</small>
-				</span>
+          {{ auth()->user()->nama }}
+          <br>
+          <small>{{ auth()->user()->level }}</small>
+        </span>
         @if (auth()->user()->img_profile)
         <img class="img-profile rounded-circle" src="{{ asset('storage/' . auth()->user()->img_profile) }}">
         @else
@@ -90,7 +93,7 @@
         </a>
         {{-- <a class="dropdown-item" href="#">
           <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-          Reset
+          Settings
         </a> --}}
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{{ route('logout') }}">

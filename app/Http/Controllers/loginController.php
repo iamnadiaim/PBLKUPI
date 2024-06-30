@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Activitylog\Models\activity;
+use Spatie\Activitylog\Models\Activity;
 
-
-class loginController extends Controller
+class LoginController extends Controller
 {
     public function index() : View
     {
@@ -24,9 +23,10 @@ class loginController extends Controller
         ]);
 
         if (Auth::attempt($validate)) { 
+            activity() // Gunakan activity helper dari Spatie
+                ->causedBy(auth()->user())
+                ->log('login');
 
-            activity::causedBy(auth()->user()) // Gunakan metode static causedBy dari kelas Activity
-            ->log('login');
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
         }
@@ -34,4 +34,3 @@ class loginController extends Controller
         return back()->with("errorLogin", "Email Atau Password Salah");
     }
 }
-
