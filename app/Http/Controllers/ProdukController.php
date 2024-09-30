@@ -71,7 +71,15 @@ class ProdukController extends Controller
         ]);
 
         $validatedData['id_usaha'] = auth()->user()->id_usaha;
-        
+        $existingKodeProduk = Produk::where('kode_produk', $request->input('kode_produk'))
+        ->where('id_usaha', auth()->user()->id_usaha)
+        ->first();
+
+    if ($existingKodeProduk) {
+        return redirect()->back()
+            ->withInput()
+            ->withErrors(['kode_produk' => 'Kode produk sudah ada. Silakan gunakan kode produk yang berbeda.']);
+    }
         // Periksa apakah produk dengan nama dan ukuran yang sama sudah ada
         $existingProduk = Produk::where('nama_produk', $request->input('nama_produk'))
             ->where('ukuran', $request->input('ukuran'))
