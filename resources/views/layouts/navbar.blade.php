@@ -1,3 +1,23 @@
+<style>
+  .scrollable-content {
+    height: 300px; /* Set fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    scrollbar-gutter: stable both-edges; /* Ensures space for scrollbar */
+  }
+
+  /* Optional: Custom styles for the scrollbar */
+  .scrollable-content::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+  }
+  .scrollable-content::-webkit-scrollbar-thumb {
+    background-color: #ffff; /* Color of the scrollbar */
+    border-radius: 4px; /* Rounded corners */
+  }
+  .scrollable-content::-webkit-scrollbar-thumb:hover {
+    background-color: #888; /* Color on hover */
+  }
+</style>
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -6,66 +26,52 @@
     <i class="fa fa-bars"></i>
   </button>
 
-  <!-- Topbar Search -->
-  {{-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-    <div class="input-group">
-      <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-      <div class="input-group-append">
-        <button class="btn btn-primary" type="button">
-          <i class="fas fa-search fa-sm"></i>
-        </button>
-      </div>
-    </div>
-  </form> --}}
-
   <!-- Topbar Navbar -->
   <ul class="navbar-nav ml-auto">
-
-    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-    <li class="nav-item dropdown no-arrow d-sm-none">
-      <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-search fa-fw"></i>
-      </a>
-      <!-- Dropdown - Messages -->
-      <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-        <form class="form-inline mr-auto w-100 navbar-search">
-          <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-              <button class="btn btn-primary" type="button">
-                <i class="fas fa-search fa-sm"></i>
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </li>
 
     <!-- Nav Item - Notifications -->
     <li class="nav-item dropdown no-arrow mx-1">
       <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
         <!-- Counter - Alerts -->
-        <span class="badge badge-danger badge-counter">{{ auth()->user()->usaha->unreadNotifications->count() }}</span>
+        @if (auth()->user()->usaha->unreadNotifications->count() > 0)
+          <span class="badge badge-danger badge-counter">{{ auth()->user()->usaha->unreadNotifications->count() }}</span>
+        @endif
       </a>
+
       <!-- Dropdown - Alerts -->
       <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-        <h6 class="dropdown-header">
-          Notifikasi
-        </h6>
-        @foreach(auth()->user()->usaha->unreadNotifications as $notif)
-        <a class="dropdown-item d-flex align-items-center" href="#">
-          <div class="mr-3">
-            <div class="icon-circle bg-primary">
-              <i class="fas fa-file-alt text-white"></i>
+        <h6 class="dropdown-header">Notifikasi</h6>
+
+        <!-- Scrollable content for notifications -->
+        <div class="scrollable-content" style="padding: 0;">
+          @if(auth()->user()->usaha->unreadNotifications->isEmpty())
+            <div class="dropdown-item d-flex align-items-center justify-content-center" style="height: 100%;">
+              <span class="font-small text-gray">Tidak ada notifikasi</span>
             </div>
-          </div>
-          <div>
-            <div class="small text-gray-500">{{ $notif->created_at->format('d M Y H:i') }}</div>
-            <span class="font-weight-bold">{{ $notif->data['message'] ?? 'No message available' }}</span>
-          </div>
-        </a>
-        @endforeach
+          @else
+            @foreach(auth()->user()->usaha->unreadNotifications as $notif)
+              <a class="dropdown-item d-flex align-items-center">
+                <div class="mr-3">
+                  <div class="icon-circle bg-primary">
+                    <i class="fas fa-file-alt text-white"></i>
+                  </div>
+                </div>
+                <div>
+                  <div class="small text-gray-500">{{ $notif->created_at->format('d M Y H:i') }}</div>
+                  <span class="font-weight-bold">{{ $notif->data['message'] ?? 'No message available' }}</span>
+                </div>
+              </a>
+            @endforeach
+          @endif
+        </div>
+
+        <!-- Button to delete all notifications -->
+        <form method="POST" action="{{ route('notifications.deleteAll') }}" class="px-3 py-2">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger btn-sm w-100">Hapus Semua Notifikasi</button>
+        </form>
       </div>
     </li>
 
@@ -80,9 +86,9 @@
           <small>{{ auth()->user()->level }}</small>
         </span>
         @if (auth()->user()->img_profile)
-        <img class="img-profile rounded-circle" src="{{ asset('storage/' . auth()->user()->img_profile) }}">
+          <img class="img-profile rounded-circle" src="{{ asset('storage/' . auth()->user()->img_profile) }}">
         @else
-        <img class="img-profile rounded-circle" src="{{ asset('images/polosan.png') }}">
+          <img class="img-profile rounded-circle" src="{{ asset('images/polosan.png') }}">
         @endif
       </a>
       <!-- Dropdown - User Information -->
@@ -91,10 +97,7 @@
           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
           Profile
         </a>
-        {{-- <a class="dropdown-item" href="#">
-          <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-          Settings
-        </a> --}}
+
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{{ route('logout') }}">
           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
