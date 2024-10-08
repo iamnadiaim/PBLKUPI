@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Pengeluaran')
+@section('title', 'Tambah Pegawai')
 
 @section('contents')
 
         <div class="wrapper">
             <form action="{{ route('tambah-pegawai.store') }}" class="signup-form" method="POST">
                 @csrf
-                <h2 style="padding: 15px; font-size: 1.5rem;">Tambah Pegawai</h2>
                     @if (session()->has('successAddSekolah'))
                     <div class="toast-wrapper">
                         <div class="toast-succes">
@@ -24,41 +23,44 @@
                     </div>
     
                     @endif
-                <div class="input-box">
-                    <input type="text" placeholder="Nama" required name="nama" value="{{ old('nama') }}">
+                <div class="mb-3">
+                    <label for="nama" class="form-label">Nama:</label>
+                    <input type="text" id="nama" name="nama" class="form-control" required>
                     @error('nama')
-                    <p class="text-red">{{ $message }}</p>
+                        <span class="">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="input-box">
-                    <input type="text" placeholder="Email" required name="email" value="{{ old('email') }}">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="text" id="email" name="email" class="form-control" required>
                     @error('email')
-                    <p class="text-red">{{ $message }}</p>
+                        <span class="">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="input-box">
-                    <input type="alamat" placeholder="Alamat" required name="alamat">
+                <div class="mb-3">
+                    <label for="alamat" class="form-label">Alamat:</label>
+                    <input type="text" id="alamat" name="alamat" class="form-control" required>
                     @error('alamat')
-                    <p class="text-red">{{ $message }}</p>
+                        <span class="">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="input-box">
-                    <input type="noTelepon" placeholder="No Telepon" required name="no_telepon">
-                    @error('no_telepon')
-                    <p class="text-red">{{ $message }}</p>
+                <div class="mb-3">
+                    <label for="noTelepon" class="form-label">No Telepon:</label>
+                    <input type="text" id="noTelepon" name="noTelepon" class="form-control" required>
+                    @error('noTelepon')
+                        <span class="">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Password" required name="password">
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="text" id="password" name="password" class="form-control" required>
                     @error('password')
-                    <p class="text-red">{{ $message }}</p>
+                        <span class="">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="input-box button">
-                    <input type="submit" value="Create an Account">
-                </div>
-                <div class="input-box button">
-                    <a href="{{ route('laporan-pegawai') }}" class="btn-laporan">Laporan Pegawai</a>
+                <div class="mt-3" style="text-align: left;">
+                    <input type="submit" class="btn btn-primary" value="Tambah">
+                    <a href="{{ route('daftarPegawai') }}" class="btn btn-danger">Batal</a>
                 </div>
             </form>
         </div>

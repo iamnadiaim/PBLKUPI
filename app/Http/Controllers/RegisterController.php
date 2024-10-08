@@ -34,7 +34,12 @@ class RegisterController extends Controller
             $userAttributes['id_role'] = 1;
             $userAttributes['id_usaha'] = $usaha->id;
 
-            User::create($userAttributes);
+            $user = User::create($userAttributes);
+            
+            activity()
+            ->causedBy($user) // Link the activity to the created user
+            ->event('Register')
+            ->log('User registered');
         });
 
         return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');

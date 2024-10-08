@@ -96,7 +96,13 @@ class ProdukController extends Controller
                 ->with('success', 'Produk berhasil diperbarui'); // Redirect ke halaman detail produk dengan pesan sukses
         } else {
             // Create a new product if no existing product is found
-            Produk::create($validatedData);
+            $produk = Produk::create($validatedData);
+
+            activity()
+                ->causedBy(auth()->user()) 
+                ->performedOn($produk) 
+                ->event($produk->nama_produk)
+                ->log('Menambahkan Produk');
 
             return redirect()->route('produks.index')
                 ->with('success', 'Produk berhasil ditambahkan'); // Redirect ke halaman detail produk dengan pesan sukses
@@ -137,6 +143,11 @@ class ProdukController extends Controller
         'stok' => $stokBaru // Update stok dengan nilai baru yang ditambahkan
     ]);
 
+    activity()
+                ->causedBy(auth()->user()) 
+                ->event($produk->nama_produk)
+                ->log('Mengubah Data Produk');
+
     return redirect()->route('produks.index')
         ->with('success', 'Produk berhasil diperbarui'); // Redirect ke halaman detail produk dengan pesan sukses
 }
@@ -146,6 +157,10 @@ class ProdukController extends Controller
         $produk = Produk::findOrFail($id);
         $produk->delete();
 
+        activity()
+            ->causedBy(auth()->user()) 
+            ->event($produk->nama_produk)
+            ->log('Menghapus Produk');
         return redirect()->back()->with('destroy', 'Produk berhasil dihapus'); // Redirect ke halaman daftar produk dengan pesan sukses
     }
 }

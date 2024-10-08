@@ -23,7 +23,7 @@ use App\Http\Controllers\BayarHutangController;
 use App\Http\Controllers\BayarPiutangController;
 use App\Http\Controllers\RiwayatPembayaranController;
 use App\Http\Controllers\laporanhpController;
-
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -130,7 +130,10 @@ Route::get('/riwayat',[RiwayatController::class, 'index'])->name('riwayat.index'
     Route::post('/pendapatan/store', [PendapatanController::class, 'store'])->name('pendapatan.store');
 });
 
-
+Route::middleware(['auth'])->group(function () {
+    Route::delete('/notifications/{id}', [NotificationController::class, 'delete'])->name('notifications.delete');
+    Route::delete('/notifications', [NotificationController::class, 'deleteAll'])->name('notifications.deleteAll');
+});
 
 
 

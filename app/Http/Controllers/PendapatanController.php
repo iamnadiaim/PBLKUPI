@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Events\KurangiStokProduk;
+use App\Models\User;
 use Exception;
 
 class PendapatanController extends Controller
@@ -65,6 +66,12 @@ class PendapatanController extends Controller
     
         // Simpan data pendapatan baru ke dalam database
         Pendapatan::create($validatedData);
+        
+
+        activity()
+            ->causedBy(auth()->user())
+            ->event('Pendapatan')
+            ->log('Menambahkan Transaksi');
     
         // event(new KurangiStokProduk($produk, $jumlah_produk));
     

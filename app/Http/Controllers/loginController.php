@@ -19,15 +19,11 @@ class LoginController extends Controller
     {
         $validate = $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
-        ]);
+            'password' => 'required',]);
 
         if (Auth::attempt($validate)) { 
-            activity() // Gunakan activity helper dari Spatie
-                ->causedBy(auth()->user())
-                ->log('login');
 
-            $request->session()->regenerate();
+            $request->session()->regenerate(); 
             return redirect()->intended('/dashboard');
         }
 

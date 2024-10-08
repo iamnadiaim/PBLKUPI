@@ -49,7 +49,7 @@ class PeringatanBayarPiutang extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => "Assalamualikum, piutang" . $this->piutang->name . " Jatuh Tempo Kurang Dari 1 Hari",
+            'message' => "Assalamualaikum, piutang atas nama " . $this->piutang->nama . " akan jatuh tempo kurang dari 1 hari.",
         ];
     }
 }
