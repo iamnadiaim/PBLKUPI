@@ -5,17 +5,29 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\pegawai;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 class signupController extends Controller
 {
 
     public function daftarPegawai() {
-        $daftarPegawai = User::where('id_usaha', auth()->user()->id_usaha)->where('id_role', 2)->get();
-        // dd($daftarPegawai);
-        return view('pegawai.tampilan',compact('daftarPegawai'));
+        Carbon::setLocale('id');
+
+        $daftarPegawai = User::where('id_usaha', auth()->user()->id_usaha)
+            ->where('id_role', 2)
+            ->get();
+
+        $aktivitas = Activity::whereIn('causer_id', $daftarPegawai->pluck('id'))
+            ->where('causer_type', User::class) // Ensure it's only users causing the activity
+            ->get();
+        $namaPegawai = User::whereIn('id', $aktivitas->pluck('causer_id'))->get();
+   
+
+    return view('pegawai.tampilan', compact('daftarPegawai', 'aktivitas','namaPegawai'));
     }
 
     public function print() {
@@ -26,11 +38,11 @@ class signupController extends Controller
     
     public function index() : View  
 {
-    return view('pegawai');
+    return view('pegawai.tambah');
 }
 public function laporan(){
     // dd("tes");
-    return view('tampilanpegawai',compact('pegawais'));
+    return view('pegawai.laporan',compact('pegawais'));
 }
 
 public function register(Request $request)
