@@ -24,6 +24,10 @@ use App\Http\Controllers\BayarPiutangController;
 use App\Http\Controllers\RiwayatPembayaranController;
 use App\Http\Controllers\laporanhpController;
 use App\Http\Controllers\NotificationController;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0dff5f6901ee860ee09d5f359bfe9388e543fa81
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [signupController::class,'logout'])->name('logout');
     Route::get('/profile', [ProfileController::class,'index'])->name('profile');
     Route::post('/signup', [signupController::class, 'register'])->name('signup');
+
 
     Route::middleware('only_admin')->group(function() {
          Route::get("/tambah-pegawai",[signupController::class,'index'])->name('tambah-pegawai');

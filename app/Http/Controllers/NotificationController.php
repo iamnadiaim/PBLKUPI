@@ -21,4 +21,8 @@ class NotificationController extends Controller
 
         return redirect()->back()->with('success', 'All notifications deleted successfully.');
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 0dff5f6901ee860ee09d5f359bfe9388e543fa81
