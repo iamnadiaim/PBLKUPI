@@ -41,11 +41,7 @@
 
       <!-- Dropdown - Alerts -->
       <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-<<<<<<< HEAD
       <h6 class="dropdown-header">Notifikasi</h6>
-=======
-        <h6 class="dropdown-header">Notifikasi</h6>
->>>>>>> 0dff5f6901ee860ee09d5f359bfe9388e543fa81
 
         <!-- Scrollable content for notifications -->
         <div class="scrollable-content" style="padding: 0;">
@@ -53,11 +49,7 @@
             <div class="dropdown-item d-flex align-items-center justify-content-center" style="height: 100%;">
               <span class="font-small text-gray">Tidak ada notifikasi</span>
             </div>
-<<<<<<< HEAD
             @else
-=======
-          @else
->>>>>>> 0dff5f6901ee860ee09d5f359bfe9388e543fa81
             @foreach(auth()->user()->usaha->unreadNotifications as $notif)
               <a class="dropdown-item d-flex align-items-center">
                 <div class="mr-3">
@@ -105,11 +97,7 @@
           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
           Profile
         </a>
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> 0dff5f6901ee860ee09d5f359bfe9388e543fa81
+          
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{{ route('logout') }}">
           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
