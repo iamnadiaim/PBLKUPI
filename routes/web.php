@@ -132,8 +132,7 @@ Route::get('/riwayat',[RiwayatController::class, 'index'])->name('riwayat.index'
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::delete('/notifications/{id}', [NotificationController::class, 'delete'])->name('notifications.delete');
-    Route::delete('/notifications', [NotificationController::class, 'deleteAll'])->name('notifications.deleteAll');
+    Route::post('/notifications/read', [NotificationController::class, 'markAsRead']);
 });
 
 
