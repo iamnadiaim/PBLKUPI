@@ -20,6 +20,7 @@ class PeringatanBayar extends Notification
      *
      * @param Hutang|null $hutang
      * @param Piutang|null $piutang
+     *  
      */
     public function __construct(Hutang $hutang)
     {
@@ -55,7 +56,7 @@ class PeringatanBayar extends Notification
     public function toArray(object $notifiable): array
     {
             return [
-                'message' => "Assalamualaikum, hutang atas nama " . $this->hutang->nama . " akan jatuh tempo kurang dari 1 hari.",
+                'message' => "Hutang atas nama " . $this->hutang->nama . " akan jatuh tempo kurang dari 1 hari.",
             ];
     }
 }
