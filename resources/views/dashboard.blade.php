@@ -14,7 +14,7 @@
         @csrf <!-- Tambahkan CSRF token untuk keamanan form -->
         <div class="d-flex align-items-end justify-content-center mb-3">
             <label for="stok" class="flex-shrink-0 mr-2" style="color: black;">Modal Awal Usaha</label>
-            <input type="number" id="stok" name="saldo" class="form-control mr-2" placeholder="Masukkan " @if ($cekSaldo) value="{{ $cekSaldo->saldo }}" readonly @endif min="0" required>
+            <input type="text" id="stok" name="saldo" class="form-control mr-2" placeholder="Masukkan " @if ($cekSaldo) value="{{ number_format($cekSaldo->saldo, 0, ',', '.') }}" readonly @endif min="0" required>
             @error('saldo')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
