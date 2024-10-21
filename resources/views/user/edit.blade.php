@@ -11,9 +11,8 @@
     <div class="row d-flex justify-content-center">
         <div class="col-8eb">
             <form action="{{route('editProfile')}}" method="POST" enctype="multipart/form-data">
-                @method('put')
-                @
-                csrf
+                @method('PUT')
+                @csrf
 
                 <div class="mb-3">
                     <label for="nama" class="form-label">Nama:</label>
@@ -62,7 +61,7 @@
                 
                 <div class="row d-flex align-items-center justify-content-between">
                     <div class="pl-3 mb-3">                        
-                        <button type="submit" class="btn btn-info" style="background-color: #0284c7">Edit</button>
+                        <button type="submit" class="btn btn-info" style="background-color: #0284c7">Simpan</button>
                     </div>
                     <div class="mb-3 pr-3">
                         <a href="{{route('ganti-password')}}" class="" style="color: #0284c7;">Change Password</a>
