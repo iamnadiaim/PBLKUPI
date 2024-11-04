@@ -11,7 +11,7 @@
     <div class="row d-flex justify-content-center">
         <div class="col-8eb">
             <form action="{{route('editProfile')}}" method="POST" enctype="multipart/form-data">
-                @method('put')
+                @method('PUT')
                 @csrf
 
                 <div class="mb-3">

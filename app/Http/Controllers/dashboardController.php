@@ -11,27 +11,27 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class dashboardController extends Controller
+class DashboardController extends Controller
 {
     public function index(): View
-    { 
+    {
         // Ambil nama usaha
         $namaUsaha = strtoupper(Auth::user()->usaha->nama_usaha);
-        
-        // Cek saldo
+
+        // Cek saldo usaha
         $cekSaldo = Saldo::where('id_usaha', auth()->user()->id_usaha)->first();
 
-        // Total kas masuk dan keluar
+        // Total kas masuk dan kas keluar
         $kasMasuk = Pendapatan::where('id_usaha', auth()->user()->id_usaha)->sum('total');
         $kasMasukFormat = 'Rp ' . number_format($kasMasuk, 0, ',', '.');
-        
+
         $kasKeluar = Beban::where('id_usaha', auth()->user()->id_usaha)->sum('harga');
         $kasKeluarFormat = 'Rp ' . number_format($kasKeluar, 0, ',', '.');
 
         // Hitung saldo akhir (jika ada modal awal)
-        if($cekSaldo){
+        if ($cekSaldo) {
             $saldoAkhir = $cekSaldo->saldo - $kasKeluar;
-        }else{
+        } else {
             $saldoAkhir = 0;
         }
 
@@ -49,7 +49,7 @@ class dashboardController extends Controller
             ->get()
             ->keyBy('bulan')
             ->toArray();
-    
+
         $kasKeluarBulanan = Beban::selectRaw('MONTH(created_at) as bulan, SUM(harga) as total')
             ->where('id_usaha', auth()->user()->id_usaha)
             ->groupBy('bulan')
@@ -57,16 +57,17 @@ class dashboardController extends Controller
             ->get()
             ->keyBy('bulan')
             ->toArray();
-    
+
         // Inisialisasi data kas masuk dan kas keluar untuk 12 bulan
         $kasMasukData = array_fill(1, 12, 0);
         $kasKeluarData = array_fill(1, 12, 0);
+
         foreach (range(1, 12) as $bulan) {
             $kasMasukData[$bulan] = $kasMasukBulanan[$bulan]['total'] ?? 0;
             $kasKeluarData[$bulan] = $kasKeluarBulanan[$bulan]['total'] ?? 0;
         }
-    
-         // Format ke dalam opsi chart kas masuk dan keluar
+
+        // Format ke dalam opsi chart kas masuk dan keluar
         $chartOptions = [
             'series' => [
                 [
@@ -82,6 +83,7 @@ class dashboardController extends Controller
                 'categories' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             ],
         ];
+
         // Mengambil 5 produk terlaris berdasarkan jumlah produk terjual
         $produkTerlaris = Produk::select('nama_produk', DB::raw('SUM(p.jumlah_produk) as total_terjual'))
             ->join('pendapatans as p', 'produks.id', '=', 'p.id_produk')
@@ -90,6 +92,7 @@ class dashboardController extends Controller
             ->orderByDesc('total_terjual')
             ->limit(5) // Menampilkan 5 produk terlaris
             ->get();
+
         // Opsi grafik produk terlaris
         $produkChartOptions = [
             'chart' => [
@@ -105,7 +108,7 @@ class dashboardController extends Controller
                 'categories' => $produkTerlaris->pluck('nama_produk')->toArray(), // Mengambil nama produk
             ],
         ];
-    
+
         return view('dashboard', compact(
             'kasKeluarFormat',
             'kasMasukFormat',
@@ -121,5 +124,5 @@ class dashboardController extends Controller
             'produkTerlaris',
             'produkChartOptions' // Mengirimkan opsi grafik produk terlaris ke view
         ));
-    }   
+    }
 }

@@ -10,7 +10,7 @@
 
 @if (auth()->user()->role->nama_role == 'admin')
 <div class="col-6">
-<form action="{{ route('saldo.store') }}" method="post"> <!-- Tambahkan method="post" untuk mengirimkan form -->
+    <form action="{{ route('saldo.store') }}" method="post"> <!-- Tambahkan method="post" untuk mengirimkan form -->
         @csrf <!-- Tambahkan CSRF token untuk keamanan form -->
         <div class="d-flex align-items-end justify-content-center mb-3">
             <label for="stok" class="flex-shrink-0 mr-2" style="color: black;">Modal Awal Usaha</label>
@@ -28,15 +28,18 @@
 
 <style>
 @import url(https://fonts.googleapis.com/css?family=Roboto);
+
 body {
     font-family: Roboto, sans-serif;
 }
 .pt-4 {
     padding-top: 0 !important;
 }
+
 .card {
     margin-bottom: 20px;
 }
+
 .footer {
     background: #f8f9fa;
     padding: 10px;
@@ -155,10 +158,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Menghitung total jumlah terjual
     let totalProdukTerlaris = produkTerlaris.reduce((sum, produk) => sum + produk.total_terjual, 0); 
+
     // Grafik Donut untuk Produk Terlaris
     if (totalProdukTerlaris > 0) {
     let seriesProduk = produkTerlaris.map(produk => produk.total_terjual); 
     let labelsProduk = produkTerlaris.map(produk => produk.nama_produk); 
+
     var produkOptions = {
         series: seriesProduk,
         chart: {
@@ -173,12 +178,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }]
     };
+
     var produkPieChart = new ApexCharts(document.querySelector("#produkPieChart"), produkOptions);
     produkPieChart.render();
     } else {
         document.getElementById("produkPieChart").innerHTML = "Belum Ada Data Produk Terlaris";
     }
-    
+
     // Grafik Arus Kas
     let kasMasukData = @json($chartOptions['series'][0]['data']);
     let kasKeluarData = @json($chartOptions['series'][1]['data']);
@@ -209,6 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 categories: categories,
             }
         };
+
         var arusKasChart = new ApexCharts(document.querySelector("#arusKasChart"), arusKasOptions);
         arusKasChart.render();
     } else {

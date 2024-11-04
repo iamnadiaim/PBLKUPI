@@ -59,6 +59,7 @@
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>  
+                  </div>
                   <div>
                     <div class="small text-gray-500">{{ $notif->created_at->format('d M Y H:i') }}</div>
                     <span class="font-weight-bold">{{ $notif->data['message'] ?? 'No message available' }}</span>

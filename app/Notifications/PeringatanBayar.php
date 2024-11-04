@@ -20,6 +20,7 @@ class PeringatanBayar extends Notification
      *
      * @param Hutang|null $hutang
      * @param Piutang|null $piutang
+     *  
      */
     public function __construct(Hutang $hutang)
     {

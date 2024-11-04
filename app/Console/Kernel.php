@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('notif:bayarHutang')->everyMinute();  
         $schedule->command('notif:bayarPiutang')->everyMinute();
+
     }
 
     /**
