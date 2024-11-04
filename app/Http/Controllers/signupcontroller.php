@@ -21,8 +21,9 @@ class signupController extends Controller
             ->where('id_role', 2)
             ->get();
 
-        $aktivitas = Activity::whereIn('causer_id', $daftarPegawai->pluck('id'))
-            ->where('causer_type', User::class) // Ensure it's only users causing the activity
+            $aktivitas = Activity::whereIn('causer_id', $daftarPegawai->pluck('id'))
+            ->where('causer_type', User::class) // Pastikan hanya pengguna yang menyebabkan aktivitas
+            ->orderBy('created_at', 'desc') // Urutkan berdasarkan waktu terbaru
             ->get();
         $namaPegawai = User::whereIn('id', $aktivitas->pluck('causer_id'))->get();
    

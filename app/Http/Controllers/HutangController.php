@@ -23,9 +23,9 @@ class HutangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'nama' => 'required|min:2|max:60',
             'catatan' => 'required',
-            'jumlah_hutang' => 'required|numeric|min:1',
+            'jumlah_hutang' => 'required|numeric|min:1000|max:10000000',
             'jumlah_cicilan' => 'required|numeric|min:1',
             'tanggal_pinjaman' => 'required|date',
             'tanggal_jatuh_tempo' => 'required|date',

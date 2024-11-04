@@ -24,10 +24,6 @@ use App\Http\Controllers\BayarPiutangController;
 use App\Http\Controllers\RiwayatPembayaranController;
 use App\Http\Controllers\laporanhpController;
 use App\Http\Controllers\NotificationController;
-<<<<<<< HEAD
-=======
-
->>>>>>> 0dff5f6901ee860ee09d5f359bfe9388e543fa81
 
 /*
 |--------------------------------------------------------------------------
@@ -62,13 +58,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class,'index'])->name('profile');
     Route::post('/signup', [signupController::class, 'register'])->name('signup');
 
-
     Route::middleware('only_admin')->group(function() {
-         Route::get("/tambah-pegawai",[signupController::class,'index'])->name('tambah-pegawai');
+        Route::get("/tambah-pegawai",[signupController::class,'index'])->name('tambah-pegawai');
         Route::get("/pegawai",[signupController::class,'daftarPegawai'])->name('daftarPegawai');
         Route::post("/tambah-pegawai",[signupController::class,'register'])->name('tambah-pegawai.store');
         Route::get("/print-pegawai",[signupController::class,'print'])->name('print-pegawai');
         Route::delete('/pegawai/{id}', [signupController::class, 'destroy'])->name('pegawai.destroy');
+    
 
     Route::get('/beban', [BebanController::class, 'index'])->name('beban.index');
     Route::get('/beban/{id}', [BebanController::class, 'show'])->name('beban.show');
@@ -120,7 +116,7 @@ Route::get('/riwayat',[RiwayatController::class, 'index'])->name('riwayat.index'
     Route::get('/produks/laporan',[ProdukController::class, 'laporan'])->name('produks.laporan');
     Route::get('/produks/create', 'ProdukController@create')->name('produks.create');
     Route::get('/produks', [ProdukController::class, 'index'])->name('produks.index');
-    Route::get('/produks/{id}', [ProdukController::class, 'show'])->name('produks.show');
+    // Route::get('/produks/show/{id}', [ProdukController::class, 'show'])->name('produks.show');
     Route::get('/produks/{id}/edit', [ProdukController::class, 'edit'])->name('produks.edit');
     Route::delete('/produks/{id}', [ProdukController::class, 'destroy'])->name('produks.destroy');
     Route::get('/produk/create', [ProdukController::class, 'createproduk'])->name('produks.create');
@@ -136,8 +132,7 @@ Route::get('/riwayat',[RiwayatController::class, 'index'])->name('riwayat.index'
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::delete('/notifications/{id}', [NotificationController::class, 'delete'])->name('notifications.delete');
-    Route::delete('/notifications', [NotificationController::class, 'deleteAll'])->name('notifications.deleteAll');
+    Route::post('/notifications/read', [NotificationController::class, 'markAsRead']);
 });
 
 

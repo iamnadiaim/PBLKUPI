@@ -53,8 +53,7 @@ class ProdukController extends Controller
             ->orWhere('id_usaha', null)
             ->get();
 
-        // Logika untuk menampilkan formulir pembuatan produk
-        return view('produk.create', compact('jenis_barangs')); // Gantilah 'produk.create' dengan nama view yang sesuai
+        return view('produk.create', compact('jenis_barangs'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -98,13 +97,22 @@ class ProdukController extends Controller
             // Create a new product if no existing product is found
             $produk = Produk::create($validatedData);
 
-            activity()
-                ->causedBy(auth()->user()) 
-                ->performedOn($produk) 
-                ->event($produk->nama_produk)
-                ->log('Menambahkan Produk');
+            $activity = new \Spatie\Activitylog\Models\Activity();
 
-            return redirect()->route('produks.index')
+                $activity->log_name = 'default'; 
+                $activity->description = $produk->nama_produk;
+                $activity->subject_type = get_class($produk);
+                $activity->event = 'Menambahkan Produk';
+                $activity->subject_id = $produk->id;
+                $activity->causer_type = get_class(auth()->user());
+                $activity->causer_id = auth()->id();
+                $activity->entity_id = $produk->id; // Menyimpan ID produk
+                $activity->entity_type = 'produk';   // Menyimpan tipe produk
+                $activity->created_at = now();
+                $activity->updated_at = now();
+                $activity->save();
+
+            return redirect()->route('produks.index',['highlight' => $produk->id])
                 ->with('success', 'Produk berhasil ditambahkan'); // Redirect ke halaman detail produk dengan pesan sukses
         }
     }

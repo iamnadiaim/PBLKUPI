@@ -44,7 +44,7 @@
           <input type="submit" value="LOGIN">
         </div>
       </form>
-      <p>Belum Punya Akun ? <a href="{{ route('register.index') }}">Register Disini  </a></p>
+      <p>Belum Punya Akun ? <a href="{{ route('register.index') }}">Daftar Disini  </a></p>
     </div>
     <p> 
         <img src="images/kupi.png"style="width:300px;height:300px;"/>

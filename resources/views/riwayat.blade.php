@@ -37,7 +37,7 @@
 
     <table class="table table-bordered" >
         <thead class="bg-primary text-light">
-            <tr>
+            <tr >
                 <th>Tanggal Transaksi</th>
                 <th>Nama Pembeli</th>
                 <th>Nama Produk</th>
@@ -50,7 +50,7 @@
         @if (count($pendapatan) > 0)
         <tbody>
             @foreach($pendapatan as $p)
-            <tr>
+            <tr id="Pendapatan-{{$p->id}}">
                 <td>{{ $p->tanggal }}</td>
                 <td>{{ $p->nama_pembeli }}</td>
                 <td>{{ $p->produk->nama_produk }}</td>
@@ -68,6 +68,28 @@
     <p class="text-muted text-center" style="font-size: 20px;">Tidak Ada Transaksi Yang Ditambahkan</p>
 @endif
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var url = new URL(window.location.href);
+        // Ambil ID dari parameter 'highlight'
+        var highlightId = url.searchParams.get('highlight'); 
+        console.log('Highlight ID:', highlightId); // Debugging
+
+        if (highlightId) { // Pastikan ID tidak kosong
+            var highlightedPendapatan = document.querySelector('#Pendapatan-' + highlightId); // Menggabungkan string
+            console.log(highlightedPendapatan); // Debugging untuk melihat apakah elemen ditemukan
+
+            if (highlightedPendapatan) { // Pastikan elemen ditemukan
+                highlightedPendapatan.scrollIntoView({ behavior: 'smooth' });
+                highlightedPendapatan.style.backgroundColor = '#b5d5d0'; // Ganti dengan warna yang diinginkan
+            } else {
+                console.error('Element with ID "Pendapatan-' + highlightId + '" not found.');
+            }
+        }
+    });
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
     var myToast = new bootstrap.Toast(document.getElementById('myToast'));

@@ -53,16 +53,21 @@ Activity
     @foreach ($aktivitas as $data)
     <div style="padding: 10px; ">
     @foreach ($namaPegawai as $nama)
-    @if ($nama->img_profile)
-              <img src="{{ asset('storage/' . $pegawai->img_profile) }}" alt="Admin" class="rounded-circle" width="50" style="margin-top: 15px;">
+            @if ($nama->id === $data->causer_id) 
+                @if ($nama->img_profile)
+                    <img src="{{ asset('storage/' . $nama->img_profile) }}" alt="Admin" class="rounded-circle" width="50" style="margin-top: 15px;">
                 @else
-              <img src="{{ asset('images/polosan.png') }}" alt="Admin" class="rounded-circle" width="50" style="margin-top: 15px;">
-              @endif       
-              <span style="margin-left: 10px; font-size: large; color: black;">
-        <span style="font-weight: bold;">{{$nama->nama}}</span>
-     @endforeach
-        <span>{{$data->description}} - </span>
-        <span style="color: blue;">{{$data->event}}</span>
+                    <img src="{{ asset('images/polosan.png') }}" alt="Admin" class="rounded-circle" width="50" style="margin-top: 15px;">
+                @endif       
+                <span style="margin-left: 10px; font-size: large; color: black;">
+                    <span style="font-weight: bold;">{{ $nama->nama }}</span>
+                </span>
+            @endif
+    @endforeach
+     <a href="{{ $data->entity_type == 'produk' ? route('produks.index', ['highlight' => $data->entity_id]) : route('riwayat.index', ['highlight' => $data->entity_id]) }}">
+     <span>{{$data->event}} - </span>
+            <span style="color: blue;">{{$data->description}}</span>
+        </a>
       </span>
       <p style="font-weight: 300; margin-left: 65px; margin-top: -15px; font-size: small;">{{ \Carbon\Carbon::parse($data->created_at)->translatedFormat('l, d F Y \p\a\d\a H:i') }} WIB</p>
     </div>

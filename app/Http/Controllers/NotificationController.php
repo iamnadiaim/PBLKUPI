@@ -7,22 +7,13 @@ use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
-    public function delete($id)
+    public function markAsRead(Request $request)
     {
-        $notification = Auth::user()->usaha->notifications()->findOrFail($id);
-        $notification->delete();
-
-        return redirect()->back()->with('success', 'Notification deleted successfully.');
+        // Get the authenticated user's notifications
+        $user = Auth::user();
+        
+        $user->usaha->unreadNotifications->markAsRead();
+        
+        return response()->json(['success' => true]);
     }
-
-    public function deleteAll()
-    {
-        Auth::user()->usaha->notifications()->delete();
-
-        return redirect()->back()->with('success', 'All notifications deleted successfully.');
-    }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0dff5f6901ee860ee09d5f359bfe9388e543fa81

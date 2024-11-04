@@ -65,18 +65,26 @@ class PendapatanController extends Controller
         ]);
     
         // Simpan data pendapatan baru ke dalam database
-        Pendapatan::create($validatedData);
-        
+        $pendapatan = Pendapatan::create($validatedData);
+        $activity = new \Spatie\Activitylog\Models\Activity();
 
-        activity()
-            ->causedBy(auth()->user())
-            ->event('Pendapatan')
-            ->log('Menambahkan Transaksi');
+        $activity->log_name = 'default'; 
+        $activity->description = 'Pendapatan';
+        $activity->subject_type = get_class($pendapatan);
+        $activity->event = 'Menambahkan Transaksi';
+        $activity->subject_id = $pendapatan->id;
+        $activity->causer_type = get_class(auth()->user());
+        $activity->causer_id = auth()->id();
+        $activity->entity_id = $pendapatan->id; // Menyimpan ID produk
+        $activity->entity_type = 'pendapatan';   // Menyimpan tipe produk
+        $activity->created_at = now();
+        $activity->updated_at = now();
+        $activity->save();
     
         // event(new KurangiStokProduk($produk, $jumlah_produk));
     
-        return redirect()->route('riwayat.index')
-            ->with('success', 'Transaksi baru berhasil ditambahkan'); // Redirect ke halaman detail pendapatan dengan pesan sukses
+        return redirect()->route('riwayat.index', ['highlight' => $pendapatan->id])
+        ->with('success', 'Transaksi baru berhasil ditambahkan'); // Redirect ke halaman detail pendapatan dengan pesan sukses
     }
     
 

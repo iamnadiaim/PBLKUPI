@@ -19,7 +19,7 @@ class jenisBarangController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            "nama" => "required"
+            "nama" => "required|string"
         ]);
 
         $validate['id_usaha'] = auth()->user()->id_usaha;

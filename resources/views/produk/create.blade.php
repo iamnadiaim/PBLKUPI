@@ -35,6 +35,9 @@
                         </option>
                     @endforeach
                 </select>
+                @error('id_jenis_barang')
+                    <span class="">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="mb-3">

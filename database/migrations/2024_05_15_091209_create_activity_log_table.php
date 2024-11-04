@@ -15,9 +15,15 @@ class CreateActivityLogTable extends Migration
             $table->nullableMorphs('subject', 'subject');
             $table->nullableMorphs('causer', 'causer');
             $table->json('properties')->nullable();
+        
+            // Kolom untuk menyimpan id dan tipe entitas (produk atau pendapatan)
+            $table->unsignedBigInteger('entity_id')->nullable(); // ID dari produk atau pendapatan
+            $table->string('entity_type')->nullable(); // Tipe entitas, bisa 'produk' atau 'pendapatan'
+        
             $table->timestamps();
             $table->index('log_name');
-        });
+        });        
+        
     }
 
     public function down()

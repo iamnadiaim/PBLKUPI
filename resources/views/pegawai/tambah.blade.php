@@ -3,71 +3,71 @@
 @section('title', 'Tambah Pegawai')
 
 @section('contents')
+<div class="container mt-5">
 
-        <div class="wrapper">
-            <form action="{{ route('tambah-pegawai.store') }}" class="signup-form" method="POST">
+    @if (session()->has('successAddSekolah'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Akun Berhasil Dibuat.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
+    <div class="card shadow mx-auto w-50"> <!-- Tambahkan mx-auto dan w-50 -->
+        <div class="card-body">
+            <form action="{{ route('tambah-pegawai.store') }}" method="POST" class="form-signup">
                 @csrf
-                    @if (session()->has('successAddSekolah'))
-                    <div class="toast-wrapper">
-                        <div class="toast-succes">
-                         <div class="toast-succes-container">
-                             <div class="icon">
-                                 <i class="fa-solid fa-circle-check"></i>
-                             </div>
-                             <div class="content">
-                                 <h1>Succes</h1>
-                                 <p>Akun Berhasil Dibuat</p>
-                             </div>
-                         </div>
-                        </div>
-                    </div>
-    
-                    @endif
-                <div class="mb-3">
+                
+                <div class="form-group mb-3">
                     <label for="nama" class="form-label">Nama:</label>
                     <input type="text" id="nama" name="nama" class="form-control" required>
                     @error('nama')
-                        <span class="">{{ $message }}</span>
+                    <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="mb-3">
+
+                <div class="form-group mb-3">
                     <label for="email" class="form-label">Email:</label>
-                    <input type="text" id="email" name="email" class="form-control" required>
+                    <input type="email" id="email" name="email" class="form-control" required>
                     @error('email')
-                        <span class="">{{ $message }}</span>
+                    <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="mb-3">
+
+                <div class="form-group mb-3">
                     <label for="alamat" class="form-label">Alamat:</label>
                     <input type="text" id="alamat" name="alamat" class="form-control" required>
                     @error('alamat')
-                        <span class="">{{ $message }}</span>
+                    <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="mb-3">
-                    <label for="noTelepon" class="form-label">No Telepon:</label>
-                    <input type="text" id="noTelepon" name="noTelepon" class="form-control" required>
-                    @error('noTelepon')
-                        <span class="">{{ $message }}</span>
+
+                <div class="form-group mb-3">
+                    <label for="no_telepon" class="form-label">No Telepon:</label>
+                    <input type="text" id="no_telepon" name="no_telepon" class="form-control" required>
+                    @error('no_telepon')
+                    <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="mb-3">
+
+                <div class="form-group mb-3">
                     <label for="password" class="form-label">Password:</label>
-                    <input type="text" id="password" name="password" class="form-control" required>
+                    <input type="password" id="password" name="password" class="form-control" required>
                     @error('password')
-                        <span class="">{{ $message }}</span>
+                    <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="mt-3" style="text-align: left;">
+
+                <div class="d-flex justify-content-between mt-4">
                     <input type="submit" class="btn btn-primary" value="Tambah">
-                    <a href="{{ route('daftarPegawai') }}" class="btn btn-danger">Batal</a>
+                    <a href="{{ route('daftarPegawai') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>
         </div>
     </div>
+</div>
 
-    <script src="script.js"></script>
-    <script src="{{asset('vanilla-toast.min.js')}}"></script>
-</body>
-
+<script src="script.js"></script>
+<script src="{{ asset('vanilla-toast.min.js') }}"></script>
 @endsection

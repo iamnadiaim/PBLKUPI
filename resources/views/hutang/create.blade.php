@@ -40,16 +40,32 @@
           @enderror
         </div>
 
-        <label for="nama">Nama Pemberi Pinjaman  :</label><br>
+        <label for="nama">Nama Pemberi Pinjaman :</label><br>
         <input type="text" id="nama" name="nama" required class="form-control" value="{{ old('nama') }}">
         @error('nama')
-          <span class="error">{{ $message }}</span>
-        @enderror        
+            @if ($message == 'required')
+                <p class="text-danger">Nama harus diisi.</p>
+            @elseif ($message == 'min.string')
+                <p class="text-danger">Nama harus diisi dengan minimal 3 karakter.</p>
+            @elseif ($message == 'max.string')
+                <p class="text-danger">Nama tidak boleh lebih dari 60 karakter.</p>
+            @else
+                <p class="text-danger">{{ $message }}</p>
+            @endif
+        @enderror
 
         <label for="jumlah_hutang">Nominal :</label><br>
         <input type="number" id="jumlah_hutang" name="jumlah_hutang" required class="form-control" min="0" value="{{ old('jumlah_hutang') }}">
         @error('jumlah_hutang')
-          <span class="error">{{ $message }}</span>
+        @if ($message == 'validation.required')
+                <p class="text-danger">Nominal harus diisi.</p>
+            @elseif ($message == 'validation.min.string')
+                <p class="text-danger">Nominal harus diisi dengan minimal 1000</p>
+            @elseif ($message == 'validation.max.string')
+                <p class="text-danger">Nominal tidak boleh lebih dari 10.000.000</p>
+            @else
+                <p class="text-danger">{{ $message }}</p>
+            @endif
         @enderror
 
         <label for="jumlah_cicilan">Jumlah Angsuran :</label><br>
