@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller; 
 use App\Models\Beban;
 use App\Models\Pendapatan;
 use App\Models\Saldo;
