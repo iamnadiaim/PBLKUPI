@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @if (auth()->user()->role->nama_role == 'admin')
-@section('title', "Hai, Admin $namaUsaha 🙌")
+@section('title', "Hai, Admin $namaUsaha 🙌") 
 @else
 @section('title', "Halo, Pegawai $namaUsaha 🖐️ ")
 @endif
