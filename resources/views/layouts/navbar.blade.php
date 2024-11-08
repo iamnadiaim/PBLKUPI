@@ -7,7 +7,7 @@
 
   /* Optional: Custom styles for the scrollbar */
   .scrollable-content::-webkit-scrollbar {
-    width: 8px; /* Width of the scrollbar */
+    width: 8px; /* Width of the scrollbar */ 
   }
   .scrollable-content::-webkit-scrollbar-thumb {
     background-color: #ffff; /* Color of the scrollbar */
