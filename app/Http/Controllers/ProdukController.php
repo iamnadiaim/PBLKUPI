@@ -67,6 +67,12 @@ class ProdukController extends Controller
             'harga' => 'required|numeric|min:1',
             'stok' => 'required|numeric|min:1'
             // Sesuaikan validasi dengan kebutuhan Anda
+        ],
+        [
+            'harga.min' => 'Harga Produk Harus diatas 0',
+            'harga.numeric' => 'Harga Produk Harus Angka',
+            'stok.min' => 'Stok Produk Harus diatas 0',
+            'stok.numeric' => 'Stok Produk Harus Angka',
         ]);
 
         $validatedData['id_usaha'] = auth()->user()->id_usaha;
@@ -151,12 +157,22 @@ class ProdukController extends Controller
         'stok' => $stokBaru // Update stok dengan nilai baru yang ditambahkan
     ]);
 
-    activity()
-                ->causedBy(auth()->user()) 
-                ->event($produk->nama_produk)
-                ->log('Mengubah Data Produk');
+    $activity = new \Spatie\Activitylog\Models\Activity();
 
-    return redirect()->route('produks.index')
+                $activity->log_name = 'default'; 
+                $activity->description = $produk->nama_produk;
+                $activity->subject_type = get_class($produk);
+                $activity->event = 'Mengubah data Produk';
+                $activity->subject_id = $produk->id;
+                $activity->causer_type = get_class(auth()->user());
+                $activity->causer_id = auth()->id();
+                $activity->entity_id = $produk->id; // Menyimpan ID produk
+                $activity->entity_type = 'produk';   // Menyimpan tipe produk
+                $activity->created_at = now();
+                $activity->updated_at = now();
+                $activity->save();
+
+    return redirect()->route('produks.index',['highlight' => $produk->id])
         ->with('success', 'Produk berhasil diperbarui'); // Redirect ke halaman detail produk dengan pesan sukses
 }
     public function destroy($id): RedirectResponse
@@ -165,10 +181,21 @@ class ProdukController extends Controller
         $produk = Produk::findOrFail($id);
         $produk->delete();
 
-        activity()
-            ->causedBy(auth()->user()) 
-            ->event($produk->nama_produk)
-            ->log('Menghapus Produk');
+        $activity = new \Spatie\Activitylog\Models\Activity();
+
+                $activity->log_name = 'default'; 
+                $activity->description = $produk->nama_produk;
+                $activity->subject_type = get_class($produk);
+                $activity->event = 'Menghapus Produk';
+                $activity->subject_id = $produk->id;
+                $activity->causer_type = get_class(auth()->user());
+                $activity->causer_id = auth()->id();
+                $activity->entity_id = $produk->id; // Menyimpan ID produk
+                $activity->entity_type = 'produk';   // Menyimpan tipe produk
+                $activity->created_at = now();
+                $activity->updated_at = now();
+                $activity->save();
+
         return redirect()->back()->with('destroy', 'Produk berhasil dihapus'); // Redirect ke halaman daftar produk dengan pesan sukses
     }
 }

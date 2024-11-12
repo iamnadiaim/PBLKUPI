@@ -36,7 +36,7 @@ class KategoriController extends Controller
         $validate = $request->validate([
             "nama" => "required"
         ]);
-
+        // dd($request->all());
         $validate['id_usaha'] = auth()->user()->id_usaha;
 
         Kategori::create($validate);

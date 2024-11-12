@@ -34,14 +34,14 @@ class DatabaseSeeder extends Seeder
             ]
         ]);
 
-        Usaha::create([
+        $usaha = Usaha::create([
             "nama_usaha" => "Kue Kering Pandan",
             "alamat" => "Jalan. abc"
         ]);
 
         User::create([
             "id_role" => 1,
-            "id_usaha" => 1,
+            "id_usaha" => $usaha->id,
             "nama" => 'admin',
             "email" => 'admin@gmail.com',
             "no_telepon" =>'081234567890',
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
 
         User::create([
             "id_role" => 2,
-            "id_usaha" => 1,
+            "id_usaha" => $usaha->id,
             "nama" => 'pegawai',
             "email" => 'pegawai@gmail.com',
             "no_telepon" =>'081999999999',

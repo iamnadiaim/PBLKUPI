@@ -35,7 +35,7 @@ class laporanhpController extends Controller
             ->whereYear('created_at', $selectedDate->year)
             ->whereMonth('created_at', $selectedDate->month)
             ->get();
-
+        // $tes = piutang::where('id_usaha', $idUsaha)->get();
         // Calculate total hutang (payables)
         $totalHutang = $hutangs->sum('jumlah_hutang');
 
@@ -69,7 +69,8 @@ class laporanhpController extends Controller
             'totalHutang',
             'totalPiutang',
             'totalTransaksi',
-            'bulan'
+            'bulan',
+          
         ));
     }
 
@@ -98,7 +99,8 @@ class laporanhpController extends Controller
             ->whereYear('created_at', $selectedDate->year)
             ->whereMonth('created_at', $selectedDate->month)
             ->get();
-
+        // dd($hutangs);
+        $assumasi = piutang::where('id_usaha', $idUsaha)->get();
         // Calculate total hutang (payables)
         $totalHutang = $hutangs->sum('jumlah_hutang');
 

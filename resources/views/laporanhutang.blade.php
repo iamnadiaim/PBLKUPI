@@ -142,7 +142,7 @@
                                     <!-- Kolom "Menerima" selalu menampilkan 0 karena data jumlah piutang hanya ditampilkan di loop berikutnya -->
                                 </tr>
                             @endforeach
-
+                            {{-- {{dd($piutangs)}} --}}
                             @foreach ($piutangs as $piutang)
                                 <tr>
                                     <td>{{ $piutang->tanggal_pinjaman }}</td>

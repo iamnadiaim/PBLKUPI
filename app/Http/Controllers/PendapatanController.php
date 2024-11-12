@@ -63,7 +63,7 @@ class PendapatanController extends Controller
         $product->update([
             'stok' => $stok
         ]);
-    
+        // dd($validatedData);
         // Simpan data pendapatan baru ke dalam database
         $pendapatan = Pendapatan::create($validatedData);
         $activity = new \Spatie\Activitylog\Models\Activity();

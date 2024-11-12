@@ -38,7 +38,7 @@ class HutangController extends Controller
         $validatedData['sisa_hutang'] = $validatedData['jumlah_hutang'];
     
         $validatedData['status'] = false;
-    
+        // dd($validatedData);
         hutang::create($validatedData);
         return redirect()->route('hutang.index')
                          ->with('success', 'Hutang berhasil ditambahkan');

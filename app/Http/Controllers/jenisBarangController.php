@@ -20,6 +20,8 @@ class jenisBarangController extends Controller
     {
         $validate = $request->validate([
             "nama" => "required|string"
+        ], [
+            'nama.string' => 'Nama jenis barang harus berupa huruf',
         ]);
 
         $validate['id_usaha'] = auth()->user()->id_usaha;

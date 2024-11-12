@@ -29,6 +29,14 @@
         <a href="{{ route('riwayatbeban') }}" class="btn btn-secondary">Pengeluaran</a>
         @endif
     </div>
+    
+    <div class="mb-3">
+        <h5 class="text-lg font-semibold">Total Pendapatan</h5>
+        <span style="background-color: #4ade80; padding: 10px; color: #fff;" class="px-4 py-2 rounded-lg font-bold text-xl">
+            {{'Rp ' .$totalPendapatan}}
+        </span>
+    </div>
+    
     {{-- <div class="input-group mb-3">
         <input type="text" class="form-control" id="startDate" placeholder="dd/mm/yy">
         <span class="input-group-text">-</span>

@@ -32,6 +32,7 @@ class PiutangController extends Controller
         $validatedData['id_usaha'] = auth()->user()->id_usaha;
     
         $validatedData['sisa_piutang'] = $validatedData['jumlah_piutang'];
+        // dd($validatedData);
         piutang::create($validatedData);
         
         $validatedData['status'] = false;
