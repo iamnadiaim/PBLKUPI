@@ -71,13 +71,29 @@
         <label for="jumlah_cicilan">Jumlah Angsuran :</label><br>
         <input type="number" id="jumlah_cicilan" name="jumlah_cicilan" required class="form-control" min="0" value="{{ old('jumlah_cicilan') }}">
         @error('jumlah_cicilan')
-          <span class="error">{{ $message }}</span>
+        @if ($message == 'validation.required')
+                <p class="text-danger">Nominal harus diisi.</p>
+            @elseif ($message == 'validation.min.string')
+                <p class="text-danger">Nominal harus diisi dengan minimal 1 kali</p>
+            @elseif ($message == 'validation.max.string')
+                <p class="text-danger">Nominal tidak boleh lebih dari 60 kali</p>
+            @else
+                <p class="text-danger">{{ $message }}</p>
+            @endif
         @enderror
 
         <label for="nama">Catatan  :</label><br>
         <textarea type="text" rows="5" id="catatan" name="catatan" required class="form-control" value="{{ old('catatan') }}" ></textarea>
         @error('catatan')
-          <span class="error">{{ $message }}</span>
+        @if ($message == 'required')
+                <p class="text-danger">Nama harus diisi.</p>
+            @elseif ($message == 'min.string')
+                <p class="text-danger">Nama harus diisi dengan minimal 10 karakter.</p>
+            @elseif ($message == 'max.string')
+                <p class="text-danger">Nama tidak boleh lebih dari 255 karakter.</p>
+            @else
+                <p class="text-danger">{{ $message }}</p>
+            @endif
         @enderror
 
         <div class="mt-3" style="text-align: left;">

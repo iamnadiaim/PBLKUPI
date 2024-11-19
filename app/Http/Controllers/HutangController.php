@@ -24,9 +24,9 @@ class HutangController extends Controller
     {
         $request->validate([
             'nama' => 'required|min:2|max:60',
-            'catatan' => 'required',
+            'catatan' => 'required|min:10|max:255',
             'jumlah_hutang' => 'required|numeric|min:1000|max:10000000',
-            'jumlah_cicilan' => 'required|numeric|min:1',
+            'jumlah_cicilan' => 'required|numeric|min:1|max:60',
             'tanggal_pinjaman' => 'required|date',
             'tanggal_jatuh_tempo' => 'required|date',
         ]);
