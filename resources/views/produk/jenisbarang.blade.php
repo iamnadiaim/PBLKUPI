@@ -17,7 +17,18 @@
                 <label for="jenis_barang" class="form-label">Nama Jenis Barang :</label>
                 <input type="text" id="jenis_barang" name="nama" required class="form-control">
                 @error('nama')
-                    <div class="text-danger">{{ $message }}</div>
+                    <div class="text-danger">
+                        {{-- Menampilkan pesan kesalahan sesuai validasi --}}
+                        @if ($message === "Jenis barang tidak sesuai format.")
+                            Jenis barang tidak sesuai format.
+                        @elseif ($message === "Format jenis barang tidak boleh mengandung karakter spesial.")
+                            Format jenis barang tidak boleh mengandung karakter spesial.
+                        @elseif ($message === "Data sudah ada.")
+                            Data sudah ada.
+                        @else
+                            {{ $message }}
+                        @endif
+                    </div>
                 @enderror
             </div>
 
