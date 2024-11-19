@@ -3,13 +3,12 @@
 @section('title', 'Pengeluaran')
 
 @section('contents')
-
 <div class="container">
     @if (session()->has('tambah'))
     <div class="d-flex justify-content-end">
       <div class="toast my-4 bg-primary" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
         <div class="toast-header bg-primary text-light justify-content-between">
-          <div class="toast-body text-ligth">
+          <div class="toast-body text-light">
             {{ session('tambah') }}
           </div>
           <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -19,64 +18,71 @@
       </div>
     </div>
     @endif
+
     <div class="row justify-content-center">
         <div class="col-md-6">
             <form action="{{ route('beban.store') }}" method="post">
                 @csrf
+
+                <!-- Tanggal -->
                 <div>
-                <label for="tanggal">Tanggal :</label><br>
-                <input type="date" placeholder="Tanggal" required name="tanggal" value="{{ old('tanggal') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                @error('tanggal')
-                    <p class="text-red">Tanggal tidak boleh lebih dari hari ini.</p>
-                @enderror
+                    <label for="tanggal">Tanggal :</label><br>
+                    <input type="date" placeholder="Tanggal" required name="tanggal" value="{{ old('tanggal') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                    @error('tanggal')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                <!-- Kategori -->
                 <label for="kategori">Kategori :</label><br>
                 <a href="{{ route('kategori.index') }}" class="tambah-kategori">Tambah Kategori +</a>
                 <select name="id_kategori" required class="form-control">
-                    <option value="" disabled selected>Select a Kategori</option>
+                    <option value="" disabled selected>Pilih Kategori</option>
                     @foreach($kategoris as $kategori)
-                        <option value="{{ $kategori->id }}" {{ old('produk') == $kategori->id ? 'selected' : '' }}>
+                        <option value="{{ $kategori->id }}" {{ old('id_kategori') == $kategori->id ? 'selected' : '' }}>
                             {{ $kategori->nama }}
                         </option>
                     @endforeach
-                    </select>
-
-                @error('produk')
-                    <p class="text-red">{{ $message }}</p>
+                </select>
+                @error('id_kategori')
+                    <p class="text-danger">{{ $message }}</p>
                 @enderror
 
-
+                <!-- Nama -->
                 <label for="nama">Nama :</label><br>
-                <input type="text" id="nama_produk" name="nama" required class="form-control">
-                @error('nama_produk')
-                    <span class="error">{{ $message }}</span>
+                <input type="text" id="nama_produk" name="nama" value="{{ old('nama') }}" required class="form-control">
+                @error('nama')
+                    <span class="text-danger">{{ $message }}</span>
                 @enderror
 
-
+                <!-- Jumlah -->
                 <label for="jumlah">Jumlah :</label><br>
-                <input type="text" id="harga" name="jumlah" required class="form-control" required>
+                <input type="number" id="jumlah" name="jumlah" value="{{ old('jumlah') }}" required class="form-control" min="1">
+                @error('jumlah')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+
+                <!-- Harga -->
+                <label for="harga">Harga :</label><br>
+                <input type="number" id="harga" name="harga" value="{{ old('harga') }}" required class="form-control" min="1000">
                 @error('harga')
-                    <span class="error">{{ $message }}</span>
+                    <span class="text-danger">{{ $message }}</span>
                 @enderror
 
-
-                <label for="harga">Harga:</label><br>
-                <input type="number" id="stok" name="harga" required class="form-control" min="0">
-                @error('stok')
-                    <span class="error">{{ $message }}</span>
-                @enderror
-
+                <!-- Submit Button -->
                 <div class="mt-3" style="text-align: center;">
-					<input type="submit" class="btn btn-primary" value="Tambah">
-				</div>
+                    <input type="submit" class="btn btn-primary" value="Tambah">
+                </div>
             </form>
         </div>
     </div>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    var myToast = new bootstrap.Toast(document.getElementById('myToast'));
-    myToast.show();
-  });
+        var myToast = new bootstrap.Toast(document.getElementById('myToast'));
+        myToast.show();
+    });
 </script>
 @endsection
+

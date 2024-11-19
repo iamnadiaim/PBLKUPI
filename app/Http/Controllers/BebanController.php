@@ -44,15 +44,23 @@ class BebanController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // Validasi data yang diterima dari formulir
-        // dd($request->all());
         $validatedData = $request->validate([
-            'tanggal' => 'required',
-            'nama' => 'required',
-            'id_kategori' => 'required',
-            'jumlah' => 'required',
-            'harga' => 'required|numeric'
-            // Sesuaikan validasi dengan kebutuhan Anda
-        ]);
+        'tanggal' => 'required',
+        'nama' => 'required|string|min:2|max:60',
+        'id_kategori' => 'required',
+        'jumlah' => 'required|integer|min:1',
+        'harga' => 'required|numeric|min:1000'
+    ], [
+        'nama.required' => 'Nama wajib diisi.',
+        'nama.min' => 'Nama harus memiliki minimal 2 karakter.',
+        'nama.max' => 'Nama tidak boleh lebih dari 60 karakter.',
+        'jumlah.required' => 'Jumlah wajib diisi.',
+        'jumlah.integer' => 'Jumlah harus berupa angka.',
+        'jumlah.min' => 'Jumlah minimal harus 1.',
+        'harga.required' => 'Harga wajib diisi.',
+        'harga.numeric' => 'Harga harus berupa angka.',
+        'harga.min' => 'Harga minimal harus 1000.'
+    ]);
 
         $validatedData['id_usaha'] = auth()->user()->id_usaha;
         dd($validatedData);

@@ -34,7 +34,11 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            "nama" => "required"
+            "nama" => "required|string|min:2|max:50|unique:kategoris,nama"
+        ], [
+            'nama.min' => 'Nama kategori harus memiliki minimal 2 karakter.',
+            'nama.max' => 'Nama kategori tidak boleh lebih dari 50 karakter.',
+            'nama.unique' => 'Nama kategori sudah ada, silakan gunakan nama lain.'
         ]);
         // dd($request->all());
         $validate['id_usaha'] = auth()->user()->id_usaha;

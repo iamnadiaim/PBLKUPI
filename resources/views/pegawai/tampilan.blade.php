@@ -89,6 +89,7 @@ Activity
             <th>Foto</th>
             <th>Nama Pegawai</th>
             <th>Email</th>
+            <th>Alamat</th>
             <th>No Telepon</th>
             <th>Aksi</th>
           </tr>
@@ -106,13 +107,14 @@ Activity
             </td>
             <td> {{ $pegawai->nama }} </td>
             <td> {{ $pegawai->email }} </td>
+            <td> {{ $pegawai->alamat }} </td>
             <td> {{ $pegawai->no_telepon }} </td>
             <td class="action-buttons">
               {{-- <a href="{{ route('produks.edit', $produk->id) }}" class="btn btn-primary">Edit</a> --}}
-              <form action="{{ route('pegawai.destroy', $pegawai->id) }}" method="POST">
+              <form action="{{ route('pegawai.destroy', $pegawai->id) }}" method="POST" onsubmit="return confirmDelete()">
                   @csrf
                   @method('DELETE')
-                  <button  class="btn btn-danger" onclick="return confirm('Anda Yakin Hapus??')">Hapus</button>
+                  <button type="submit" class="btn btn-danger">Hapus</button>
               </form>
             </td>
           </tr>
@@ -127,6 +129,9 @@ Activity
   var myToast = new bootstrap.Toast(document.getElementById('myToast'));
   myToast.show();
 });
+    function confirmDelete() {
+        return confirm('Anda Yakin Hapus?');
+    }
 </script>
 @endsection
 
