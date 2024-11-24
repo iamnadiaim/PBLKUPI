@@ -28,42 +28,50 @@ class PendapatanController extends Controller
     }
 
     public function store(Request $request): RedirectResponse
-    {
-        // Validasi data yang diterima dari formulir
-        $validatedData = $request->validate([
-            'tanggal' => 'required',
-            'id_produk' => 'required|exists:produks,id', // Make sure the product exists // Make sure the product exists
-            'jumlah_produk' => [
-                'required',
-                'numeric',
-                'min:1',
-                function ($attribute, $value, $fail) use ($request) {
-                    // Custom validation rule to check if the quantity is greater than the available stock
-                    $product = Produk::find($request->id_produk);
-                    if ($product && $value > $product->stok) {
-                        $fail('Jumlah Produk Melebihi Stok Yang Tersedia');
-                    }
-                },
-            ],
-            'nama_pembeli' => 'required|string|max:255', 
-    // Other fields and rules...
-            // Sesuaikan validasi dengan kebutuhan Anda
-        ]);
-    
-        $product = Produk::find($validatedData['id_produk']);
+{
+    // Validasi data yang diterima dari formulir
+    $validatedData = $request->validate([
+        'tanggal' => 'required|date',
+        'id_produk' => 'required|exists:produks,id', 
+        'jumlah_produk' => [
+            'required',
+            'numeric',
+            'min:1',
+            function ($attribute, $value, $fail) use ($request) {
+                // Custom validation rule to check if the quantity is greater than the available stock
+                $product = Produk::find($request->id_produk);
+                if ($product && $value > $product->stok) {
+                    $fail('Jumlah Produk Melebihi Stok Yang Tersedia');
+                }
+            },
+        ],
+        'nama_pembeli' => [
+            'required',
+            'string',
+            'min:3',
+            'max:60',
+            'regex:/^[a-zA-Z0-9\s]+$/', // Hanya huruf, angka, dan spasi
+        ],
+    ], [
+        'nama_pembeli.required' => 'Nama pembeli wajib diisi.',
+        'nama_pembeli.min' => 'Nama harus diisi minimal 3 karakter.',
+        'nama_pembeli.max' => 'Nama tidak boleh diisi lebih dari 60 karakter.',
+        'nama_pembeli.regex' => '"format nama tidak sesuai.',
+    ]);
 
-        $validatedData['id_usaha'] = auth()->user()->id_usaha;
-        
-        $validatedData['harga_produk'] = $product->harga;
+    $product = Produk::find($validatedData['id_produk']);
 
-        $validatedData['total'] = $product->harga * $validatedData['jumlah_produk'];
-    
-        $stok = $product->stok - $validatedData['jumlah_produk'];
-    
-        $product->update([
-            'stok' => $stok
-        ]);
-        // dd($validatedData);
+    $validatedData['id_usaha'] = auth()->user()->id_usaha;
+    $validatedData['harga_produk'] = $product->harga;
+    $validatedData['total'] = $product->harga * $validatedData['jumlah_produk'];
+
+    $stok = $product->stok - $validatedData['jumlah_produk'];
+
+    $product->update([
+        'stok' => $stok
+    ]);
+
+      // dd($validatedData);
         // Simpan data pendapatan baru ke dalam database
         $pendapatan = Pendapatan::create($validatedData);
         $activity = new \Spatie\Activitylog\Models\Activity();
@@ -86,6 +94,7 @@ class PendapatanController extends Controller
         return redirect()->route('riwayat.index', ['highlight' => $pendapatan->id])
         ->with('success', 'Transaksi baru berhasil ditambahkan'); // Redirect ke halaman detail pendapatan dengan pesan sukses
     }
+
     
 
     // public function edit($id):View
