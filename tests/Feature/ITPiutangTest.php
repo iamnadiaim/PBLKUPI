@@ -22,14 +22,12 @@ class ITPiutangTest extends TestCase
         ]);
     }
 
-    // IT-Piutang-01: Pengujian interface Piutang
-    public function testViewPiutang()
+    // IT-Piutang-01: Pengujian tampilan Piutang
+    public function test_View_Piutang()
 {
 
     // Mengakses halaman piutang
     $response = $this->get(route('piutang.index'));
-
-    // Memastikan halaman berhasil dimuat (status 200)
     $response->assertStatus(200);
 
     // Memastikan ada tabel yang berisi data piutang
@@ -41,27 +39,27 @@ class ITPiutangTest extends TestCase
 
 
     // IT-Piutang-02: Pengujian tambah piutang
-    public function test_add_piutang()
+    public function test_view_piutang_create_piutang()
 {
-    // Go to the "Create Piutang" page
+    // view halaman "Create Piutang"
     $response = $this->get(route('piutang.create'));
     $response->assertStatus(200);
 
-    // Fill in the form with piutang data
+    // mengisi piutang data
     $response = $this->post(route('piutang.store'), [
         'tanggal_pinjaman' => '2024-11-24',
         'tanggal_jatuh_tempo' => '2025-11-24',
         'nama' => 'Customer Test',
         'jumlah_piutang' => 5000,
         'jumlah_cicilan' => 12,
-        'catatan' => 'Test piutang addition',
+        'catatan' => 'Test piutang',
     ]);
 
-    // Assert the piutang was added successfully and redirected to the index page
+    // Memastikan redirect kembali ke halaman piutang
     $response->assertRedirect(route('piutang.index'));
     $response->assertSessionHas('success', 'Piutang berhasil ditambahkan.');
 
-    // Verify the new piutang appears in the list
+    //  Memverifikasi data baru berhasil ditampilkan
     $this->get(route('piutang.index'))
          ->assertSeeText('Customer Test')
          ->assertSeeText('5000')
