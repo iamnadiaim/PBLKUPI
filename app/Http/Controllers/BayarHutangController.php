@@ -9,10 +9,9 @@ class BayarHutangController extends Controller
 {
     public function index(Request $request)
     {
-        $hutang = Hutang::findOrFail($request->id);
+        $hutangs = Hutang::where('id_usaha', auth()->user()->id_usaha)->get();
         $bayarhutang = BayarHutang::all();
-        $hutangs = Hutang::where('id_usaha', auth()->user()->id_usaha)->get(); 
-        return view('pembayaran.hutang', compact('bayarhutang','hutangs')); 
+        return view('pembayaran.hutang', compact('bayarhutang', 'hutangs'));
     }
 
     public function create($id)
@@ -23,37 +22,52 @@ class BayarHutangController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
+        // Validate input
         $request->validate([
-            'tanggal_pembayaran' => 'required|date',
+            'tanggal_pembayaran' => 'required|date|before_or_equal:today',
             'nama' => 'required|string',
-            'pembayaran' => 'required|string',
+            'pembayaran' => 'required|string|min:4|max:20',
             'jumlah' => 'required|numeric|min:0',
         ]);
 
-        $hutang = Hutang::where('id', $request->id)->first();
+        $hutang = Hutang::findOrFail($request->id);
 
         if ($hutang->jumlah_cicilan <= 0) {
-            return redirect()->back()->with('error', 'Jumlah cicilan sudah habis');
+            return redirect()->back()->with('error', 'Jumlah cicilan sudah habis.');
         }
 
         if ($request->jumlah > $hutang->sisa_hutang) {
-            return redirect()->back()->with('error', 'Jumlah melebihi sisa hutang');
+            return redirect()->back()->withErrors(['jumlah' => 'Jumlah melebihi sisa hutang.']);
         }
 
+        // Custom validation for when there is only 1 installment remaining
+        if ($hutang->jumlah_cicilan == 1 && $request->jumlah != $hutang->sisa_hutang) {
+            return redirect()->back()->withErrors([
+                'jumlah' => 'Nominal pembayaran harus sama dengan sisa hutang karena ini adalah cicilan terakhir.'
+            ]);
+        }
+
+        // Validasi tambahan untuk angsuran minimal
+        if ($request->jumlah < ($hutang->sisa_hutang / $hutang->jumlah_cicilan)) {
+            return redirect()->back()->withErrors([
+                'jumlah' => 'Pembayaran tidak mencukupi jumlah angsuran yang ditentukan.',
+            ]);
+        }
+
+        // Mengurangi sisa hutang
         $sisa_hutang = $hutang->sisa_hutang - $request->jumlah;
         $hutang->sisa_hutang = $sisa_hutang;
 
         if ($sisa_hutang <= 0) {
-            $hutang->status = true; // Mengubah status menjadi true jika lunas
+            $hutang->status = true; // Hutang lunas
         }
         $hutang->save();
 
-        // Simpan data pembayaran hutang
+        // Simpan data pembayaran
         BayarHutang::create([
             'id_hutang' => $hutang->id,
             'tanggal_pembayaran' => $request->tanggal_pembayaran,
-            'nama' => $request->nama,
+            'nama' => $hutang->nama,
             'pembayaran' => $request->pembayaran,
             'jumlah' => $request->jumlah,
             'id_usaha' => $hutang->id_usaha,

@@ -23,12 +23,22 @@ class HutangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|min:2|max:60',
+            'nama' => 'required|min:2|max:60|unique:hutangs,nama',
             'catatan' => 'required|min:10|max:255',
             'jumlah_hutang' => 'required|numeric|min:1000|max:10000000',
             'jumlah_cicilan' => 'required|numeric|min:1|max:60',
-            'tanggal_pinjaman' => 'required|date',
-            'tanggal_jatuh_tempo' => 'required|date',
+            'tanggal_pinjaman' => 'required|date|before_or_equal:today',
+            'tanggal_jatuh_tempo' => 'required|date|after_or_equal:today|after_or_equal:tanggal_pinjaman',
+        ], [
+            'nama.min' => 'Nama harus memiliki minimal 2 karakter.',
+            'nama.max' => 'Nama tidak boleh lebih dari 60 karakter.',
+            'nama.unique' => 'Nama Customer telah digunakan. Silakan gunakan nama lain.',
+            'catatan.min' => 'Catatan harus memiliki minimal 10 karakter.',
+            'catatan.max' => 'Catatan tidak boleh lebih dari 255 karakter.',
+            'jumlah_hutang.min' => 'Nominal tidak boleh kurang dari 1000.',
+            'jumlah_hutang.max' => 'Nominal tidak boleh lebih dari 10000000.',
+            'jumlah_cicilan.min' => 'Jumlah cicilan minimal 1.',
+            'jumlah_cicilan.max' => 'Jumlah cicilan tidak boleh lebih dari 60.',
         ]);
     
         $validatedData = $request->all();

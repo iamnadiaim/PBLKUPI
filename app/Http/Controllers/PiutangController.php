@@ -50,3 +50,4 @@ class PiutangController extends Controller
                          ->with('success', 'Piutang berhasil ditambahkan.');
     }
 }
+

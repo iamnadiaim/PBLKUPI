@@ -21,11 +21,14 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'nama' => $this->faker->name(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'id_role' => 1, 
+            'id_usaha' => 1,
+            'no_telepon' => $this->faker->phoneNumber(), 
+            // 'email_verified_at' => now(),
+            // 'remember_token' => Str::random(10),
         ];
     }
 
@@ -36,6 +39,31 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+    /**
+     * Set a custom id_usaha for the user.
+     *
+     * @param  int  $idUsaha
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function withUsaha(int $idUsaha): static
+    {
+        return $this->state([
+            'id_usaha' => $idUsaha,
+        ]);
+    }
+
+    /**
+     * Set a custom id_role for the user.
+     *
+     * @param  int  $idRole
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function withRole(int $idRole): static
+    {
+        return $this->state([
+            'id_role' => $idRole,
         ]);
     }
 }

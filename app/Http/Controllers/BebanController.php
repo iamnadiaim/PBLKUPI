@@ -63,7 +63,7 @@ class BebanController extends Controller
     ]);
 
         $validatedData['id_usaha'] = auth()->user()->id_usaha;
-        dd($validatedData);
+        
         // Simpan data beban baru ke dalam database
         beban::create($validatedData);
 

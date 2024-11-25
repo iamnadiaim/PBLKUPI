@@ -22,47 +22,63 @@ class BayarPiutangController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'tanggal_pembayaran' => 'required|date|before_or_equal:today',
-            'nama' => 'required|string' ,
-            'pembayaran' => 'required|string',
-            'jumlah' => 'required|numeric|min:0',
+{
+    // Validate input fields
+    $request->validate([
+        'tanggal_pembayaran' => 'required|date|before_or_equal:today',
+        'nama' => 'required|string',
+        'pembayaran' => 'required|string|min:4|max:20',
+        'jumlah' => 'required|numeric',
+    ]);
+
+    // Retrieve the Piutang based on ID
+    $piutang = Piutang::where('id', $request->id)->first();
+
+    // Check if the installments are completed
+    if ($piutang->jumlah_cicilan <= 0) {
+        return redirect()->back()->with('error', 'Jumlah cicilan sudah habis.');
+    }
+
+    // Check if the payment amount exceeds the remaining debt (sisa_piutang)
+    if ($request->jumlah > $piutang->sisa_piutang) {
+        return redirect()->back()->withErrors(['jumlah' => 'Jumlah melebihi sisa piutang.']);
+    }
+
+    // Custom validation for when there is only 1 installment remaining
+    if ($piutang->jumlah_cicilan == 1 && $request->jumlah != $piutang->sisa_piutang) {
+        return redirect()->back()->withErrors([
+            'jumlah' => 'Nominal pembayaran harus sama dengan sisa piutang karena ini adalah cicilan terakhir.'
         ]);
+    }
 
-        $piutang = piutang::where('id', $request->id)->first();
-
-        if ($piutang->jumlah_cicilan <= 0) {
-            return redirect()->back()->with('error', 'Jumlah cicilan sudah habis');
-        }
-
-        // Validasi jika jumlah pembayaran melebihi sisa piutang
-        if ($request->jumlah > $piutang->sisa_piutang) {
-            return redirect()->back()->withErrors(['jumlah' => 'Jumlah melebihi sisa piutang']);
-        }
-
-       // Mengurangi sisa piutang dengan jumlah pembayaran
-        $sisa_piutang = $piutang->sisa_piutang - $request->jumlah;
-        $piutang->sisa_piutang = $sisa_piutang;
-
-        // Memeriksa apakah piutang sudah lunas
-        if ($sisa_piutang <= 0) {
-            $piutang->status = true; // Menandakan piutang telah lunas
-        }
-        
-        $piutang->save();
-
-        // Simpan data pembayaran piutang
-        BayarPiutang::create([
-            'id_piutang' => $piutang->id,
-            'tanggal_pembayaran' => $request->tanggal_pembayaran,
-            'nama' => $piutang->nama,
-            'pembayaran' => $request->pembayaran,
-            'jumlah' => $request->jumlah,
-            'id_usaha' => $piutang->id_usaha,
+    // Custom validation for minimum installment payment
+    $minimum_payment = $piutang->sisa_piutang / $piutang->jumlah_cicilan;
+    if ($request->jumlah < $minimum_payment) {
+        return redirect()->back()->withErrors([
+            'jumlah' => 'Pembayaran tidak mencukupi jumlah angsuran yang ditentukan.'
         ]);
+    }
 
-        return redirect()->route('piutang.index')->with('success', 'Pembayaran piutang berhasil disimpan.');
+    // Update the remaining debt after payment
+    $sisa_piutang = $piutang->sisa_piutang - $request->jumlah;
+    $piutang->sisa_piutang = $sisa_piutang;
+
+    // If the debt is fully paid off, update the status
+    if ($sisa_piutang <= 0) {
+        $piutang->status = true; // Mark as paid off
+    }
+    $piutang->save();
+
+    // Create a new BayarPiutang entry
+    BayarPiutang::create([
+        'id_piutang' => $piutang->id,
+        'tanggal_pembayaran' => $request->tanggal_pembayaran,
+        'nama' => $request->nama,
+        'pembayaran' => $request->pembayaran,
+        'jumlah' => $request->jumlah,
+        'id_usaha' => $piutang->id_usaha,
+    ]);
+
+    return redirect()->route('piutang.index')->with('success', 'Pembayaran piutang berhasil disimpan.');
     }
 }
