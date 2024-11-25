@@ -94,6 +94,7 @@ class PendapatanController extends Controller
         return redirect()->route('riwayat.index', ['highlight' => $pendapatan->id])
         ->with('success', 'Transaksi baru berhasil ditambahkan'); // Redirect ke halaman detail pendapatan dengan pesan sukses
     }
+
     
 
     // public function edit($id):View

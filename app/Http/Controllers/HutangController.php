@@ -27,8 +27,8 @@ class HutangController extends Controller
             'catatan' => 'required|min:10|max:255',
             'jumlah_hutang' => 'required|numeric|min:1000|max:10000000',
             'jumlah_cicilan' => 'required|numeric|min:1|max:60',
-            'tanggal_pinjaman' => 'required|date|before_or_equal:today',
-            'tanggal_jatuh_tempo' => 'required|date|after_or_equal:today|after_or_equal:tanggal_pinjaman',
+            'tanggal_pinjaman' => 'required|date',
+            'tanggal_jatuh_tempo' => 'required|date',
         ], [
             'nama.min' => 'Nama harus memiliki minimal 2 karakter.',
             'nama.max' => 'Nama tidak boleh lebih dari 60 karakter.',
