@@ -39,42 +39,79 @@
           @enderror
         </div>
 
-        <label for="nama">Nama Costumer :</label><br>
-        <input type="text" id="nama" name="nama" required class="form-control" value="{{ old('nama') }}">
-        @error('nama')
-          <span class="error">{{ $message }}</span>
-        @enderror
+         <!-- Nama Customer -->
+        <div class="form-group">
+          <label for="nama">Nama Customer:</label>
+          <input type="text" id="nama" name="nama" required 
+                 class="form-control" 
+                 value="{{ old('nama') }}" >
+          @error('nama')
+            <small class="text-danger">{{ $message }}</small>
+          @enderror
+        </div>
 
-        <label for="jumlah_piutang">Nominal :</label><br>
-        <input type="number" id="jumlah_piutang" name="jumlah_piutang" required class="form-control" min="0" value="{{ old('jumlah_piutang') }}">
-        @error('jumlah_piutang')
-          <span class="error">{{ $message }}</span>
-        @enderror
+        <!-- Nominal -->
+        <div class="form-group">
+          <label for="jumlah_piutang">Nominal:</label>
+          <input type="number" id="jumlah_piutang" name="jumlah_piutang" required 
+                 class="form-control" 
+                 value="{{ old('jumlah_piutang') }}" >
+          @error('jumlah_piutang')
+            <small class="text-danger">{{ $message }}</small>
+          @enderror
+        </div>
 
-        <label for="jumlah_cicilan">Jumlah Angsuran :</label><br>
-        <input type="number" id="jumlah_cicilan" name="jumlah_cicilan" required class="form-control" min="0" value="{{ old('jumlah_cicilan') }}">
-        @error('jumlah_cicilan')
-          <span class="error">{{ $message }}</span>
-        @enderror
+        <!-- Jumlah Cicilan -->
+        <div class="form-group">
+          <label for="jumlah_cicilan">Jumlah Cicilan:</label>
+          <input type="number" id="jumlah_cicilan" name="jumlah_cicilan" required 
+                 class="form-control" 
+                 value="{{ old('jumlah_cicilan') }}" >
+          @error('jumlah_cicilan')
+            <small class="text-danger">{{ $message }}</small>
+          @enderror
+        </div>
 
-        <label for="nama">Catatan  :</label><br>
-        <textarea type="text" rows="5" id="catatan" name="catatan" required class="form-control" value="{{ old('catatan') }}" ></textarea>
-        @error('catatan')
-          <span class="error">{{ $message }}</span>
-        @enderror
+        <!-- Catatan -->
+        <div class="form-group">
+          <label for="catatan">Catatan:</label>
+          <textarea id="catatan" name="catatan" rows="5" required 
+                    class="form-control" 
+                    >{{ old('catatan') }}</textarea>
+          @error('catatan')
+            <small class="text-danger">{{ $message }}</small>
+          @enderror
+        </div>
 
-        <div class="mt-3" style="text-align: left;">
-          <input type="submit" class="btn btn-primary" value="Tambah Piutang">
+        <!-- Tombol Submit -->
+        <div class="mt-3">
+          <button type="submit" class="btn btn-primary">Tambah Piutang</button>
           <a href="{{ route('piutang.index') }}" class="btn btn-danger">Batal</a>
         </div>
       </form>
     </div>
   </div>
 </div>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var myToast = new bootstrap.Toast(document.getElementById('myToast'));
-    myToast.show();
+    const tanggalPinjamanInput = document.getElementById('tanggal_pinjaman');
+    const tanggalJatuhTempoInput = document.getElementById('tanggal_jatuh_tempo');
+
+    // Update min date for tanggal_jatuh_tempo when tanggal_pinjaman changes
+    tanggalPinjamanInput.addEventListener('change', function () {
+      tanggalJatuhTempoInput.min = tanggalPinjamanInput.value;
+    });
+
+    // Initialize min value on page load based on current tanggal_pinjaman
+    tanggalJatuhTempoInput.min = tanggalPinjamanInput.value;
+
+    // Show toast notification
+    const toastElement = document.getElementById('myToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
   });
 </script>
 @endsection

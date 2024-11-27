@@ -15,7 +15,7 @@
     <div class="d-flex justify-content-end">
       <div class="toast my-4 bg-primary" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
         <div class="toast-header bg-primary text-light justify-content-between">
-          <div class="toast-body text-ligth">
+          <div class="toast-body text-light">
             {{ session('success') }}
           </div>
           <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -41,25 +41,25 @@
         <label for="nama">Nama Pemberi Pinjaman:</label><br>
         <input type="text" id="nama" name="nama" required class="form-control" value="{{ $piutang->nama }}" readonly>
         @error('nama')
-          <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
+          <div class="text-danger" style="font-family: Arial, sans-serif;">{{ $message }}</div>
         @enderror
 
         <label for="sisa_piutang">Sisa Piutang:</label><br>
         <input type="text" id="sisa_piutang" name="sisa_piutang" required class="form-control" value="{{ $piutang->sisa_piutang }}" readonly>
         @error('sisa_piutang')
-          <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
+          <div class="text-danger" style="font-family: Arial, sans-serif;">{{ $message }}</div>
         @enderror
 
         <label for="pembayaran">Cara Pembayaran:</label><br>
         <input type="text" id="pembayaran" name="pembayaran" required class="form-control" value="{{ old('pembayaran') }}">
         @error('pembayaran')
-          <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
+          <div class="text-danger" style="font-family: Arial, sans-serif;">{{ $message }}</div>
         @enderror
 
         <label for="jumlah">Nominal :</label><br>
         <input type="number" id="jumlah" name="jumlah" required class="form-control" min="0" value="{{ old('jumlah') }}">
         @error('jumlah')
-          <span class="error" style="font-family: Arial, sans-serif;">{{ $message }}</span>
+          <div class="text-danger" style="font-family: Arial, sans-serif;">{{ $message }}</div>
         @enderror
 
         <div class="mt-3" style="text-align: left;">
@@ -70,10 +70,12 @@
     </div>
   </div>
 </div>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var myToast = new bootstrap.Toast(document.getElementById('myToast'));
     myToast.show();
   });
 </script>
+
 @endsection

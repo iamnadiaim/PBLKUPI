@@ -40,45 +40,37 @@
           @enderror
         </div>
 
+        <div class="form-group">
         <label for="nama">Nama Pemberi Pinjaman :</label><br>
         <input type="text" id="nama" name="nama" required class="form-control" value="{{ old('nama') }}">
         @error('nama')
-            @if ($message == 'required')
-                <p class="text-danger">Nama harus diisi.</p>
-            @elseif ($message == 'min.string')
-                <p class="text-danger">Nama harus diisi dengan minimal 3 karakter.</p>
-            @elseif ($message == 'max.string')
-                <p class="text-danger">Nama tidak boleh lebih dari 60 karakter.</p>
-            @else
-                <p class="text-danger">{{ $message }}</p>
-            @endif
+          <small class="text-danger">{{ $message }}</small>
         @enderror
+        </div>
 
+        <div class="form-group">
         <label for="jumlah_hutang">Nominal :</label><br>
         <input type="number" id="jumlah_hutang" name="jumlah_hutang" required class="form-control" min="0" value="{{ old('jumlah_hutang') }}">
         @error('jumlah_hutang')
-        @if ($message == 'validation.required')
-                <p class="text-danger">Nominal harus diisi.</p>
-            @elseif ($message == 'validation.min.string')
-                <p class="text-danger">Nominal harus diisi dengan minimal 1000</p>
-            @elseif ($message == 'validation.max.string')
-                <p class="text-danger">Nominal tidak boleh lebih dari 10.000.000</p>
-            @else
-                <p class="text-danger">{{ $message }}</p>
-            @endif
+          <small class="text-danger">{{ $message }}</small>
         @enderror
+        </div>
 
+        <div class="form-group">
         <label for="jumlah_cicilan">Jumlah Angsuran :</label><br>
         <input type="number" id="jumlah_cicilan" name="jumlah_cicilan" required class="form-control" min="0" value="{{ old('jumlah_cicilan') }}">
         @error('jumlah_cicilan')
-          <span class="error">{{ $message }}</span>
+          <small class="text-danger">{{ $message }}</small>
         @enderror
-
+        </div>
+        
+        <div class="form-group">
         <label for="nama">Catatan  :</label><br>
         <textarea type="text" rows="5" id="catatan" name="catatan" required class="form-control" value="{{ old('catatan') }}" ></textarea>
         @error('catatan')
-          <span class="error">{{ $message }}</span>
+          <small class="text-danger">{{ $message }}</small>
         @enderror
+        </div>
 
         <div class="mt-3" style="text-align: left;">
           <input type="submit" class="btn btn-primary" value="Tambah Hutang">

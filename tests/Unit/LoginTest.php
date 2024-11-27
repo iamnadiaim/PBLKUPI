@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -20,7 +20,6 @@ class LoginTest extends TestCase
 
     public function test_login_succes_with_valid_data()
     {
-        
         $response = $this->post('/login', [
             'email' => 'admin@gmail.com',
             'password' => 'admin123',
@@ -30,8 +29,8 @@ class LoginTest extends TestCase
         $response->assertRedirect('/dashboard');
     }
     
-    public function test_login_fail_email_and_password_not_registered(){
-
+    public function test_login_fail_email_and_password_not_registered()
+    {
         $response = $this->post('/login', [
             'email' => 'matahari@gmail.com',
             'password' => 'usaha234',
@@ -52,7 +51,6 @@ class LoginTest extends TestCase
         // Pastikan pengguna diarahkan kembali ke halaman login
         $response->assertRedirect('/');
         $response->assertSessionHas("errorLogin", "Email Atau Password Salah");
-
     }
 
     public function test_if_password_salah()
@@ -123,7 +121,6 @@ class LoginTest extends TestCase
             'email' => 'admin@gmail.com',
             'password' => '',
         ]);
-
         $response->assertRedirect('/');
         $response->assertSessionHasErrors(['password']);
     }

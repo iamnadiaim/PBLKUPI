@@ -29,7 +29,7 @@ class SaldoController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            "saldo" => "required"
+            "saldo" => "required|numeric|min:100000"
         ]);
 
         $validatedData['id_usaha'] = auth()->user()->id_usaha;

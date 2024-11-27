@@ -15,8 +15,8 @@
 
             <div class="mb-3">
                 <label for="kategori" class="form-label">Nama Kategori :</label>
-                <input type="text" id="kategori" name="nama" required class="form-control">
-                @error('kategori')
+                <input type="text" id="kategori" name="nama" required class="form-control" value="{{ old('nama') }}">
+                @error('nama')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>

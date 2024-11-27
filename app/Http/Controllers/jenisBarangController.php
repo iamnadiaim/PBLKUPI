@@ -19,10 +19,21 @@ class jenisBarangController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            "nama" => "required|string"
-        ], [
-            'nama.string' => 'Nama jenis barang harus berupa huruf',
-        ]);
+        "nama" => [
+            "required|string",
+            function ($attribute, $value, $fail) {
+                // Periksa apakah data sudah ada
+                if (jenisBarang::where('nama', $value)
+                    ->where('id_usaha', auth()->user()->id_usaha)
+                    ->exists()) {
+                    $fail("Jenis barang sudah ada.");
+                }
+            }
+        ],
+    ], [
+        "nama.required" => "Nama jenis barang harus diisi.", // Jika kosong
+        "nama.string" => 'Nama jenis barang harus berupa huruf',
+    ]);
 
         $validate['id_usaha'] = auth()->user()->id_usaha;
 

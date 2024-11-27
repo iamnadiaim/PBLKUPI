@@ -14,14 +14,23 @@
         @csrf <!-- Tambahkan CSRF token untuk keamanan form -->
         <div class="d-flex align-items-end justify-content-center mb-3">
             <label for="stok" class="flex-shrink-0 mr-2" style="color: black;">Modal Awal Usaha</label>
-            <input type="text" id="stok" name="saldo" class="form-control mr-2" placeholder="Masukkan " @if ($cekSaldo) value="{{ number_format($cekSaldo->saldo, 0, ',', '.') }}" readonly @endif min="0" required>
-            @error('saldo')
-                <span class="text-danger">{{ $message }}</span>
-            @enderror
+            <input type="text" id="stok" name="saldo" class="form-control mr-2" placeholder="Masukkan"
+                @if ($cekSaldo) 
+                    value="{{ number_format($cekSaldo->saldo, 0, ',', '.') }}" 
+                    readonly 
+                @endif 
+                min="100000" 
+                required 
+                inputmode="numeric" 
+                pattern="[0-9]*" 
+                title="Field saldo hanya boleh berisi angka."> <!-- Pesan tooltip saat input salah -->
             @if (!$cekSaldo)
                 <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Data Anda Sudah Benar ??')">OKE</button> <!-- Tambahkan type="submit" pada tombol -->
             @endif  
         </div>
+        @if ($errors->has('saldo'))
+            <div class="text-danger mt-1 mb-4">{{ $errors->first('saldo') }}</div> <!-- Pesan kesalahan ditampilkan di bawah -->
+            @endif
     </form>
 </div>
 @endif

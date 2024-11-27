@@ -35,17 +35,6 @@ class ProdukController extends Controller
         return view('produk.show', compact('produk')); // Menampilkan detail produk ke dalam view
     }
 
-    public function laporan(): View
-    {
-        $produks = Produk::all(); 
-        return view('produk.tampilan', compact('produks'));
-    }
-
-    public function cetak(): View
-    {
-        $produks = Produk::all(); 
-        return view('produk.cetak', compact('produks'));
-    }
 
     public function createproduk(): View
     {

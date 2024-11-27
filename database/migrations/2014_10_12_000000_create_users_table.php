@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_usaha');
             $table->string('nama');
             $table->string('email');
+            $table->string('alamat')->nullable();
             $table->string('no_telepon');
             $table->string('password');
             $table->string('img_profile')->nullable(true);
