@@ -8,67 +8,88 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-
     public function profile()
     {
-        $nama = auth()->user()->nama;
-        $email = auth()->user()->email;
-        $namaUsaha = auth()->user()->usaha->nama_usaha;
-        $alamat = auth()->user()->usaha->alamat;
-        $noTelepon = auth()->user()->no_telepon;
-        $role = auth()->user()->role->nama_role;
-
-        return view('user.edit', compact('nama', 'email', 'namaUsaha', 'alamat', 'noTelepon', 'role'));
+        $user = auth()->user();
+        
+        return view('user.edit', [
+            'user' => $user,
+            'nama' => $user->nama,
+            'email' => $user->email,
+            'namaUsaha' => $user->usaha->nama_usaha ,
+            'alamat' => $user->usaha->alamat  ,
+            'noTelepon' => $user->no_telepon,
+            'role' => $user->role->nama_role , // Handle null untuk role yang tidak ada
+        ]);
     }
 
     public function index()
     {
+        $user = auth()->user();
 
-        $nama = auth()->user()->nama;
-        $email = auth()->user()->email;
-        $namaUsaha = auth()->user()->usaha->nama_usaha;
-        $alamat = auth()->user()->usaha->alamat;
-        $noTelepon = auth()->user()->no_telepon;
-        $role = auth()->user()->role->nama_role;
+        return view('user.index', [
+            'user' => $user,
+            'nama' => $user->nama,
+            'email' => $user->email,
+            'namaUsaha' => $user->usaha->nama_usaha,
+            'alamat' => $user->usaha->alamat,
+            'noTelepon' => $user->no_telepon,
+            'role' => $user->role->nama_role ,
+        ]);
 
-        return view('user.index', compact('nama', 'email', 'namaUsaha', 'alamat', 'noTelepon', 'role'));
-        
     }
 
     public function update(Request $request)
     {
-        $user = User::where('id', Auth::user()->id)->first();
+        $user = auth()->user();
 
-        //   Validation Rules
-        $rules = [
-            'nama' => 'required|string',
-            'email' => 'required|email',
-            'no_telepon' => 'required|string',
-            'img_profile' => 'image|mimes:jpg,jpeg,png',
-        ];
+        $request->validate([
+            'nama' => 'required|string|min:2|max:60',
+            'email' => [
+                'required',
+                'email',
+                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/',
+                'unique:users,email,' . $user->id,
+            ],
+            'no_telepon' => 'required|string|min:7|max:13',
+            'img_profile' => 'nullable|image|mimes:jpg,jpeg,png|max:5120', // Batas ukuran maksimal 5 MB
+            'nama_usaha' => 'required|string|min:2|max:60',
+            'alamat' => 'required|string|min:2|max:60',
+        ], [
+            'nama.min' => 'Nama harus diisi minimal 2 karakter.',
+            'nama.max' => 'Nama harus diisi maksimal 60 karakter.',
+            'nama_usaha.min' => 'Nama usaha harus diisi minimal 2 karakter.',
+            'nama_usaha.max' => 'Nama usaha harus diisi maksimal 60 karakter.',
+            'alamat.min' => 'Alamat harus diisi minimal 2 karakter.',
+            'alamat.max' => 'Alamat harus diisi maksimal 60 karakter.',
+            'img_profile.max' => 'Foto profil tidak boleh lebih dari 5 MB.', // Pesan error khusus
+            'email.unique' => 'Email sudah terdaftar.',
+            'email.regex' => 'Format email tidak sesuai. Email harus menggunakan domain @gmail.com.',
+        ]);
 
-        $request->validate($rules);
-       
-        if ($request->file('img_profile')) {
-            // Proceed with storing the image if format is valid
-            $profile = $request->file('img_profile')->store('images');
-            $user->update(["img_profile" => $profile]);
-        }
-
-        $usaha = Usaha::where('id', auth()->user()->id_usaha);
-
-        if($request->nama_usaha || $request->alamat){
-            $usaha->update([
-                "nama_usaha" => $request->nama_usaha,
-                "alamat" => $request->alamat,
-            ]);
+        // Handle profile image upload
+        if ($request->hasFile('img_profile') && $request->file('img_profile')->isValid()) {
+            // Hapus gambar lama jika ada
+            if ($user->img_profile && Storage::exists('public/' . $user->img_profile)) {
+                Storage::delete('public/' . $user->img_profile);
+            }
+            
+            $profilePath = $request->file('img_profile')->store('images', 'public');
+            $user->img_profile = $profilePath;
         }
 
         // Update user information
-        $user->update($request->except(['img_profile']));
+        $user->update($request->only('nama', 'email', 'no_telepon'));
+
+        // Update usaha information
+        if ($user->usaha) {
+            $user->usaha->update($request->only('nama_usaha', 'alamat'));
+        }
+
         return redirect()->route('profile')->with('success', 'Profile updated successfully.');
     }
 
@@ -77,31 +98,24 @@ class ProfileController extends Controller
         return view('user.password');
     }
 
-    public function gantiPassword(Request $request) {
-        // Validasi input
-        $validate = $request->validate([
+    public function gantiPassword(Request $request)
+    {
+        $request->validate([
             "old_password" => "required",
-            "new_password" => "required|min:8", // Minimal 8 karakter
-            "confirm_password" => "required" // Sama dengan password baru
+            "new_password" => "required|min:8",
+            "confirm_password" => "required|same:new_password"
         ]);
-    
-        // Mendapatkan pengguna yang saat ini login
-        $user = User::where('id', Auth::user()->id)->first();
-    
-        // Memeriksa kecocokan password lama
+
+        $user = auth()->user();
+
         if (!Hash::check($request->old_password, $user->password)) {
             return redirect()->back()->with('error', 'Password lama tidak sesuai');
         }
-        
-        if($request->new_password != $request->confirm_password){
-            return redirect()->back()->with('error', 'Konfirmasi password salah');
-        }
-    
-        // Mengganti password
+
         $user->update([
             'password' => Hash::make($request->new_password)
         ]);
-    
+
         return redirect()->route('profile')->with('success', 'Password berhasil diubah');
     }
 }
