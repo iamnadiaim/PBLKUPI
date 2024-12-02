@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\View\View;
 use App\Models\hutang;
 use App\Models\BayarHutang;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 
 class HutangController extends Controller
 {
