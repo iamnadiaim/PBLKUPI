@@ -332,7 +332,7 @@
       <div class="pic"><img src="assets/img/team/team-5.jpg" class="img-fluid" alt=""></div>
       <div class="member-info">
         <h4>Nisa Kris Cahyani</h4>
-        <span>Mobile Developer</span>
+        <span>Web Developer</span>
         <p>Tidak Ada Batas untuk Kemajuan, Masa Depanmu Dalam Genggamanmu.</p>
       </div>
     </div>
