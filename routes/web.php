@@ -35,10 +35,6 @@ use App\Http\Controllers\NotificationController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', [LandingPageController::class, 'show'])->name('landingPage');//
 
 
