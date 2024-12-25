@@ -1,22 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Pembayaran Piutang')
+@section('title', 'Piutang')
 
 @section('contents')
 
 <div class="container">
-  @if (session()->has('error'))
-    <div class="alert alert-danger" style="font-family: Arial, sans-serif;">
-        {{ session('error') }}
-    </div>
-  @endif
-
-  @if (session()->has('success'))
+  @if (session()->has('tambah'))
     <div class="d-flex justify-content-end">
       <div class="toast my-4 bg-primary" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
         <div class="toast-header bg-primary text-light justify-content-between">
-          <div class="toast-body text-light">
-            {{ session('success') }}
+          <div class="toast-body text-ligth">
+            {{ session('tambah') }}
           </div>
           <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -27,43 +21,71 @@
   @endif
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <form action="{{ route('bayarpiutang.store') }}" method="post">
+      <form action="{{ route('piutang.store') }}" method="post">
         @csrf
-        <input type="hidden" name="id" value="{{ $piutang->id }}">
         <div>
-          <label for="tanggal_pembayaran">Tanggal Pembayaran:</label><br>
-          <input type="date" placeholder="Tanggal Pembayaran" required name="tanggal_pembayaran" value="{{ old('tanggal_pembayaran') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-          @error('tanggal_pembayaran')
-            <p class="text-red" style="font-family: Arial, sans-serif;">Tanggal pinjaman tidak boleh lebih dari hari ini.</p>
+          <label for="tanggal_pinjaman">Tanggal Peminjaman :</label><br>
+          <input type="date" placeholder="Tanggal Pinjaman" required name="tanggal_pinjaman" value="{{ old('tanggal_pinjaman') ?? \Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+          @error('tanggal_pinjaman')
+              <p class="text-red">Tanggal pinjaman tidak boleh lebih dari hari ini.</p>
+          @enderror
+      </div>
+
+        <div>
+          <label for="tanggal_jatuh_tempo">Tanggal Jatuh Tempo :</label><br>
+          <input type="date" placeholder="Tanggal Jatuh Tempo" required name="tanggal_jatuh_tempo" value="{{ old('tanggal_jatuh_tempo') }}" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+          @error('tanggal_jatuh_tempo')
+            <p class="text-red">Tanggal jatuh tempo harus setelah atau sama dengan hari ini.</p>
           @enderror
         </div>
 
-        <label for="nama">Nama Pemberi Pinjaman:</label><br>
-        <input type="text" id="nama" name="nama" required class="form-control" value="{{ $piutang->nama }}" readonly>
-        @error('nama')
-          <div class="text-danger" style="font-family: Arial, sans-serif;">{{ $message }}</div>
-        @enderror
+         <!-- Nama Customer -->
+        <div class="form-group">
+          <label for="nama">Nama Customer:</label>
+          <input type="text" id="nama" name="nama" required 
+                 class="form-control" 
+                 value="{{ old('nama') }}" >
+          @error('nama')
+            <small class="text-danger">{{ $message }}</small>
+          @enderror
+        </div>
 
-        <label for="sisa_piutang">Sisa Piutang:</label><br>
-        <input type="text" id="sisa_piutang" name="sisa_piutang" required class="form-control" value="{{ $piutang->sisa_piutang }}" readonly>
-        @error('sisa_piutang')
-          <div class="text-danger" style="font-family: Arial, sans-serif;">{{ $message }}</div>
-        @enderror
+        <!-- Nominal -->
+        <div class="form-group">
+          <label for="jumlah_piutang">Nominal:</label>
+          <input type="number" id="jumlah_piutang" name="jumlah_piutang" required 
+                 class="form-control" 
+                 value="{{ old('jumlah_piutang') }}" >
+          @error('jumlah_piutang')
+            <small class="text-danger">{{ $message }}</small>
+          @enderror
+        </div>
 
-        <label for="pembayaran">Cara Pembayaran:</label><br>
-        <input type="text" id="pembayaran" name="pembayaran" required class="form-control" value="{{ old('pembayaran') }}">
-        @error('pembayaran')
-          <div class="text-danger" style="font-family: Arial, sans-serif;">{{ $message }}</div>
-        @enderror
+        <!-- Jumlah Cicilan -->
+        <div class="form-group">
+          <label for="jumlah_cicilan">Jumlah Cicilan:</label>
+          <input type="number" id="jumlah_cicilan" name="jumlah_cicilan" required 
+                 class="form-control" 
+                 value="{{ old('jumlah_cicilan') }}" >
+          @error('jumlah_cicilan')
+            <small class="text-danger">{{ $message }}</small>
+          @enderror
+        </div>
 
-        <label for="jumlah">Nominal :</label><br>
-        <input type="number" id="jumlah" name="jumlah" required class="form-control" min="0" value="{{ old('jumlah') }}">
-        @error('jumlah')
-          <div class="text-danger" style="font-family: Arial, sans-serif;">{{ $message }}</div>
-        @enderror
+        <!-- Catatan -->
+        <div class="form-group">
+          <label for="catatan">Catatan:</label>
+          <textarea id="catatan" name="catatan" rows="5" required 
+                    class="form-control" 
+                    >{{ old('catatan') }}</textarea>
+          @error('catatan')
+            <small class="text-danger">{{ $message }}</small>
+          @enderror
+        </div>
 
-        <div class="mt-3" style="text-align: left;">
-          <input type="submit" class="btn btn-primary" value="Simpan">
+        <!-- Tombol Submit -->
+        <div class="mt-3">
+          <button type="submit" class="btn btn-primary">Tambah Piutang</button>
           <a href="{{ route('piutang.index') }}" class="btn btn-danger">Batal</a>
         </div>
       </form>
@@ -73,9 +95,23 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var myToast = new bootstrap.Toast(document.getElementById('myToast'));
-    myToast.show();
+    const tanggalPinjamanInput = document.getElementById('tanggal_pinjaman');
+    const tanggalJatuhTempoInput = document.getElementById('tanggal_jatuh_tempo');
+
+    // Update min date for tanggal_jatuh_tempo when tanggal_pinjaman changes
+    tanggalPinjamanInput.addEventListener('change', function () {
+      tanggalJatuhTempoInput.min = tanggalPinjamanInput.value;
+    });
+
+    // Initialize min value on page load based on current tanggal_pinjaman
+    tanggalJatuhTempoInput.min = tanggalPinjamanInput.value;
+
+    // Show toast notification
+    const toastElement = document.getElementById('myToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
   });
 </script>
-
 @endsection
