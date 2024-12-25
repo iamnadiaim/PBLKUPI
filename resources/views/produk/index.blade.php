@@ -19,7 +19,7 @@
             <div class="container">
                 <div class="mb-3">
                     @if (session()->has('destroy'))
-                    <div class="d-flex justify-content-end">
+                    <div class="d-flex absolute justify-content-end">
                         <div class="toast my-4 bg-danger" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
                             <div class="toast-header bg-danger text-light justify-content-between">
                                 <div class="toast-body text-light">
@@ -50,39 +50,41 @@
                     <a href="{{ route('produks.create') }}" class="btn btn-success mr-3" style="margin-top: 10px">Tambah +</a>
                 </div>
                 @if ($produks->isNotEmpty())
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Kode Produk</th>
-                            <th scope="col">Nama Produk</th>
-                            <th scope="col">Jenis Barang</th>
-                            <th scope="col">Ukuran</th>
-                            <th scope="col">Harga</th>
-                            <th scope="col">Stok</th>
-                            <th class="text-center" scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($produks as $produk)
-                        <tr id="Produk-{{ $produk->id }}"> <!-- Tambahkan ID ke baris -->
-                            <td>{{ $produk->kode_produk }}</td>
-                            <td>{{ $produk->nama_produk }}</td>
-                            <td>{{ $produk->jenisBarang->nama }}</td>
-                            <td>{{ $produk->ukuran }}</td>
-                            <td>{{ $produk->harga }}</td>
-                            <td>{{ $produk->stok }}</td>
-                            <td class="action-buttons d-flex justify-content-center">
-                                <a href="{{ route('produks.edit', $produk->id) }}" class="btn btn-primary">Edit</a>
-                                <form class="d-inline ml-3" action="{{ route('produks.destroy', $produk->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Kode Produk</th>
+                                <th scope="col">Nama Produk</th>
+                                <th scope="col">Jenis Barang</th>
+                                <th scope="col">Ukuran</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Stok</th>
+                                <th class="text-center" scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($produks as $produk)
+                            <tr id="Produk-{{ $produk->id }}"> <!-- Tambahkan ID ke baris -->
+                                <td>{{ $produk->kode_produk }}</td>
+                                <td>{{ $produk->nama_produk }}</td>
+                                <td>{{ $produk->jenisBarang->nama }}</td>
+                                <td>{{ $produk->ukuran }}</td>
+                                <td>{{ $produk->harga }}</td>
+                                <td>{{ $produk->stok }}</td>
+                                <td class="action-buttons d-flex justify-content-center">
+                                    <a href="{{ route('produks.edit', $produk->id) }}" class="btn btn-primary">Edit</a>
+                                    <form class="d-inline ml-3" action="{{ route('produks.destroy', $produk->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 @else
                 <h3 class="text-center text-secondary">Tidak Ada Produk</h3>
                 @endif
