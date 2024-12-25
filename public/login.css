@@ -1,126 +1,152 @@
-/* Add this CSS to align the form to the left */
-body {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Change from center to flex-start */
-  background: #437edf;
-}
-
-.wrapper {
-  /* Add margin to create space on the left */
-  margin-left: 10%;
-}
-
-/* Corrected CSS */
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+/* Reset dan Base Styles */
+/* iki di copy pisan nng cwp di deleh nng pulic soale iki css anyar  */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Battambang', Regular;
+  font-family: 'Poppins', sans-serif;
 }
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+/* Root Variables */
+:root {
+  --primary-color: #437edf;
+  --input-border-color: #C7BEBE;
+  --button-color: #96DDEC;
+  --button-hover-color: rgb(18, 165, 194);
+}
+
+/* Responsive Body */
 body {
   min-height: 100vh;
+  background: var(--primary-color);
   display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Updated to flex-start */
-  background: #437edf;
-}
-.wrapper {
-  position: relative;
-  max-width: 430px;
-  width: 100%;
-  background: #fff;
-  padding: 34px;
-  border-radius: 6px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  margin-left: 10%; /* Added margin for space on the left */
-}
-/* ... (rest of the CSS remains unchanged) */
-.wrapper h2{
-  position: relative;
-  font-size: 35px;
-  font-weight: 600;
-  color: #000000;
-}
-.wrapper h2::before{
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: 28px;
-  border-radius: 12px;
-  background: #fff;
-} 
 
-wrapper h6 {
-    color: #4070f4; /* Change color as needed */
-    font-size: 16px;
-    font-weight: 400;
-    margin-top: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
-.wrapper form{
-  margin-top: 30px;
-}
-.wrapper form .input-box{
-  height: 52px;
-  margin: 18px 0;
-}
-form .input-box input{
-  height: 100%;
-  width: 100%;
-  outline: none;
-  padding: 0 15px;
-  font-size: 17px;
-  font-weight: 400;
-  color: #333;
-  border: 1.5px solid #C7BEBE;
-  border-bottom-width: 2.5px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-}
-.input-box input:focus,
-.input-box input:valid{
-  border-color: #4070f4;
-}
-form .policy{
+.container{ 
+  margin-top: 2rem;
+  justify-content: center;
+  gap: 8rem;
   display: flex;
   align-items: center;
 }
-form h3{
-  color: #707070;
-  font-size: 14px;
-  font-weight: 500;
-  margin-left: 10px;
+
+/* Wrapper Styles */
+.wrapper {
+  width: 100%;
+  max-width: 428px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
-.input-box.button input{
+
+/* Form Styles */
+.signup-form {
+  text-align: center;
+}
+
+.signup-form h2 {
+  margin-bottom: 20px;
+  color: #000;
+  font-size: 28px;
+}
+
+.input-box {
+  margin: 15px 0;
+}
+
+.input-box input {
+  min-width: 380px;
+  height: 50px;
+  padding: 0 15px;
+  font-size: 16px;
+  border: 1.5px solid var(--input-border-color);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.input-box.button input {
+  background: var(--button-color);
   color: #fff;
-  letter-spacing: 1px;
   border: none;
-  background: #96DDEC;
   cursor: pointer;
+  transition: background 0.3s;
 }
-.input-box.button input:hover{
-  background: rgb(18, 165, 194);
+
+.input-box.button input:hover {
+  background: var(--button-hover-color);
 }
-form .text h3{
- color: #333;
- width: 100%;
- text-align: center;
+
+/* Image Styles */
+.logo-container {
+  text-align: center;
+  margin-top: 20px;
 }
-form .text h3 a{
+
+.logo-container img {
+  max-width: 250px;
+  height: auto;
+}
+
+/* Text Styles */
+.register-text {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.text-red {
+  color: crimson;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 480px) {
+  .wrapper {
+      padding: 20px;
+  }
+
+  .signup-form h2 {
+      font-size: 24px;
+  }
+
+  .input-box input {
+      font-size: 14px;
+      height: 45px;
+  }
+
+  .logo-container img {
+      max-width: 200px;
+  }
+  .container{
+    padding: 20px;
+    gap: 0;
+  }
+  .image-kupi{
+    display: none;
+  }
+  .input-box input {
+    min-width: 280px;
+  }
+}
+
+/* Link Styles */
+a {
   color: #4070f4;
   text-decoration: none;
+  transition: color 0.3s;
 }
-form .text h3 a:hover{
+
+a:hover {
   text-decoration: underline;
-}
-img {
-  position: relative;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  left: 200px;
+  color: #2a4fd3;
 }
