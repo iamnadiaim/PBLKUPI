@@ -62,61 +62,77 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="d-flex justify-content-between">
-                            <div class="container mt-2">
-                                <form action="" method="GET">
-                                    <div class="d-flex align-items-center"> <label for="month" class="mr-3">Periode:</label> <select class="form-control mr-3" id="month" name="month"> @foreach($bulan as $bul)
-                                        @if(request('month') == strtolower($bul['inggris']))
-                                            <option value="{{ strtolower($bul['inggris']) }}" selected>{{ $bul['indo'] }}</option>
-                                        @else
-                                            <option value="{{ strtolower($bul['inggris']) }}">{{ $bul['indo'] }}</option>
-                                        @endif
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-primary">Lihat</button> </div>
-                                </form>
-                                <div class="income-summary d-flex mt-2">
-                                    <label for="month" class="mr-3">Periode:</label>
-                                    @if (request('month'))
-                                    <p>{{ request('month') }} {{ \Carbon\Carbon::now()->format('Y') }}</p>
-                                    @else
-                                    <p>{{\Carbon\Carbon::now()->format('F') }}</p>
-                                    @endif
-                                </div>
-                                <div class="income-summary d-flex mt-2">
-                                    <label for="month" class="mr-3">Tanggal dibuat :</label>
-                                    <div class="income-value">{{ \Carbon\Carbon::now()->format('d F Y') }}</div>
-                                </div>
-                                </div>
-                                <section class="container">
-                                <div class="d-flex justify-content-end" style="margin-bottom: 10px;">
-                                    <a href="{{ route('print-laporan' , ["month" => request('month')]) }}" target="_blank" class="btn btn-warning">Cetak</a>
+                        <div class=" mt-2">
+                            <div class="row gy-3">
+                                <!-- Bagian Kiri -->
+                                <div class="col-md-6">
+                                    <form action="" method="GET"
+                                        class="d-flex flex-column flex-md-row align-items-center gap-2">
+                                        <label for="month" class="form-label mb-0 mr-1">Periode :</label>
+                                        <select class="form-control mr-1 col-12 col-md-6" id="month" name="month">
+                                            @foreach ($bulan as $bul)
+                                                <option value="{{ strtolower($bul['inggris']) }}"
+                                                    {{ request('month') == strtolower($bul['inggris']) ? 'selected' : '' }}>
+                                                    {{ $bul['indo'] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit"
+                                            class="btn mt-1 col-12 col-md-auto btn-primary">Lihat</button>
+                                    </form>
 
-                                </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        {{-- <p class="bg-danger text-center text-light p-2 col-2 ml-auto mr-4">Total Hutang</p> --}}
-                                        <div class="ml-auto col-3 mr-2 bg-danger text-light" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
-                                        <p class="text-center mt-2 text-light">Total Hutang</p>
-                                        </div>
-                                        <div class="col-4" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
-                                            <p class="text-center mt-2 text-dark">Rp. {{ $totalHutang }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        {{-- <p class="bg-success text-center text-light p-2 col-2 ml-auto mr-4">Total Piutang</p> --}}
-                                        <div class="ml-auto col-3 mr-2 bg-success text-ligh" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
-                                        <p class="text-center mt-2 text-light">Total Hutang</p>
-                                        </div>
-                                        <div class="col-4" style="height: 40px; border: 1px solid #9ca3af; background-color: #f8fafc">
-                                        <p class="text-center mt-2 text-dark">Rp. {{ $totalPiutang }}</p>
-                                        </div>
+                                    <!-- Periode -->
+                                    <div class="income-summary d-flex flex-row mt-2 gap-2">
+                                        <label class="fw-bold mr-1">Periode :</label>
+                                        <p class="mb-0">
+                                            {{ request('month') ? request('month') . ' ' . \Carbon\Carbon::now()->format('Y') : \Carbon\Carbon::now()->format('F') }}
+                                        </p>
                                     </div>
 
-                                </section>
+                                    <!-- Tanggal Dibuat -->
+                                    <div class="income-summary d-flex flex-column flex-md-row mt-2 gap-2">
+                                        <label class="fw-bold">Tanggal Dibuat : </label>
+                                        <p class="mb-0">{{ \Carbon\Carbon::now()->format('d F Y') }}</p>
+                                    </div>
+                                </div>
+
+                                <!-- Bagian Kanan -->
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-end mb-3 mt-3 mt-md-0 flex-column flex-md-row">
+                                        <a href="{{ route('print-laporan', ['month' => request('month')]) }}"
+                                            target="_blank" class="btn btn-warning w-auto w-md-100">
+                                            Cetak
+                                        </a>
+                                    </div>
+
+
+                                    <!-- Total Hutang -->
+                                    <div class="d-flex flex-column flex-md-row justify-content-between mb-2">
+                                        <div class="bg-danger text-white text-center py-2 flex-fill me-md-2">
+                                            Total Hutang
+                                        </div>
+                                        <div class="bg-light border text-center py-2 flex-fill">
+                                            Rp. {{ $totalHutang }}
+                                        </div>
+                                    </div>
+
+                                    <!-- Total Piutang -->
+                                    <div class="d-flex flex-column flex-md-row justify-content-between">
+                                        <div class="bg-success text-white text-center py-2 flex-fill me-md-2">
+                                            Total Piutang
+                                        </div>
+                                        <div class="bg-light border text-center py-2 flex-fill">
+                                            Rp. {{ $totalPiutang }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                     </div>
+
+                </div>
+                <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="bg-primary text-light">
                             <tr>
@@ -169,35 +185,36 @@
                     </table>
                 </div>
             </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    var myToast = new bootstrap.Toast(document.getElementById('myToast'));
-                    myToast.show();
-                });
-                document.addEventListener("DOMContentLoaded", function() {
-                    var rows = document.querySelectorAll("tbody tr");
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var myToast = new bootstrap.Toast(document.getElementById('myToast'));
+                myToast.show();
+            });
+            document.addEventListener("DOMContentLoaded", function() {
+                var rows = document.querySelectorAll("tbody tr");
 
-                    rows.forEach(function(row) {
-                        var sisaHutang = parseInt(row.querySelector("td:nth-child(6)").textContent);
-                        var statusCell = row.querySelector(".status-cell");
+                rows.forEach(function(row) {
+                    var sisaHutang = parseInt(row.querySelector("td:nth-child(6)").textContent);
+                    var statusCell = row.querySelector(".status-cell");
 
-                        if (sisaHutang === 0) {
-                            statusCell.textContent = "Lunas";
-                            statusCell.style.color = "green";
-                        } else {
-                            statusCell.textContent = "Belum Lunas";
-                            statusCell.style.color = "red";
-                        }
-                    });
-                });
-
-                function togglePopup() {
-                    var popup = document.getElementById("popup");
-                    if (popup.style.display === "none") {
-                        popup.style.display = "block";
+                    if (sisaHutang === 0) {
+                        statusCell.textContent = "Lunas";
+                        statusCell.style.color = "green";
                     } else {
-                        popup.style.display = "none";
+                        statusCell.textContent = "Belum Lunas";
+                        statusCell.style.color = "red";
                     }
+                });
+            });
+
+            function togglePopup() {
+                var popup = document.getElementById("popup");
+                if (popup.style.display === "none") {
+                    popup.style.display = "block";
+                } else {
+                    popup.style.display = "none";
                 }
-            </script>
-        @endsection
+            }
+        </script>
+    @endsection
