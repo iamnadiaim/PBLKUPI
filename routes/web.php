@@ -9,7 +9,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PendapatanController;
 use App\Http\Controllers\BebanController;
-use App\Http\Controllers\jenisBarang;
 use App\Http\Controllers\jenisBarangController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LabaRugiController;
