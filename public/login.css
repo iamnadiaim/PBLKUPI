@@ -1,0 +1,152 @@
+/* Reset dan Base Styles */
+/* iki di copy pisan nng cwp di deleh nng pulic soale iki css anyar  */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+/* Root Variables */
+:root {
+  --primary-color: #437edf;
+  --input-border-color: #C7BEBE;
+  --button-color: #96DDEC;
+  --button-hover-color: rgb(18, 165, 194);
+}
+
+/* Responsive Body */
+body {
+  min-height: 100vh;
+  background: var(--primary-color);
+  display: flex;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.container{ 
+  margin-top: 2rem;
+  justify-content: center;
+  gap: 8rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Wrapper Styles */
+.wrapper {
+  width: 100%;
+  max-width: 428px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Form Styles */
+.signup-form {
+  text-align: center;
+}
+
+.signup-form h2 {
+  margin-bottom: 20px;
+  color: #000;
+  font-size: 28px;
+}
+
+.input-box {
+  margin: 15px 0;
+}
+
+.input-box input {
+  min-width: 380px;
+  height: 50px;
+  padding: 0 15px;
+  font-size: 16px;
+  border: 1.5px solid var(--input-border-color);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.input-box.button input {
+  background: var(--button-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.input-box.button input:hover {
+  background: var(--button-hover-color);
+}
+
+/* Image Styles */
+.logo-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.logo-container img {
+  max-width: 250px;
+  height: auto;
+}
+
+/* Text Styles */
+.register-text {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.text-red {
+  color: crimson;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 480px) {
+  .wrapper {
+      padding: 20px;
+  }
+
+  .signup-form h2 {
+      font-size: 24px;
+  }
+
+  .input-box input {
+      font-size: 14px;
+      height: 45px;
+  }
+
+  .logo-container img {
+      max-width: 200px;
+  }
+  .container{
+    padding: 20px;
+    gap: 0;
+  }
+  .image-kupi{
+    display: none;
+  }
+  .input-box input {
+    min-width: 280px;
+  }
+}
+
+/* Link Styles */
+a {
+  color: #4070f4;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #2a4fd3;
+}
