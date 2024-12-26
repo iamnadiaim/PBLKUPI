@@ -66,57 +66,58 @@
                     @endif
                         @if (auth()->user()->role->nama_role == 'admin')
                             <div class="d-flex justify-content-between align-items-center">
-                                <div>
+                                <div class=" ">
                                     <a href="{{ route('hutang.index') }}" class="btn btn-primary">Hutang</a>  
                                     <a href="{{ route('piutang.index') }}" class="btn btn-secondary">Piutang</a>
                                 </div>
                             </div>
                         @endif
                     </div>
-                   
-                    <table class="table table-striped ">
-                        <thead class="text-center bg-primary text-light">
-                            <tr>
-                                <th scope="col">Tanggal Peminjaman</th>
-                                <th scope="col">Tanggal Jatuh Tempo</th>
-                                <th scope="col">Nama Pemberi Pinjaman</th>
-                                <th scope="col">Catatan</th>
-                                <th scope="col">Nominal</th>
-                                <th scope="col">Jumlah Angsuran</th>
-                                <th scope="col">Sisa Hutang</th>
-                                <th class="text-center" scope="col">Status</th>
-                                <th class="text-center" scope="col">Aksi</th>
-                            </tr>
-                        </thead>
-                        @if (count($hutangs) > 0)
-                        <tbody>
-                            @foreach($hutangs as $hutang)
-                                <tr class= "text-center">
-                                    <td>{{ $hutang->tanggal_pinjaman }}</td>
-                                    <td>{{ $hutang->tanggal_jatuh_tempo }}</td>
-                                    <td>{{ $hutang->nama }}</td>
-                                    <td>{{ $hutang->catatan }}</td>
-                                    <td>{{ $hutang->jumlah_hutang }}</td>
-                                    <td>{{ $hutang->cicilan_terbayar }}/{{ $hutang->jumlah_cicilan }}</td>
-                                    <td>{{ $hutang->sisa_hutang }}</td>
-                                    <td class="status-cell">
-                                        @if($hutang->status)
-                                            Lunas
-                                        @else
-                                            Belum Lunas
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                    <a href="{{ route('bayarhutang.create', ['id' => $hutang->id]) }}" class="btn btn-primary">Bayar</a>
-                   
-                                    <!--  <a href="{{ route('pembayaran.hutang', $hutang->id) }}" class="btn btn-primary">Bayar</a>
-                                -->     
-                                </td>
+                    <div class="table-responsive">
+                        <table class="table table-striped ">
+                            <thead class="text-center bg-primary text-light">
+                                <tr>
+                                    <th scope="col">Tanggal Peminjaman</th>
+                                    <th scope="col">Tanggal Jatuh Tempo</th>
+                                    <th scope="col">Nama Pemberi Pinjaman</th>
+                                    <th scope="col">Catatan</th>
+                                    <th scope="col">Nominal</th>
+                                    <th scope="col">Jumlah Angsuran</th>
+                                    <th scope="col">Sisa Hutang</th>
+                                    <th class="text-center" scope="col">Status</th>
+                                    <th class="text-center" scope="col">Aksi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                        @endif
-                    </table>
+                            </thead>
+                            @if (count($hutangs) > 0)
+                            <tbody>
+                                @foreach($hutangs as $hutang)
+                                    <tr class= "text-center">
+                                        <td>{{ $hutang->tanggal_pinjaman }}</td>
+                                        <td>{{ $hutang->tanggal_jatuh_tempo }}</td>
+                                        <td>{{ $hutang->nama }}</td>
+                                        <td>{{ $hutang->catatan }}</td>
+                                        <td>{{ $hutang->jumlah_hutang }}</td>
+                                        <td>{{ $hutang->cicilan_terbayar }}/{{ $hutang->jumlah_cicilan }}</td>
+                                        <td>{{ $hutang->sisa_hutang }}</td>
+                                        <td class="status-cell">
+                                            @if($hutang->status)
+                                                Lunas
+                                            @else
+                                                Belum Lunas
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                        <a href="{{ route('bayarhutang.create', ['id' => $hutang->id]) }}" class="btn btn-primary">Bayar</a>
+                       
+                                        <!--  <a href="{{ route('pembayaran.hutang', $hutang->id) }}" class="btn btn-primary">Bayar</a>
+                                    -->     
+                                    </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            @endif
+                        </table>
+                    </div>
                     
 @if (count($hutangs) == 0)
     <p class="text-muted text-center" style="font-size: 20px;">Tidak Ada Hutang Yang Ditambahkan</p>

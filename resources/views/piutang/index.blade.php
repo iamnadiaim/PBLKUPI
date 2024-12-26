@@ -76,48 +76,50 @@
                                 </div>
                             @endif
                     </div>
-                    <table class="table table-striped ">
-                        <thead class="text-center bg-primary text-light">
-                            <tr>
-                                <th scope="col">Tanggal Peminjaman</th>
-                                <th scope="col">Tanggal Jatuh Tempo</th>
-                                <th scope="col">Nama Costumer</th>
-                                <th scope="col">Catatan</th>
-                                <th scope="col">Nominal</th>
-                                <th scope="col">Jumlah Angsuran</th>
-                                <th scope="col">Sisa Piutang</th>
-                                <th class="text-center" scope="col">Status</th>
-                                <th class="text-center" scope="col">Aksi</th>
-                            </tr>
-                        </thead>
-                        @if (count($piutangs) > 0)
-                        <tbody>
-                            @foreach($piutangs as $piutang)
-                                <tr class="text-center">
-                                    
-                                    <td>{{ $piutang->tanggal_pinjaman}}</td>
-                                    <td>{{ $piutang->tanggal_jatuh_tempo }}</td>
-                                    <td>{{ $piutang->nama }}</td>
-                                    <td>{{ $piutang->catatan }}</td>
-                                    <td>{{ $piutang->jumlah_piutang }}</td>
-                                    <td>{{ $piutang->cicilan_terbayar }}/{{ $piutang->jumlah_cicilan }}</td>
-                                    <td>{{ $piutang->sisa_piutang }}</td>
-                                    <td class="status-cell">
-                                        @if($piutang->status)
-                                            Lunas
-                                        @else
-                                            Belum Lunas
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                       <!--  <a href="{{ route('pembayaran.piutang', $piutang->id) }}" class="btn btn-primary">Bayar</a> -->
-                                        <a href="{{ route('bayarpiutang.create', ['id' => $piutang->id]) }}" class="btn btn-primary">Bayar</a>
-                                    </td>
+                    <div class="table-responsive">
+                        <table class="table table-striped ">
+                            <thead class="text-center bg-primary text-light">
+                                <tr>
+                                    <th scope="col">Tanggal Peminjaman</th>
+                                    <th scope="col">Tanggal Jatuh Tempo</th>
+                                    <th scope="col">Nama Costumer</th>
+                                    <th scope="col">Catatan</th>
+                                    <th scope="col">Nominal</th>
+                                    <th scope="col">Jumlah Angsuran</th>
+                                    <th scope="col">Sisa Piutang</th>
+                                    <th class="text-center" scope="col">Status</th>
+                                    <th class="text-center" scope="col">Aksi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                        @endif
-                    </table>
+                            </thead>
+                            @if (count($piutangs) > 0)
+                            <tbody>
+                                @foreach($piutangs as $piutang)
+                                    <tr class="text-center">
+                                        
+                                        <td>{{ $piutang->tanggal_pinjaman}}</td>
+                                        <td>{{ $piutang->tanggal_jatuh_tempo }}</td>
+                                        <td>{{ $piutang->nama }}</td>
+                                        <td>{{ $piutang->catatan }}</td>
+                                        <td>{{ $piutang->jumlah_piutang }}</td>
+                                        <td>{{ $piutang->cicilan_terbayar }}/{{ $piutang->jumlah_cicilan }}</td>
+                                        <td>{{ $piutang->sisa_piutang }}</td>
+                                        <td class="status-cell">
+                                            @if($piutang->status)
+                                                Lunas
+                                            @else
+                                                Belum Lunas
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                           <!--  <a href="{{ route('pembayaran.piutang', $piutang->id) }}" class="btn btn-primary">Bayar</a> -->
+                                            <a href="{{ route('bayarpiutang.create', ['id' => $piutang->id]) }}" class="btn btn-primary">Bayar</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            @endif
+                        </table>
+                    </div>
                            
 @if (count($piutangs) == 0)
     <p class="text-muted text-center" style="font-size: 20px;">Tidak Ada Piutang Yang Ditambahkan</p>

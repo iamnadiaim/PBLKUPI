@@ -35,6 +35,17 @@ class ProdukController extends Controller
         return view('produk.show', compact('produk')); // Menampilkan detail produk ke dalam view
     }
 
+    public function laporan(): View
+    {
+        $produks = Produk::all(); 
+        return view('produk.tampilan', compact('produks'));
+    }
+
+    public function cetak(): View
+    {
+        $produks = Produk::all(); 
+        return view('produk.cetak', compact('produks'));
+    }
 
     public function createproduk(): View
     {
@@ -49,15 +60,22 @@ class ProdukController extends Controller
     {
         // Validasi data yang diterima dari formulir
         $validatedData = $request->validate([
-            'kode_produk' => 'required',
-            'nama_produk' => 'required',
+            'kode_produk' => 'required|min:3|max:15', // Tambahkan aturan min:3,
+            'nama_produk' => 'required|min:3|max:20',
             'id_jenis_barang' => 'required',
-            'ukuran' => 'required',
+            'ukuran' => ['required', 'regex:/^[a-zA-Z0-9\s]+$/'], // Validasi regex
             'harga' => 'required|numeric|min:1',
             'stok' => 'required|numeric|min:1'
             // Sesuaikan validasi dengan kebutuhan Anda
         ],
         [
+            'kode_produk.required' => 'Kode produk harus diisi.',
+            'kode_produk.min' => 'Kode produk harus diisi minimal 3 karakter.', // Pesan error untuk aturan min
+            'kode_produk.max' => 'Kode produk tidak boleh diisi lebih dari 15 karakter.', // Tambahkan pesan error
+            'nama_produk.min' => 'Nama produk harus diisi minimal 3 karakter.', // Tambahkan pesan error
+            'nama_produk.max' => 'Nama produk tidak boleh lebih dari 20 karakter.',
+            'ukuran.required' => 'Ukuran produk harus diisi.',
+            'ukuran.regex' => 'Ukuran produk tidak sesuai.',
             'harga.min' => 'Harga Produk Harus diatas 0',
             'harga.numeric' => 'Harga Produk Harus Angka',
             'stok.min' => 'Stok Produk Harus diatas 0',

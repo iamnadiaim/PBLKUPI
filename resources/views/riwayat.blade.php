@@ -42,35 +42,36 @@
         <span class="input-group-text">-</span>
         <input type="text" class="form-control" id="endDate" placeholder="dd/mm/yy">
     </div> --}}
-
-    <table class="table table-bordered" >
-        <thead class="bg-primary text-light">
-            <tr >
-                <th>Tanggal Transaksi</th>
-                <th>Nama Pembeli</th>
-                <th>Nama Produk</th>
-                <th>Ukuran</th>
-                <th>Jumlah Produk</th>
-                <th>Harga</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        @if (count($pendapatan) > 0)
-        <tbody>
-            @foreach($pendapatan as $p)
-            <tr id="Pendapatan-{{$p->id}}">
-                <td>{{ $p->tanggal }}</td>
-                <td>{{ $p->nama_pembeli }}</td>
-                <td>{{ $p->produk->nama_produk }}</td>
-                <td>{{ $p->produk->ukuran }}</td>
-                <td>{{ $p->jumlah_produk }}</td>
-                <td>{{ $p->harga_produk }}</td>
-                <td>{{ $p->total }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-        @endif
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered" >
+            <thead class="bg-primary text-light">
+                <tr >
+                    <th>Tanggal Transaksi</th>
+                    <th>Nama Pembeli</th>
+                    <th>Nama Produk</th>
+                    <th>Ukuran</th>
+                    <th>Jumlah Produk</th>
+                    <th>Harga</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            @if (count($pendapatan) > 0)
+            <tbody>
+                @foreach($pendapatan as $p)
+                <tr id="Pendapatan-{{$p->id}}">
+                    <td>{{ $p->tanggal }}</td>
+                    <td>{{ $p->nama_pembeli }}</td>
+                    <td>{{ $p->produk->nama_produk }}</td>
+                    <td>{{ $p->produk->ukuran }}</td>
+                    <td>{{ $p->jumlah_produk }}</td>
+                    <td>{{ $p->harga_produk }}</td>
+                    <td>{{ $p->total }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+            @endif
+        </table>
+    </div>
                
 @if (count($pendapatan) == 0)
     <p class="text-muted text-center" style="font-size: 20px;">Tidak Ada Transaksi Yang Ditambahkan</p>
