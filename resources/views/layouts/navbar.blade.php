@@ -153,7 +153,7 @@
           <small>{{ auth()->user()->level }}</small>
         </span>
         @if (auth()->user()->img_profile)
-          <img class="img-profile rounded-circle" src="{{ asset('storage/public' . auth()->user()->img_profile) }}">
+          <img class="img-profile rounded-circle" src="{{ asset('storage/public/' . auth()->user()->img_profile) }}">
         @else
           <img class="img-profile rounded-circle" src="{{ asset('images/polosan.png') }}">
         @endif
