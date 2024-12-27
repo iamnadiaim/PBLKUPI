@@ -170,25 +170,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Grafik Donut untuk Produk Terlaris
     if (totalProdukTerlaris > 0) {
-    let seriesProduk = produkTerlaris.map(produk => produk.total_terjual > 1 ? produk.total_terjual : 1);
+    let seriesProduk = produkTerlaris.map(produk => produk.total_terjual); 
     let labelsProduk = produkTerlaris.map(produk => produk.nama_produk); 
 
    var produkOptions = {
-    series: seriesProduk,
+        series: seriesProduk,
         chart: {
             type: 'donut',
         },
         labels: labelsProduk,
-        plotOptions: {
-            pie: {
-                donut: {
-                    size: '50%',
-                    labels: {
-                        show: true
-                    }
-                }
-            }
-        },
         responsive: [{
             breakpoint: 480,
             options: {
@@ -197,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }]
     };
+
     var produkPieChart = new ApexCharts(document.querySelector("#produkPieChart"), produkOptions);
     produkPieChart.render();
     } else {
