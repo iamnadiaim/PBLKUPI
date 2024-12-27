@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let seriesProduk = produkTerlaris.map(produk => produk.total_terjual); 
     let labelsProduk = produkTerlaris.map(produk => produk.nama_produk); 
 
-    var produkOptions = {
+   var produkOptions = {
         series: seriesProduk,
         chart: {
             type: 'donut',
