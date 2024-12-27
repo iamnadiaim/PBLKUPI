@@ -10,11 +10,11 @@
     width: 8px; /* Width of the scrollbar */ 
   }
   .scrollable-content::-webkit-scrollbar-thumb {
-    background-color: #ffff; /* Color of the scrollbar */
+    background-color: #888; /* Color of the scrollbar */
     border-radius: 4px; /* Rounded corners */
   }
   .scrollable-content::-webkit-scrollbar-thumb:hover {
-    background-color: #888; /* Color on hover */
+    background-color: #555; /* Color on hover */
   }
 </style>
 
@@ -58,7 +58,6 @@
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
-                  </div>  
                   </div>
                   <div>
                     <div class="small text-gray-500">{{ $notif->created_at->format('d M Y H:i') }}</div>
@@ -78,69 +77,69 @@
     @endif
 
     <script>
-  // JavaScript to toggle between today's notifications and all notifications
-  document.getElementById('toggleNotifications').addEventListener('click', function() {
-      const toggleButton = document.getElementById('toggleNotifications');
-      const content = document.querySelector('.scrollable-content');
-      if (toggleButton.textContent === 'Notifikasi Lainnya') {
-          toggleButton.textContent = 'Sembunyikan Semua Notifikasi';
-          content.innerHTML = `
-              @if(auth()->user()->role->nama_role == 'admin')
-                  @foreach(auth()->user()->usaha->notifications as $notif)
-                      <a class="dropdown-item d-flex align-items-center">
-                          <div class="mr-3">
-                              <div class="icon-circle bg-primary">
-                                  <i class="fas fa-file-alt text-white"></i>
+      // JavaScript to toggle between today's notifications and all notifications
+      document.getElementById('toggleNotifications').addEventListener('click', function() {
+          const toggleButton = document.getElementById('toggleNotifications');
+          const content = document.querySelector('.scrollable-content');
+          if (toggleButton.textContent === 'Notifikasi Lainnya') {
+              toggleButton.textContent = 'Sembunyikan Semua Notifikasi';
+              content.innerHTML = `
+                  @if(auth()->user()->role->nama_role == 'admin')
+                      @foreach(auth()->user()->usaha->notifications as $notif)
+                          <a class="dropdown-item d-flex align-items-center">
+                              <div class="mr-3">
+                                  <div class="icon-circle bg-primary">
+                                      <i class="fas fa-file-alt text-white"></i>
+                                  </div>
                               </div>
-                          </div>
-                          <div>
-                              <div class="small text-gray-500">{{ $notif->created_at->format('d M Y H:i') }}</div>
-                              <span>{{ $notif->data['message'] ?? 'No message available' }}</span>
-                          </div>
-                      </a>
-                  @endforeach
-              @endif
-          `;
-      } else {
-          toggleButton.textContent = 'Notifikasi Lainnya';
-          content.innerHTML = `
-              @if(auth()->user()->role->nama_role == 'admin')
-                  @foreach($todayNotifications as $notif)
-                      <a class="dropdown-item d-flex align-items-center">
-                          <div class="mr-3">
-                              <div class="icon-circle bg-primary">
-                                  <i class="fas fa-file-alt text-white"></i>
+                              <div>
+                                  <div class="small text-gray-500">{{ $notif->created_at->format('d M Y H:i') }}</div>
+                                  <span>{{ $notif->data['message'] ?? 'No message available' }}</span>
                               </div>
-                          </div>
-                          <div>
-                              <div class="small text-gray-500">{{ $notif->created_at->format('d M Y H:i') }}</div>
-                              <span class="font-weight-bold">{{ $notif->data['message'] ?? 'No message available' }}</span>
-                          </div>
-                      </a>
-                  @endforeach
-              @endif
-          `;
-      }
-  });
-
-  // Function to mark notifications as read when the bell icon is clicked
-  function markNotificationsAsRead() {
-      fetch('/notifications/read', { 
-          method: 'POST', 
-          headers: { 
-              'X-CSRF-TOKEN': '{{ csrf_token() }}' 
-          } 
-      })
-      .then(response => {
-          if (response.ok) {
-              const badgeCounter = document.querySelector('.badge-counter');
-              if (badgeCounter) {
-                  badgeCounter.remove(); // Remove the badge
-              }
+                          </a>
+                      @endforeach
+                  @endif
+              `;
+          } else {
+              toggleButton.textContent = 'Notifikasi Lainnya';
+              content.innerHTML = `
+                  @if(auth()->user()->role->nama_role == 'admin')
+                      @foreach($todayNotifications as $notif)
+                          <a class="dropdown-item d-flex align-items-center">
+                              <div class="mr-3">
+                                  <div class="icon-circle bg-primary">
+                                      <i class="fas fa-file-alt text-white"></i>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="small text-gray-500">{{ $notif->created_at->format('d M Y H:i') }}</div>
+                                  <span class="font-weight-bold">{{ $notif->data['message'] ?? 'No message available' }}</span>
+                              </div>
+                          </a>
+                      @endforeach
+                  @endif
+              `;
           }
       });
-  }
-</script>
+    
+      // Function to mark notifications as read when the bell icon is clicked
+      function markNotificationsAsRead() {
+          fetch('/notifications/read', { 
+              method: 'POST', 
+              headers: { 
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}' 
+              } 
+          })
+          .then(response => {
+              if (response.ok) {
+                  const badgeCounter = document.querySelector('.badge-counter');
+                  if (badgeCounter) {
+                      badgeCounter.remove(); // Remove the badge
+                  }
+              }
+          });
+      }
+    </script>
 
     <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -172,6 +171,5 @@
         </a>
       </div>
     </li>
-
   </ul>
 </nav>
